@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 
 interface MenuItemProps {
-  label: String;
+  label: string;
   onClick: () => void;
-  pathName: String;
+  pathName: string;
 }
 
 const MenuItem: React.FC<MenuItemProps> = ({

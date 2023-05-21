@@ -60,7 +60,7 @@ export default function Layout({
           <div className="border-t border-gray-300 my-2"></div>
           <MenuItem
             label="Home"
-            onClick={() => {router.push("/")}}
+            onClick={() => {void router.push("/")}}
             pathName="/"
           />
           <div className="h-10 hover:bg-gray-100 hover:cursor-pointer rounded-lg pl-2 py-2 flex items-center">
@@ -71,12 +71,12 @@ export default function Layout({
           </div>
           <MenuItem
             label="All Characters"
-            onClick={() => {router.push("/characters")}}
+            onClick={() => {void router.push("/characters")}}
             pathName="/characters"
           />
           <MenuItem
             label="All Makers"
-            onClick={() => {router.push("/makers")}}
+            onClick={() => {void router.push("/makers")}}
             pathName="/makers"
           />
           <div className="h-10 hover:bg-gray-100 hover:cursor-pointer rounded-lg pl-2 py-2 flex items-center">

@@ -78,7 +78,7 @@ const Characters: NextPage = () => {
                 picSrc={char.picUrl}
                 title={char.name}
                 subTitle={char.origin.name}
-                onClick={() => {router.push(`/characters/${char.id}`)}}
+                onClick={() => {void router.push(`/characters/${char.id}`)}}
               />
             ))
           ) : "Nothing"}

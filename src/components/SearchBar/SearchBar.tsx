@@ -1,7 +1,7 @@
 import { BiSearch, BiX } from "react-icons/bi";
 import {} from "react-icons/"
 import BackDrop from "../BackDrop";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { type ChangeEvent, useEffect, useRef, useState } from "react";
 import { placeholderImg } from "~/utils/constant";
 import { debounce } from 'lodash';
 
@@ -72,6 +72,7 @@ const SearchBar: React.FC = () => {
           </div>
           {(characterData && query) ? characterData.map((char) => (
             <SearchResultCard
+              key={char.id}
               imgSrc={char.picUrl}
               title={char.name}
               imgDesc="Character"

@@ -1,6 +1,6 @@
 interface BackDropProps {
   onClick: () => void,
-  isShown?: Boolean
+  isShown?: boolean
 }
 
 const BackDrop: React.FC<BackDropProps> = ({
