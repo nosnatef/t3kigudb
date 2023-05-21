@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
   // Further reading:
   // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
@@ -20,6 +20,13 @@ model Example {
   updatedAt DateTime @updatedAt
 }
 
+enum LinkType {
+  TWITTER
+  REDDIT
+  PERSONAL
+  WEIBO
+}
+
 // Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
@@ -27,12 +34,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? // @db.Text
-  access_token      String? // @db.Text
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? // @db.Text
+  id_token          String? @db.Text
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -66,19 +73,105 @@ model VerificationToken {
 }
 
 model Character {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(cuid())
   name       String   @unique
-  type       String   @default("NA")
   colorCode  String?  @default("white")
-  origin     Origin   @relation(fields: [originName], references: [name])
-  originName String
+  origin     Origin   @relation(fields: [originId], references: [id])
+  originId   Int
   picUrl     String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  masks      Mask[]
+}
+
+model Origin {
+  id          Int           @id @default(autoincrement())
+  name        String        @unique
+  type        String        @default("NA")
+  characters  Character[]
+}
+
+model Kigu {
+  id        String      @id @default(cuid())
+  name      String
+  picUrl    String?
+  nicknames KiguNickname[]
+  tags      Tag[]       @relation("KiguTags")
+  languages Language[]  @relation("KiguLanguages")
+  socialLinks SocialLink[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  masks     Mask[]
+}
+
+model KiguNickname {
+  id        String  @id @default(cuid())
+  name      String
+  kigu      Kigu    @relation(fields: [kiguId], references: [id])
+  kiguId    String
+}
+
+model Tag {
+  id        String  @id @default(cuid())
+  name      String  @unique
+  kigus     Kigu[]  @relation("KiguTags")
+}
+
+model Language {
+  id        String  @id @default(cuid())
+  name      String  @unique
+  kigus     Kigu[]  @relation("KiguLanguages")
+}
+
+model SocialLink {
+  id        String  @id @default(cuid())
+  link      String
+  linkType  LinkType
+  Kigu      Kigu    @relation(fields: [kiguId], references: [id])
+  kiguId    String
+}
+
+model Mask {
+  id          String      @id @default(cuid())
+  picUrl      String
+  kigu        Kigu        @relation(fields: [ownedBy], references: [id])
+  ownedBy     String
+  character   Character   @relation(fields: [characterId], references: [id])
+  characterId String
+  debutDate   DateTime
+  link        String
+  maskPics    MaskPic[]
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
 
-model Origin {
-  name      String      @unique
-  type      String      @default("NA")
-  Character Character[]
+model MaskPic {
+  id          Int     @id @default(autoincrement())
+  link        String
+  mask        Mask    @relation(fields: [maskId], references: [id])
+  maskId      String
+}
+
+model Maker {
+  id              Int     @id @default(autoincrement())
+  name            String
+  makerNicknames  MakerNickname[]
+  picUrl          String
+  isActive        Boolean   @default(true)
+  makerLinks      MakerLink[]
+}
+
+model MakerNickname {
+  id          String    @id @default(cuid())
+  name        String
+  maker       Maker     @relation(fields: [makerId], references: [id])
+  makerId     Int
+}
+
+model MakerLink {
+  id        Int       @id @default(autoincrement())
+  link      String
+  linkType  LinkType
+  Maker     Maker     @relation(fields: [makerId], references: [id])
+  makerId   Int
 }

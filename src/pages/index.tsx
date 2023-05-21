@@ -1,94 +1,24 @@
 import { type NextPage } from "next";
-import Head from "next/head";
-import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 
 import { api } from "~/utils/api";
 import { useEffect, useRef, useState } from "react";
-import DashboardLayout from "./layout";
 import Layout from "./layout";
+import PhotoCard from "~/components/PhotoCard";
+
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
-  const exampleChar = api.character.getById.useQuery("Amber");
-  const placeholderImg = "https://placehold.co/400x400?text=Unknown";
-  const [page, setPage] = useState(0);  
-  const [origin, setOrigin] = useState("Genshin Impact");
-  const bottomRef = useRef<HTMLDivElement>(null);
-  const { data: characterData, fetchNextPage, hasNextPage, isFetching } = api.character.getByOrigin.useInfiniteQuery({
-    limit: 10,
-    origin: origin
-  },{
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
-  })
-  const allOrigins = api.origin.getAll.useQuery();
-  const toShow = characterData?.pages[page]?.items;
+  const router = useRouter();
 
-  const handleOriginChange = (val: string) => {
-    setOrigin(val);
-  }
-
-  const handleObserver: IntersectionObserverCallback = ([entry]) => {
-    if (entry?.isIntersecting && hasNextPage && !isFetching) {
-      void fetchNextPage();
-    }
-  }
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(handleObserver, { threshold: 0 });
-    if (bottomRef.current) {
-      observer.observe(bottomRef.current);
-    }
-    return () => observer.disconnect();
-  }, [bottomRef, hasNextPage, isFetching]);
+  
 
   return (
     <>
       <Layout>
             
-      <div className="container flex flex-row justify-center">
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger className="shadow-md rounded-md px-5">
-          Select Media
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Portal>
-        <DropdownMenu.Content
-            className="bg-white rounded-md shadow-md min-w-[220px] p-[5px] divide-y divide-gray-300"
-            sideOffset={3}
-          >
-            {allOrigins.data ? allOrigins.data.map((origin) => {
-            return (
-              <DropdownMenu.Item
-                key={origin.name}
-                onClick={() => handleOriginChange(origin.name)}
-              >
-                {origin.name}
-              </DropdownMenu.Item>
-            )
-          }) : "Loading..."}
-          </DropdownMenu.Content>
-        </DropdownMenu.Portal>
-      </DropdownMenu.Root>
-      </div>
-      <div className="container flex flex-row items-center justify-center">
-        <div className="grid grid-cols-2 gap-4 py-2 px-2">
-          {characterData?.pages ? characterData.pages.map((page) => 
-            page.items.map((char) => (
-              <div key={char.id} className="relative rounded-lg overflow-hidden shadow-md h-48">
-                <img className="w-full h-auto object-cover object-center" src={char.picUrl ?? placeholderImg} alt="Card Image" />
-                <div className="absolute bottom-0 left-0 right-0 bg-gray-800 bg-opacity-50 py-2 px-6">
-                  <h3 className="text-lg font-medium text-white mb-2">{char.name}</h3>
-                  <p className="text-sm text-gray-300">{char.originName}</p>
-                </div>
-              </div>
-            ))
-          ) : "Nothing"}
-          {characterData?.pages && (<div ref={bottomRef} />)}
-          {isFetching && <div>Loading More...</div>}
-        </div>
-        
-      </div>
+      
       
       {/* <Head>
         <title>Create T3 App</title>

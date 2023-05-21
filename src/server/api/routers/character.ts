@@ -1,4 +1,4 @@
-import {  z } from "zod";
+import { z } from "zod";
 
 import {
   createTRPCRouter,
@@ -11,12 +11,12 @@ export const characterRouter = createTRPCRouter({
     .query(({ ctx, input }) => {
       return ctx.prisma.character.findFirst({
         where: {
-          name: input,
+          id: input,
         }
       })
     }),
   getByOrigin: publicProcedure
-    .input(z.object({ limit: z.number().min(1).max(100).nullish(), cursor: z.number().nullish(), origin: z.string() }))
+    .input(z.object({ limit: z.number().min(1).max(100).nullish(), cursor: z.string().nullish(), origin: z.string() }))
     .query(async ({ctx, input}) => {
       const limit = input.limit ?? 10;
       const { cursor, origin } = input;
@@ -30,6 +30,9 @@ export const characterRouter = createTRPCRouter({
         cursor: cursor ? {id: cursor} : undefined,
         orderBy: {
           id: 'asc',
+        },
+        include: {
+          origin: true
         }
       })
       let nextCursor: typeof cursor | undefined = undefined;
@@ -44,5 +47,21 @@ export const characterRouter = createTRPCRouter({
         nextCursor,
         totalCount
       }
-    })
+    }),
+    getByName: publicProcedure
+      .input(z.string())
+      .query(({ ctx, input }) => {
+        return ctx.prisma.character.findMany({
+          take: 5,
+          where: {
+            name: {
+              contains: input,
+              mode: 'insensitive'
+            },
+          },
+          include: {
+            origin: true
+          }
+        })
+      })
 });
