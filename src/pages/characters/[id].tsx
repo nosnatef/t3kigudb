@@ -10,7 +10,7 @@ import Image from "next/image";
 import { placeholderImg } from "~/utils/constant";
 import { useMemo, useState } from "react";
 
-import Lightbox, { Slide } from "yet-another-react-lightbox";
+import Lightbox, { type Slide } from "yet-another-react-lightbox";
 import PhotoAlbum, { Photo } from "react-photo-album";
 import "yet-another-react-lightbox/styles.css";
 
@@ -89,6 +89,7 @@ const Character: NextPage = () => {
             >
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {maskData && maskData.map((mask, index) => (<img
+                  key={index}
                   src={mask.picUrl}
                   className="rounded-lg h-full w-full max-h-[200px] max-w-[200px] object-cover hover:cursor-pointer hover:shadow-lg hover:sclae-105 transition"
                   onClick={() => setGalleryIndex(index)}
