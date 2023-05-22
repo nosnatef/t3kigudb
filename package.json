@@ -13,6 +13,7 @@
     "@next-auth/prisma-adapter": "^1.0.5",
     "@prisma/client": "^4.11.0",
     "@radix-ui/react-dropdown-menu": "2.0.4",
+    "@radix-ui/react-tabs": "^1.0.3",
     "@t3-oss/env-nextjs": "^0.2.1",
     "@tanstack/react-query": "^4.28.0",
     "@trpc/client": "^10.18.0",
@@ -25,8 +26,10 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
+    "react-photo-album": "^2.2.2",
     "react-responsive": "^9.0.2",
     "superjson": "1.12.2",
+    "yet-another-react-lightbox": "^3.9.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {

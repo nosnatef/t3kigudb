@@ -46,7 +46,7 @@ const Characters: NextPage = () => {
       <Layout>
       <div className="container flex flex-row justify-center m-auto">
       <DropdownMenu.Root>
-        <DropdownMenu.Trigger className="shadow-md rounded-md px-5 my-2 py-2 hover:cursor-pointer">
+        <DropdownMenu.Trigger className="shadow-md rounded-md px-5 my-2 py-2 hover:cursor-pointer bg-white">
           Select Media
         </DropdownMenu.Trigger>
         <DropdownMenu.Portal>

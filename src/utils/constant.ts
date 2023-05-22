@@ -1,1 +1,1 @@
-export const placeholderImg = "https://placehold.co/400x400?text=Unknown";
+export const placeholderImg = "https://fakeimg.pl/300x300?text=Loading";
