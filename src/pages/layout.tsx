@@ -20,19 +20,20 @@ export default function Layout({
   return (
     <section>
       {/* Include shared UI here e.g. a header or sidebar */}
-      <header className="bg-gradient-to-r from-[#ffcccc] to-#[cc99cc]-500  border-b border-gray-200">
+      <header className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto flex justify-between py-4 px-2">
-        <div className="flex flex-row justify-between gap-4">
-          <p className="font-semibold font-sans text-xl py-2">KiguDB</p>
-          <SearchBar />
+        <div className="flex flex-row justify-between gap-4 hover:cursor-pointer" onClick={() => {void router.push('/')}}>
+          <p className="font-semibold font-sans text-xl py-2">Kigu
+            <span className="text-[#4E60FF]">DB</span>
+          </p>
         </div>
         
         { isTabletOrMobile && (
           <ClientOnly>
-            <button className="hover:bg-gray-200 rounded-lg" onClick={() => setShowMenu(true)}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            </svg>
+            <button className="bg-gray-200 hover:bg-gray-300 rounded-lg w-10 h-10 flex items-center justify-center" onClick={() => setShowMenu(true)}>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              </svg>
             </button>
           </ClientOnly>
          )}

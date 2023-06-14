@@ -1,5 +1,4 @@
 import { BiSearch, BiX } from "react-icons/bi";
-import {} from "react-icons/"
 import BackDrop from "../BackDrop";
 import { type ChangeEvent, useEffect, useRef, useState } from "react";
 import { placeholderImg } from "~/utils/constant";

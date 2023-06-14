@@ -24,10 +24,12 @@
     "next": "^13.4.1",
     "next-auth": "^4.21.0",
     "react": "18.2.0",
+    "react-content-loader": "^6.2.1",
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
     "react-photo-album": "^2.2.2",
     "react-responsive": "^9.0.2",
+    "react-spinners": "^0.13.8",
     "superjson": "1.12.2",
     "yet-another-react-lightbox": "^3.9.0",
     "zod": "^3.21.4"

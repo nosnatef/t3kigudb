@@ -1,6 +1,7 @@
 import { type NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { BiSearch, BiX } from "react-icons/bi";
 
 import { api } from "~/utils/api";
 import { useEffect, useRef, useState } from "react";
@@ -18,7 +19,19 @@ const Home: NextPage = () => {
     <>
       <Layout>
             
-      
+      <div className="h-[80vh] max-w-7xl mx-auto py-4 px-4">
+        <div className="flex justify-center w-full mt-4 mb-12 font-semibold text-2xl">
+          Discover Kigus
+        </div>
+        <div className="h-[50px] bg-white rounded-lg flex flex-row items-center px-4">
+            <BiSearch size={20} />
+            <input
+              className="rounded-lg p-2 w-full h-full outline-none"
+              autoFocus
+              placeholder="Search For Kigu/Character/Maker..."
+            ></input>
+        </div>
+      </div>
       
       {/* <Head>
         <title>Create T3 App</title>
