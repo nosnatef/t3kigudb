@@ -36,7 +36,7 @@ const Characters: NextPage = () => {
   }
 
   useEffect(() => {
-    const observer = new IntersectionObserver(handleObserver, { threshold: 0 });
+    const observer = new IntersectionObserver(handleObserver, { root: null, rootMargin: '0px', threshold: 0.9 });
     if (bottomRef.current) {
       observer.observe(bottomRef.current);
     }
