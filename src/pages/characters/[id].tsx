@@ -35,18 +35,43 @@ const Character: NextPage = () => {
       <div className="container mx-auto px-3 md:px-0">
         <h3 className="font-bold text-xl my-4">{ characterData?.name }</h3>
         <div className="flex flex-col md:flex-row gap-4 bg-white rounded-lg py-4">
-          <div className="md:w-1/3">
+          <div className="md:w-1/4 flex flex-row md:flex-col justify-around items-center">
             <Image
             alt="Image"
             src={ characterData?.picUrl ?? placeholderImg}
             height={300}
             width={300}
-            className="h-full w-full max-h-[300px] max-w-[300px] object-cover"
+            className="h-full w-full max-h-[250px] max-w-[250px] object-cover rounded-full"
             >
             </Image>
-            
+            <div className="h-[300px] flex flex-col justify-around">
+              <div className="flex justify-center flex-col items-center">
+                <div className="text-[#242760] font-bold text-2xl">
+                  {characterData?.origin?.name ?? "N/A"}
+                </div>
+                <div>
+                  From
+                </div>
+              </div>
+              <div className="flex justify-center flex-col items-center">
+                <div className="text-[#242760] font-bold text-2xl">
+                  {characterData?.origin?.type ?? "N/A"}
+                </div>
+                <div>
+                  Media Type
+                </div>
+              </div>
+              <div className="flex justify-center flex-col items-center">
+                <div className="text-[#242760] font-bold text-2xl">
+                  {maskData?.length ?? 0}
+                </div>
+                <div>
+                  Masks Made
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="md:w-2/3">
+          <div className="md:w-3/4">
           <Tabs.Root defaultValue="Masks"
             className="flex flex-col min-h-[500px]"
           >
@@ -69,7 +94,7 @@ const Character: NextPage = () => {
             <Tabs.Content value="Masks"
               className="p-5"
             >
-              <div className="flex flex-row items-center justify-center m-auto">
+              
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     {
                       maskData ? maskData.map((mask) => {
@@ -82,7 +107,6 @@ const Character: NextPage = () => {
                       }) : "Loading"
                     }
                 </div>
-              </div>
             </Tabs.Content>
             <Tabs.Content value="Gallery"
               className="p-5"

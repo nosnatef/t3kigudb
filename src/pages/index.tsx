@@ -31,6 +31,12 @@ const Home: NextPage = () => {
               placeholder="Search For Kigu/Character/Maker..."
             ></input>
         </div>
+        <div
+          className="py-4 px-2"
+        >
+          <span className="text-sm">Want to contribute to KiguDB?  </span>
+          <a className="text-sm text-blue-600" href="/">Add Kigu Here</a>
+        </div>
       </div>
       
       {/* <Head>

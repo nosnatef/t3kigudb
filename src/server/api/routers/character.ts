@@ -12,6 +12,9 @@ export const characterRouter = createTRPCRouter({
       return ctx.prisma.character.findFirst({
         where: {
           id: input,
+        },
+        include: {
+          origin: true
         }
       })
     }),
