@@ -41,31 +41,31 @@ const Character: NextPage = () => {
             src={ characterData?.picUrl ?? placeholderImg}
             height={300}
             width={300}
-            className="h-full w-full max-h-[250px] max-w-[250px] object-cover rounded-full"
+            className="h-full w-full max-h-[200px] max-w-[200px] object-cover rounded-full"
             >
             </Image>
             <div className="h-[300px] flex flex-col justify-around">
               <div className="flex justify-center flex-col items-center">
-                <div className="text-[#242760] font-bold text-2xl">
+                <div className="text-[#242760] font-bold text-lg">
                   {characterData?.origin?.name ?? "N/A"}
                 </div>
-                <div>
+                <div className="text-xs">
                   From
                 </div>
               </div>
               <div className="flex justify-center flex-col items-center">
-                <div className="text-[#242760] font-bold text-2xl">
+                <div className="text-[#242760] font-bold text-lg">
                   {characterData?.origin?.type ?? "N/A"}
                 </div>
-                <div>
+                <div className="text-xs">
                   Media Type
                 </div>
               </div>
               <div className="flex justify-center flex-col items-center">
-                <div className="text-[#242760] font-bold text-2xl">
+                <div className="text-[#242760] font-bold text-lg">
                   {maskData?.length ?? 0}
                 </div>
-                <div>
+                <div className="text-xs">
                   Masks Made
                 </div>
               </div>
