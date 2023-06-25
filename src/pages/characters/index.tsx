@@ -83,11 +83,12 @@ const Characters: NextPage = () => {
                 onClick={() => {void router.push(`/characters/${char.id}`)}}
               />
             ))
-          ) : ""}
+          ) : Array(10).fill(<PhotoCardLoader />)}
           {characterData?.pages && (<div ref={bottomRef} />)}
-          
         </div>
-          {isFetching && <MoonLoader />}
+      </div>
+      <div className="flex items-center justify-center">
+        {isFetching && <MoonLoader />}
       </div>
       </Layout>
     </>
