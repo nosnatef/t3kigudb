@@ -9,6 +9,7 @@ import Layout from "./layout";
 import PhotoCard from "~/components/PhotoCard";
 
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -35,7 +36,7 @@ const Home: NextPage = () => {
           className="py-4 px-2"
         >
           <span className="text-sm">Want to contribute to KiguDB?  </span>
-          <a className="text-sm text-blue-600" href="/">Add Kigu Here</a>
+          <Link className="text-sm text-blue-600" href="/">Add Kigu Here</Link>
         </div>
       </div>
       
