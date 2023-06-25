@@ -71,7 +71,7 @@ const Characters: NextPage = () => {
         </DropdownMenu.Portal>
       </DropdownMenu.Root>
       </div>
-      <div className="container flex flex-col items-center justify-center m-auto">
+      <div className="container flex flex-row items-center justify-center m-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 py-2 px-4">
           {characterData?.pages ? characterData.pages.map((page) => 
             page.items.map((char) => (
