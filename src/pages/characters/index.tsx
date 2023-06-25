@@ -83,7 +83,7 @@ const Characters: NextPage = () => {
                 onClick={() => {void router.push(`/characters/${char.id}`)}}
               />
             ))
-          ) : Array(8).fill(<PhotoCardLoader />)}
+          ) : ""}
           {characterData?.pages && (<div ref={bottomRef} />)}
           
         </div>

@@ -5,6 +5,7 @@ import Layout from "../layout";
 import PhotoCard from "~/components/PhotoCard";
 
 import { useRouter } from "next/router";
+import { MoonLoader } from "react-spinners";
 
 const Makers: NextPage = () => {
 
@@ -27,9 +28,9 @@ const Makers: NextPage = () => {
                 title={maker.name}
               />
             ))
-          ) : "Nothing"}
+          ) : ""}
         </div>
-        
+        {isFetching && <MoonLoader />}
       </div>
   </Layout>)
 }
