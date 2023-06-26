@@ -14,7 +14,12 @@ export const characterRouter = createTRPCRouter({
           id: input,
         },
         include: {
-          origin: true
+          origin: true,
+          masks: {
+            include:{
+              kigu: true
+            }
+          }
         }
       })
     }),

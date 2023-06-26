@@ -4,6 +4,7 @@ import { characterRouter } from "./routers/character";
 import { originRouter } from "./routers/origin";
 import { maskRouter } from "./routers/mask";
 import { makerRouter } from "./routers/maker";
+import { kiguRouter } from "./routers/kigu";
 
 /**
  * This is the primary router for your server.
@@ -15,7 +16,8 @@ export const appRouter = createTRPCRouter({
   character: characterRouter,
   origin: originRouter,
   mask: maskRouter,
-  maker: makerRouter
+  maker: makerRouter,
+  kigu: kiguRouter
 });
 
 // export type definition of API

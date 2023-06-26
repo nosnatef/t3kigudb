@@ -19,5 +19,19 @@ export const maskRouter = createTRPCRouter({
           kigu: true
         }
       })
-  })
+  }),
+  getByKiguId: publicProcedure
+    .input(z.string())
+    .query(({ctx, input}) => {
+      return ctx.prisma.mask.findMany({
+        where: {
+          kigu: {
+            id: input
+          }
+        },
+        include: {
+          character: true
+        }
+      })
+}),
 })

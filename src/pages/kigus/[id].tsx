@@ -1,54 +1,50 @@
-import { api } from "~/utils/api";
-import { type NextPage } from "next";
-import { useRouter } from "next/router";
+import { NextPage } from "next";
 import Layout from "../layout";
-import PhotoCard from "~/components/PhotoCard";
-
-import * as Tabs from '@radix-ui/react-tabs'
-
+import { useRouter } from "next/router";
+import { api } from "~/utils/api";
 import Image from "next/image";
 import { placeholderImg } from "~/utils/constant";
-import { useMemo, useState } from "react";
-
-import Lightbox, { type Slide } from "yet-another-react-lightbox";
-import PhotoAlbum, { Photo } from "react-photo-album";
-import "yet-another-react-lightbox/styles.css";
 import ProfileInfo from "~/components/InfoPage/ProfileInfo";
+import * as Tabs from '@radix-ui/react-tabs'
+import PhotoCard from "~/components/PhotoCard";
+import Lightbox, { type Slide } from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
+import { useState } from "react";
 
-const Character: NextPage = () => {
+const Kigu: NextPage = () => {
+
   const router = useRouter();
   const id = router.query.id as string;
 
-  const { data: characterData } = api.character.getById.useQuery(id);
-  const maskData = characterData?.masks ?? [];
+  const { data: kiguData } = api.kigu.getById.useQuery(id);
+  const maskData = kiguData?.masks ?? [];
 
   const [galleryIndex, setGalleryIndex] = useState(-1);
 
-  const getSlides = () => characterData?.masks?.map((mask) => {
+  const getSlides = () =>maskData.map((mask) => {
     return {
       src: mask.picUrl
     } as Slide
   })
-
-  return (
+  
+  return(
     <>
       <Layout>
-      <div className="container mx-auto px-3 md:px-0">
-        <h3 className="font-bold text-xl my-4">{ characterData?.name }</h3>
-        <div className="flex flex-col md:flex-row gap-4 bg-white rounded-lg py-4">
+        <div className="container mx-auto px-3 md:px-0">
+          <h3 className="font-bold text-xl my-4">{ kiguData?.name }</h3>
+          <div className="flex flex-col md:flex-row gap-4 bg-white rounded-lg py-4">
           <div className="md:w-1/4 flex flex-row md:flex-col justify-around items-center">
             <Image
             alt="Image"
-            src={ characterData?.picUrl ?? placeholderImg}
-            height={300}
-            width={300}
+            src={ kiguData?.picUrl ?? placeholderImg}
+            height={200}
+            width={200}
             className="h-full w-full max-h-[200px] max-w-[200px] object-cover rounded-full"
             >
             </Image>
             <div className="h-[300px] flex flex-col justify-around">
-              <ProfileInfo stat={characterData?.origin?.name ?? "N/A"} desc="From" />
-              <ProfileInfo stat={characterData?.origin?.type ?? "N/A"} desc="Media Type" />
-              <ProfileInfo stat={characterData?.masks?.length ?? 0} desc="Media Type" />
+              <ProfileInfo stat={maskData.length ?? 0} desc="Masks owned" />
+              <ProfileInfo stat="10/10/2023" desc="Updated By" />
             </div>
           </div>
           <div className="md:w-3/4">
@@ -81,9 +77,9 @@ const Character: NextPage = () => {
                         return (<PhotoCard 
                           key={mask.id}
                           picSrc={mask.picUrl}
-                          title={`${mask.kigu.name}`}
+                          title={`${mask.character.name}`}
                           subTitle="Maker"
-                          onClick={() => {void router.push(`/kigus/${mask.kigu.id}`)}}
+                          onClick={() => {void router.push(`/characters/${mask.character.id}`)}}
                         />)
                       }) : "Loading"
                     }
@@ -110,32 +106,12 @@ const Character: NextPage = () => {
           </Tabs.Root>
           </div>
         </div>
-      </div>
-      
-      {/* <div className="container relative flex flex-col md:flex-row mx-4 md:mx-auto my-6 gap-4">
-        <div className="">
-          <h3 className="font-bold text-xl">{ characterData?.name }</h3>
         </div>
         
-        <div className="flex flex-row items-center justify-center m-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-              {
-                maskData ? maskData.map((mask) => {
-                  return (<PhotoCard 
-                    key={mask.id}
-                    picSrc={mask.picUrl}
-                    title={`${mask.kigu.name}`}
-                    subTitle="Maker"
-                  />)
-                }) : "Loading"
-              }
-          </div>
-        </div>
-      </div> */}
-      
       </Layout>
     </>
   )
+
 }
 
-export default Character;
+export default Kigu;
