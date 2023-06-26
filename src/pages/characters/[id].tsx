@@ -48,7 +48,7 @@ const Character: NextPage = () => {
             <div className="h-[300px] flex flex-col justify-around">
               <ProfileInfo stat={characterData?.origin?.name ?? "N/A"} desc="From" />
               <ProfileInfo stat={characterData?.origin?.type ?? "N/A"} desc="Media Type" />
-              <ProfileInfo stat={characterData?.masks?.length ?? 0} desc="Media Type" />
+              <ProfileInfo stat={characterData?.masks?.length ?? 0} desc="Masks Made" />
             </div>
           </div>
           <div className="md:w-3/4">

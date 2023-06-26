@@ -18,7 +18,7 @@ export default function Layout({
   const isTabletOrMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
   return (
-    <section>
+    <section className="h-screen">
       {/* Include shared UI here e.g. a header or sidebar */}
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto flex justify-between py-4 px-2">
@@ -103,9 +103,11 @@ export default function Layout({
       
       
       {children}
-
-      <div className="border-t border-gray-300 my-2 mx-2"></div>
-      <div className="px-2 pb-4 flex justify-center">KiguDB, Built by Ringo</div>
+      <div className="mt-auto">
+        <div className="border-t border-gray-300 my-2 mx-2"></div>
+        <div className="px-2 pb-4 flex justify-center">KiguDB, Built by Ringo</div>
+      </div>
+      
     </section>
   );
 }

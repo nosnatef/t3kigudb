@@ -60,7 +60,7 @@ export const characterRouter = createTRPCRouter({
       .input(z.string())
       .query(({ ctx, input }) => {
         return ctx.prisma.character.findMany({
-          take: 5,
+          take: 10,
           where: {
             name: {
               contains: input,
