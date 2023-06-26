@@ -26,7 +26,7 @@ const Home: NextPage = () => {
   );
 
   const debounced = useDebouncedCallback(
-    (value) => {
+    (value: string) => {
       setQuery(value);
     },
     500
