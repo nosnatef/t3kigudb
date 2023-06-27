@@ -1,3 +1,4 @@
+import { raw } from "@prisma/client/runtime/library";
 import { z } from "zod";
 
 import {
@@ -22,4 +23,13 @@ export const kiguRouter = createTRPCRouter({
         }
       })
     }),
+  getOneRandom: publicProcedure.query(async ({ ctx }) => {
+    const totalCount = await ctx.prisma.kigu.count();
+    const skip = Math.floor(Math.random() * totalCount);
+
+    return await ctx.prisma.kigu.findMany({
+      take: 1,
+      skip: skip,
+  });
+  }),
 })

@@ -8,6 +8,20 @@ import ClientOnly from "~/components/ClientOnly";
 import BackDrop from "~/components/BackDrop";
 import SearchBar from "~/components/SearchBar/SearchBar";
 
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuViewport,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu"
+import Link from "next/link";
+import { api } from "~/utils/api";
+
 export default function Layout({
   children, // will be a page or nested layout
 }: {
@@ -21,14 +35,13 @@ export default function Layout({
     <section className="h-screen">
       {/* Include shared UI here e.g. a header or sidebar */}
       <header className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto flex justify-between py-4 px-2">
+        <div className={`max-w-7xl mx-auto flex ${isTabletOrMobile ? "justify-between" : "justify-none"} py-4 px-2`}>
         <div className="flex flex-row justify-between gap-4 hover:cursor-pointer" onClick={() => {void router.push('/')}}>
           <p className="font-semibold font-sans text-xl py-2">Kigu
             <span className="text-[#4E60FF]">DB</span>
           </p>
         </div>
-        
-        { isTabletOrMobile && (
+        { isTabletOrMobile ? (
           <ClientOnly>
             <button className="bg-gray-200 hover:bg-gray-300 rounded-lg w-10 h-10 flex items-center justify-center" onClick={() => setShowMenu(true)}>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -36,6 +49,18 @@ export default function Layout({
               </svg>
             </button>
           </ClientOnly>
+         ) : (
+          <NavigationMenu className="ml-4">
+            <NavigationMenuList>
+              <NavigationMenuItem className="hover:bg-slate-100 rounded-lg flex justify-center items-center py-1">
+                <Link href={`/kigus/random`} legacyBehavior passHref>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    Random
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
          )}
         </div>
       </header>
@@ -64,9 +89,11 @@ export default function Layout({
             onClick={() => {void router.push("/")}}
             pathName="/"
           />
-          <div className="h-10 hover:bg-gray-100 hover:cursor-pointer rounded-lg pl-2 py-2 flex items-center">
-            Random Kigu
-          </div>
+          <MenuItem
+            label="Random Kigu"
+            onClick={() => {void router.push("/kigus/random")}}
+            pathName="/kigus/random"
+          />
           <div className="h-10 hover:bg-gray-100 hover:cursor-pointer rounded-lg pl-2 py-2 flex items-center">
             All Kigus
           </div>
