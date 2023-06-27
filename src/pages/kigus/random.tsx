@@ -10,7 +10,7 @@ const RandomKig: NextPage = () => {
   
   useEffect(() => {
     if (randomKiguData && randomKiguData.length > 0) {
-      router.push(`/kigus/${randomKiguData[0]?.id}`)
+      void router.push(`/kigus/${randomKiguData[0] ? randomKiguData[0].id : ""}`);
     }
   }, [randomKiguData])
 
