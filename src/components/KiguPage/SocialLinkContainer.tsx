@@ -20,7 +20,8 @@ const SocialLinkContainer: FC<SocialLinkContainerProps> = ({ links }) => {
   return (
     <div className="flex justify-center items-center">
       {links.map((link) => (<div
-        onClick={() => {router.push(link.link)}}
+        key={link.id}
+        onClick={() => {void router.push(link.link)}}
         className="hover:cursor-pointer"
       >
         {socialLinkMapping[link.linkType]}
