@@ -18,9 +18,10 @@ import {
   NavigationMenuTrigger,
   NavigationMenuViewport,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
+} from "~/components/MenuBar/NavigationMenu"
 import Link from "next/link";
 import { api } from "~/utils/api";
+import NavigationMenuListItem from "~/components/MenuBar/NavigationMenuListItem";
 
 export default function Layout({
   children, // will be a page or nested layout
@@ -58,6 +59,45 @@ export default function Layout({
                     Random
                   </NavigationMenuLink>
                 </Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem className="hover:bg-slate-100 rounded-lg flex justify-center items-center py-1">
+                <NavigationMenuTrigger className="flex flex-row">Kigu</NavigationMenuTrigger>
+                <NavigationMenuContent className="bg-white">
+                  <ul className="grid gap-3 p-4 w-[500px] grid-cols-2">
+                    <li>
+                      <NavigationMenuListItem title="All" content="All Kigurumis" link="/" />
+                    </li>
+                    <li>
+                      <NavigationMenuListItem title="Recenly Added" content="Kigus Recently Added" link="/" />
+                    </li>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem className="hover:bg-slate-100 rounded-lg flex justify-center items-center py-1">
+                <NavigationMenuTrigger className="flex flex-row">Character</NavigationMenuTrigger>
+                <NavigationMenuContent className="bg-white">
+                  <ul className="grid gap-3 p-4 w-[500px] grid-cols-2">
+                    <li>
+                      <NavigationMenuListItem title="All" content="All Characters" link="/characters" />
+                    </li>
+                    <li>
+                      <NavigationMenuListItem title="Most Masks" content="Characters with most masks" link="/" />
+                    </li>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem className="hover:bg-slate-100 rounded-lg flex justify-center items-center py-1">
+                <NavigationMenuTrigger className="flex flex-row">Maker</NavigationMenuTrigger>
+                <NavigationMenuContent className="bg-white">
+                  <ul className="grid gap-3 p-4 w-[500px] grid-cols-2">
+                    <li>
+                      <NavigationMenuListItem title="All" content="All Makers" link="/makers" />
+                    </li>
+                    <li>
+                      <NavigationMenuListItem title="Most Masks" content="Makers with most masks" link="/" />
+                    </li>
+                  </ul>
+                </NavigationMenuContent>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
@@ -97,30 +137,30 @@ export default function Layout({
           <div className="h-10 hover:bg-gray-100 hover:cursor-pointer rounded-lg pl-2 py-2 flex items-center">
             All Kigus
           </div>
+          <div className="h-10 hover:bg-gray-100 hover:cursor-pointer rounded-lg pl-2 py-2 flex items-center">
+            Recently Added Kigu
+          </div>
           <MenuItem
             label="All Characters"
             onClick={() => {void router.push("/characters")}}
             pathName="/characters"
           />
+          <div className="h-10 hover:bg-gray-100 hover:cursor-pointer rounded-lg pl-2 py-2 flex items-center">
+            Most Popular Characters
+          </div>
           <MenuItem
             label="All Makers"
             onClick={() => {void router.push("/makers")}}
             pathName="/makers"
           />
           <div className="h-10 hover:bg-gray-100 hover:cursor-pointer rounded-lg pl-2 py-2 flex items-center">
-            Most Popular Characters
+            Makers With Most Masks
           </div>
-          <div className="h-10 hover:bg-gray-100 hover:cursor-pointer rounded-lg pl-2 py-2 flex items-center">
-            Recently Added Kigu
-          </div>
-          <div className="border-t border-gray-300 my-2"></div>
-          <div className="h-10 hover:bg-gray-100 hover:cursor-pointer rounded-lg pl-2 py-2 flex items-center">Login</div>
-          <div className="h-10 hover:bg-gray-100 hover:cursor-pointer rounded-lg pl-2 py-2 flex items-center">Sign Up</div>
           <div className="border-t border-gray-300 my-2"></div>
           <div className="h-10 hover:bg-gray-100 hover:cursor-pointer rounded-lg pl-2 py-2 flex items-center">
             <p className="bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 bg-clip-text text-transparent">Add Kigu</p>
           </div>
-          <div className="pl-2 fixed bottom-2 text-sm">Last Updated: 05-11-2023</div>
+          <div className="pl-2 fixed bottom-2 text-sm">Last Updated: 06-27-2023</div>
         </div>
       </div>
       </ClientOnly>)

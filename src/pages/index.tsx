@@ -14,12 +14,13 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import SearchResultCard from "~/components/SearchBar/SearchResultCard";
 import { placeholderImg } from "~/utils/constant";
+import { MoonLoader } from "react-spinners";
 
 const Home: NextPage = () => {
   const router = useRouter();
 
   const [query, setQuery] = useState("");
-  const {data: characterData} = api.character.getByName.useQuery(query,
+  const {data: characterData, isFetching} = api.character.getByName.useQuery(query,
     { 
       enabled: query.length > 0
     }
@@ -56,16 +57,21 @@ const Home: NextPage = () => {
           <span className="text-sm">Want to contribute to KiguDB?  </span>
           <Link className="text-sm text-blue-600" href="/">Add Kigu Here</Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {characterData ? characterData.map((char) => (
             <SearchResultCard
             imgSrc={char.picUrl}
             title={char.name}
             link={`/characters/${char.id}`}
             key={char.id}
+            mainContent={char.origin.name}
+            subContent={char.origin.type}
           />
           )) : ""}
         </div>
+        {isFetching && <div className="flex justify-center items-center">
+          <MoonLoader />  
+        </div>}
       </div>
       </Layout>
     </>

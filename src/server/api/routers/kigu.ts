@@ -19,7 +19,8 @@ export const kiguRouter = createTRPCRouter({
             include: {
               character: true
             }
-          }
+          },
+          socialLinks: true
         }
       })
     }),

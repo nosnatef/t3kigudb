@@ -22,7 +22,7 @@ const SearchResultCard: React.FC<SearchResultCardProps> = ({
   const router = useRouter();
 
   return ( 
-    <div className="w-full max-w-3xl min-h-[150px] rounded-lg bg-white p-6 gap-4 hover:cursor-pointer"
+    <div className="w-full max-w-3xl h-[150px]  rounded-lg bg-white p-6 gap-4 hover:cursor-pointer"
       onClick={() => {void router.push(link)}}
     >
       <div className="flex gap-4">
@@ -39,11 +39,11 @@ const SearchResultCard: React.FC<SearchResultCardProps> = ({
         <div className="w-1/2 flex flex-col gap-2">
           <h3 className="text-xl font-bold">{title}</h3>
           <p
-            className="text-gray-300"
+            className="text-sm"
           >
             {mainContent}
           </p>
-          <p className="text-gray-300">
+          <p className="text-sm font-light">
             {subContent}
           </p>
         </div>

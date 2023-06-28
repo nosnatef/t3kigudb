@@ -124,10 +124,10 @@ model Language {
 }
 
 model SocialLink {
-  id        String  @id @default(cuid())
+  id        Int           @id @default(autoincrement())
   link      String
   linkType  LinkType
-  Kigu      Kigu    @relation(fields: [kiguId], references: [id])
+  Kigu      Kigu          @relation(fields: [kiguId], references: [id])
   kiguId    String
 }
 

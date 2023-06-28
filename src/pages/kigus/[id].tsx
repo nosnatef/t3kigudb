@@ -10,6 +10,8 @@ import PhotoCard from "~/components/PhotoCard";
 import Lightbox, { type Slide } from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import { useState } from "react";
+import { TwitterIcon } from "~/assets";
+import SocialLinkContainer from "~/components/KiguPage/SocialLinkContainer";
 
 const Kigu: NextPage = () => {
 
@@ -18,6 +20,8 @@ const Kigu: NextPage = () => {
 
   const { data: kiguData } = api.kigu.getById.useQuery(id);
   const maskData = kiguData?.masks ?? [];
+
+  const { name, picUrl, socialLinks } = kiguData ?? {};
 
   const [galleryIndex, setGalleryIndex] = useState(-1);
 
@@ -31,12 +35,12 @@ const Kigu: NextPage = () => {
     <>
       <Layout>
         <div className="container mx-auto px-3 md:px-0">
-          <h3 className="font-bold text-xl my-4">{ kiguData?.name }</h3>
+          <h3 className="font-bold text-xl my-4">{ name }</h3>
           <div className="flex flex-col md:flex-row gap-4 bg-white rounded-lg py-4">
           <div className="md:w-1/4 flex flex-row md:flex-col justify-around items-center">
             <Image
             alt="Image"
-            src={ kiguData?.picUrl ?? placeholderImg}
+            src={ picUrl ?? placeholderImg}
             height={200}
             width={200}
             className="h-full w-full max-h-[200px] max-w-[200px] object-cover rounded-full"
@@ -44,7 +48,7 @@ const Kigu: NextPage = () => {
             </Image>
             <div className="h-[300px] flex flex-col justify-around">
               <ProfileInfo stat={maskData.length ?? 0} desc="Masks owned" />
-              <ProfileInfo stat="10/10/2023" desc="Updated By" />
+              <SocialLinkContainer links={socialLinks ?? []} />
             </div>
           </div>
           <div className="md:w-3/4">
