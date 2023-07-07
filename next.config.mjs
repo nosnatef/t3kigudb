@@ -9,6 +9,7 @@ const config = {
   reactStrictMode: true,
   images:{
     domains: ['d1kkex4vltbo88.cloudfront.net', 'fakeimg.pl'],
+    unoptimized: true
   },
 
   /**
