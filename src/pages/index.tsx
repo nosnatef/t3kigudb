@@ -15,14 +15,28 @@ import Link from "next/link";
 import SearchResultCard from "~/components/SearchBar/SearchResultCard";
 import { placeholderImg } from "~/utils/constant";
 import { MoonLoader } from "react-spinners";
+import * as Tabs from '@radix-ui/react-tabs'
 
 const Home: NextPage = () => {
   const router = useRouter();
 
   const [query, setQuery] = useState("");
-  const {data: characterData, isFetching} = api.character.getByName.useQuery(query,
+  const [currentTab, setCurrentTab] = useState("Characters")
+  const {data: characterData, isFetching: isCharacterFetching} = api.character.getByName.useQuery(query,
     { 
-      enabled: query.length > 0
+      enabled: query.length > 0 && currentTab === "Characters"
+    }
+  );
+
+  const {data: kiguData, isFetching: isKiguFetching} = api.kigu.getByName.useQuery(query,
+    { 
+      enabled: query.length > 0 && currentTab === "Kigus"
+    }
+  );
+
+  const {data: makerData, isFetching: isMakerFetching} = api.maker.getByName.useQuery(query,
+    { 
+      enabled: query.length > 0 && currentTab === "Makers"
     }
   );
 
@@ -57,21 +71,109 @@ const Home: NextPage = () => {
           <span className="text-sm">Want to contribute to KiguDB?  </span>
           <Link className="text-sm text-blue-600" href="/">Add Kigu Here</Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {characterData ? characterData.map((char) => (
-            <SearchResultCard
-            imgSrc={char.picUrl}
-            title={char.name}
-            link={`/characters/${char.id}`}
-            key={char.id}
-            mainContent={char.origin.name}
-            subContent={char.origin.type}
-          />
-          )) : ""}
-        </div>
-        {isFetching && <div className="flex justify-center items-center">
-          <MoonLoader />  
-        </div>}
+        {query.length > 0 && (
+          <div>
+          <Tabs.Root defaultValue="Characters"
+              className="flex flex-col min-h-[500px]"
+              onValueChange={(value) => {
+                setCurrentTab(value);
+              }}
+            >
+              <Tabs.List
+                className="shrink-0 border-b"
+              >
+                <Tabs.Trigger
+                  className="px-5 h-[45px] data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
+                  value="Characters"
+                >
+                  Characters
+                </Tabs.Trigger>
+                <Tabs.Trigger
+                  className="px-5 h-[45px] data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
+                  value="Kigus"
+                >
+                  Kigus
+                </Tabs.Trigger>
+                <Tabs.Trigger
+                  className="px-5 h-[45px] data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
+                  value="Makers"
+                >
+                  Makers
+                </Tabs.Trigger>
+              </Tabs.List>
+              <Tabs.Content value="Characters"
+                className="p-5"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {characterData ? characterData.map((char) => (
+                    <SearchResultCard
+                    imgSrc={char.picUrl}
+                    title={char.name}
+                    link={`/characters/${char.id}`}
+                    key={char.id}
+                    mainContent={char.origin.name}
+                    subContent={char.origin.type}
+                  />
+                  )) : ""}
+                </div>
+                {characterData && characterData.length === 0 && (
+                  <div className="flex justify-center items-center">
+                    <h3>No Results Found</h3>
+                  </div>
+                )}
+                {isCharacterFetching && <div className="flex justify-center items-center">
+                  <MoonLoader />  
+                </div>}
+              </Tabs.Content>
+              <Tabs.Content value="Kigus"
+                className="p-5"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {kiguData ? kiguData.map((kigu) => (
+                    <SearchResultCard
+                    imgSrc={kigu.picUrl}
+                    title={kigu.name}
+                    link={`/kigus/${kigu.id}`}
+                    key={kigu.id}
+                    mainContent={`${kigu.masks.length} masks owned`}
+                  />
+                  )) : ""}
+                </div>
+                {kiguData && kiguData.length === 0 && (
+                  <div className="flex justify-center items-center">
+                    <h3>No Results Found</h3>
+                  </div>
+                )}
+                {isKiguFetching && <div className="flex justify-center items-center">
+                  <MoonLoader />  
+                </div>}
+              </Tabs.Content>
+              <Tabs.Content value="Makers"
+                className="p-5"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {makerData ? makerData.map((maker) => (
+                    <SearchResultCard
+                    imgSrc={maker.picUrl}
+                    title={maker.name}
+                    link={`/makers/${maker.id}`}
+                    key={maker.id}
+                  />
+                  )) : ""}
+                </div>
+                {makerData && makerData.length === 0 && (
+                  <div className="flex justify-center items-center">
+                    <h3>No Results Found</h3>
+                  </div>
+                )}
+                {isMakerFetching && <div className="flex justify-center items-center">
+                  <MoonLoader />  
+                </div>}
+              </Tabs.Content>
+              
+            </Tabs.Root>
+          </div>
+        )}
       </div>
       </Layout>
     </>

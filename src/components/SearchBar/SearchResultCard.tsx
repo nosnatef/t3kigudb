@@ -37,7 +37,7 @@ const SearchResultCard: React.FC<SearchResultCardProps> = ({
           <p className="text-gray-200">{imgDesc}</p>
         </div>
         <div className="w-1/2 flex flex-col gap-2">
-          <h3 className="text-xl font-bold">{title}</h3>
+          <h3 className="text-xl font-bold truncate">{title}</h3>
           <p
             className="text-sm"
           >

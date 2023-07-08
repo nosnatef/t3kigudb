@@ -30,5 +30,18 @@ export const makerRouter = createTRPCRouter({
         nextCursor,
         totalCount
       }
+    }),
+  getByName: publicProcedure
+    .input(z.string())
+    .query(({ ctx, input }) => {
+      return ctx.prisma.maker.findMany({
+        take: 12,
+        where: {
+          name: {
+            contains: input,
+            mode: 'insensitive'
+          },
+        }
+      })
     })
 });

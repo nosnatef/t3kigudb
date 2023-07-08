@@ -32,4 +32,20 @@ export const kiguRouter = createTRPCRouter({
       skip: skip,
   });
   }),
+  getByName: publicProcedure
+  .input(z.string())
+  .query(({ ctx, input }) => {
+    return ctx.prisma.kigu.findMany({
+      take: 12,
+      where: {
+        name: {
+          contains: input,
+          mode: 'insensitive'
+        },
+      },
+      include: {
+        masks: true
+      }
+    })
+  })
 })
