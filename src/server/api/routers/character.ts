@@ -17,7 +17,8 @@ export const characterRouter = createTRPCRouter({
           origin: true,
           masks: {
             include:{
-              kigu: true
+              kigu: true,
+              maskPics: true
             }
           }
         }

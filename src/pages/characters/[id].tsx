@@ -24,11 +24,35 @@ const Character: NextPage = () => {
 
   const [galleryIndex, setGalleryIndex] = useState(-1);
 
-  const getSlides = () => characterData?.masks?.map((mask) => {
-    return {
-      src: mask.picUrl
-    } as Slide
-  })
+  const getSlides = (): Slide[] => {
+    const slides: Slide[][] | undefined = characterData?.masks?.map((mask) => {
+      return mask.maskPics.map((pic) => {
+        return {
+          src: pic.link
+        } as Slide;
+      });
+    });
+  
+    return slides?.flatMap((slide) => slide) ?? [];
+  };
+
+  const getGalleryImages = () => {
+    let i = 0;
+    if (maskData) {
+      return maskData.map((mask, maskIndex) => {
+        return mask.maskPics.map((pic, picIndex) => {
+          const key = i++;
+          console.log(i)
+          return (<img
+            key={key}
+            src={pic.link}
+            className="rounded-lg h-full w-full max-h-[200px] max-w-[200px] object-cover hover:cursor-pointer hover:shadow-lg hover:sclae-105 transition"
+            onClick={() => setGalleryIndex(key)}
+          ></img>)
+      })})
+    }
+    return "";
+  }
 
   return (
     <>
@@ -36,7 +60,7 @@ const Character: NextPage = () => {
       <div className="container mx-auto px-3 md:px-0">
         <h3 className="font-bold text-xl my-4">{ characterData?.name }</h3>
         <div className="flex flex-col md:flex-row gap-4 bg-white rounded-lg py-4">
-          <div className="md:w-1/4 flex flex-row md:flex-col justify-around items-center">
+          <div className="md:w-1/4 flex flex-row md:flex-col justify-around items-center md:max-h-[80vh]">
             <Image
             alt="Image"
             src={ characterData?.picUrl ?? placeholderImg}
@@ -93,12 +117,7 @@ const Character: NextPage = () => {
               className="p-5"
             >
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                {maskData && maskData.map((mask, index) => (<img
-                  key={index}
-                  src={mask.picUrl}
-                  className="rounded-lg h-full w-full max-h-[200px] max-w-[200px] object-cover hover:cursor-pointer hover:shadow-lg hover:sclae-105 transition"
-                  onClick={() => setGalleryIndex(index)}
-                ></img>))}
+                {getGalleryImages()}
               </div>
               <Lightbox
                 open={galleryIndex >= 0}
@@ -111,27 +130,6 @@ const Character: NextPage = () => {
           </div>
         </div>
       </div>
-      
-      {/* <div className="container relative flex flex-col md:flex-row mx-4 md:mx-auto my-6 gap-4">
-        <div className="">
-          <h3 className="font-bold text-xl">{ characterData?.name }</h3>
-        </div>
-        
-        <div className="flex flex-row items-center justify-center m-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-              {
-                maskData ? maskData.map((mask) => {
-                  return (<PhotoCard 
-                    key={mask.id}
-                    picSrc={mask.picUrl}
-                    title={`${mask.kigu.name}`}
-                    subTitle="Maker"
-                  />)
-                }) : "Loading"
-              }
-          </div>
-        </div>
-      </div> */}
       
       </Layout>
     </>
