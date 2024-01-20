@@ -14,6 +14,7 @@ import Lightbox, { type Slide } from "yet-another-react-lightbox";
 import PhotoAlbum, { Photo } from "react-photo-album";
 import "yet-another-react-lightbox/styles.css";
 import ProfileInfo from "~/components/InfoPage/ProfileInfo";
+import { LOADING_TEXT } from "~/constants/strings";
 
 const Character: NextPage = () => {
   const router = useRouter();
@@ -109,7 +110,7 @@ const Character: NextPage = () => {
                           subTitle="Maker"
                           onClick={() => {void router.push(`/kigus/${mask.kigu.id}`)}}
                         />)
-                      }) : "Loading"
+                      }) : LOADING_TEXT
                     }
                 </div>
             </Tabs.Content>
