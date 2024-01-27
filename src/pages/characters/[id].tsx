@@ -8,13 +8,12 @@ import * as Tabs from '@radix-ui/react-tabs'
 
 import Image from "next/image";
 import { placeholderImg } from "~/utils/constant";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import Lightbox, { type Slide } from "yet-another-react-lightbox";
-import PhotoAlbum, { Photo } from "react-photo-album";
 import "yet-another-react-lightbox/styles.css";
 import ProfileInfo from "~/components/InfoPage/ProfileInfo";
-import { LOADING_TEXT } from "~/constants/strings";
+import PhotoCardLoader from "~/components/PhotoCardLoader";
 
 const Character: NextPage = () => {
   const router = useRouter();
@@ -99,10 +98,9 @@ const Character: NextPage = () => {
             <Tabs.Content value="Masks"
               className="p-5"
             >
-              
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     {
-                      maskData ? maskData.map((mask) => {
+                      maskData.length > 0 ? maskData.map((mask) => {
                         return (<PhotoCard 
                           key={mask.id}
                           picSrc={mask.picUrl}
@@ -110,7 +108,7 @@ const Character: NextPage = () => {
                           subTitle="Maker"
                           onClick={() => {void router.push(`/kigus/${mask.kigu.id}`)}}
                         />)
-                      }) : LOADING_TEXT
+                      }) : Array(12).fill(<PhotoCardLoader />)
                     }
                 </div>
             </Tabs.Content>

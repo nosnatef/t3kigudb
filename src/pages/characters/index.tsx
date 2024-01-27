@@ -15,7 +15,6 @@ import { LOADING_TEXT } from "~/constants/strings";
 const Characters: NextPage = () => {
   const router = useRouter();
 
-  const [page, setPage] = useState(0);  
   const [origin, setOrigin] = useState("Genshin Impact");
   const bottomRef = useRef<HTMLDivElement>(null);
   const { data: characterData, fetchNextPage, hasNextPage, isFetching } = api.character.getByOrigin.useInfiniteQuery({
