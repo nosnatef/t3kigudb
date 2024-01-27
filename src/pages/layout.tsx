@@ -56,22 +56,9 @@ export default function Layout({
               <NavigationMenuItem className="hover:bg-slate-100 rounded-lg flex justify-center items-center py-1">
                 <Link href={`/kigus/random`} legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    Random
+                    Random Kigu
                   </NavigationMenuLink>
                 </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem className="hover:bg-slate-100 rounded-lg flex justify-center items-center py-1">
-                <NavigationMenuTrigger className="flex flex-row">Kigu</NavigationMenuTrigger>
-                <NavigationMenuContent className="bg-white">
-                  <ul className="grid gap-3 p-4 w-[500px] grid-cols-2">
-                    <li>
-                      <NavigationMenuListItem title="All" content="All Kigurumis" link="/" />
-                    </li>
-                    <li>
-                      <NavigationMenuListItem title="Recenly Added" content="Kigus Recently Added" link="/" />
-                    </li>
-                  </ul>
-                </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem className="hover:bg-slate-100 rounded-lg flex justify-center items-center py-1">
                 <NavigationMenuTrigger className="flex flex-row">Character</NavigationMenuTrigger>
@@ -81,7 +68,7 @@ export default function Layout({
                       <NavigationMenuListItem title="All" content="All Characters" link="/characters" />
                     </li>
                     <li>
-                      <NavigationMenuListItem title="Most Masks" content="Characters with most masks" link="/" />
+                      <NavigationMenuListItem title="Most Masks" content="Characters with most masks" link="/characters/popular" />
                     </li>
                   </ul>
                 </NavigationMenuContent>
@@ -134,20 +121,16 @@ export default function Layout({
             onClick={() => {void router.push("/kigus/random")}}
             pathName="/kigus/random"
           />
-          <div className="h-10 hover:bg-gray-100 hover:cursor-pointer rounded-lg pl-2 py-2 flex items-center">
-            All Kigus
-          </div>
-          <div className="h-10 hover:bg-gray-100 hover:cursor-pointer rounded-lg pl-2 py-2 flex items-center">
-            Recently Added Kigu
-          </div>
           <MenuItem
             label="All Characters"
             onClick={() => {void router.push("/characters")}}
             pathName="/characters"
           />
-          <div className="h-10 hover:bg-gray-100 hover:cursor-pointer rounded-lg pl-2 py-2 flex items-center">
-            Most Popular Characters
-          </div>
+          <MenuItem
+            label="Most Popular Characters"
+            onClick={() => {void router.push("/characters/popular")}}
+            pathName="/characters/popular"
+          />
           <MenuItem
             label="All Makers"
             onClick={() => {void router.push("/makers")}}

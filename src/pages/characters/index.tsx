@@ -10,11 +10,11 @@ import PhotoCard from "~/components/PhotoCard";
 import { useRouter } from "next/router";
 import PhotoCardLoader from "~/components/PhotoCardLoader";
 import MoonLoader from 'react-spinners/MoonLoader';
+import { LOADING_TEXT } from "~/constants/strings";
 
 const Characters: NextPage = () => {
   const router = useRouter();
 
-  const [page, setPage] = useState(0);  
   const [origin, setOrigin] = useState("Genshin Impact");
   const bottomRef = useRef<HTMLDivElement>(null);
   const { data: characterData, fetchNextPage, hasNextPage, isFetching } = api.character.getByOrigin.useInfiniteQuery({
@@ -66,7 +66,7 @@ const Characters: NextPage = () => {
                 {origin.name}
               </DropdownMenu.Item>
             )
-          }) : "Loading..."}
+          }) : LOADING_TEXT}
           </DropdownMenu.Content>
         </DropdownMenu.Portal>
       </DropdownMenu.Root>

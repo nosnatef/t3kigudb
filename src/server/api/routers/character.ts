@@ -72,5 +72,24 @@ export const characterRouter = createTRPCRouter({
             origin: true
           }
         })
+      }),
+    getMostPopular: publicProcedure
+      .query(({ ctx }) => {
+        return ctx.prisma.character.findMany({
+          orderBy: {
+            masks: {
+              _count: 'desc'
+            }
+          },
+          take: 24,
+          include: {
+            masks: {
+              include: {
+                _count: true
+              }
+            },
+            origin: true
+          }
+        })
       })
 });

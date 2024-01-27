@@ -12,6 +12,7 @@ import "yet-another-react-lightbox/styles.css";
 import { useState } from "react";
 import { TwitterIcon } from "~/assets";
 import SocialLinkContainer from "~/components/KiguPage/SocialLinkContainer";
+import { LOADING_TEXT } from "~/constants/strings";
 
 const Kigu: NextPage = () => {
 
@@ -85,7 +86,7 @@ const Kigu: NextPage = () => {
                           subTitle="Maker"
                           onClick={() => {void router.push(`/characters/${mask.character.id}`)}}
                         />)
-                      }) : "Loading"
+                      }) : LOADING_TEXT
                     }
                 </div>
             </Tabs.Content>
