@@ -14,6 +14,7 @@ import Lightbox, { type Slide } from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import ProfileInfo from "~/components/InfoPage/ProfileInfo";
 import PhotoCardLoader from "~/components/PhotoCardLoader";
+import TitleLoader from "~/components/utils/TitleLoader";
 
 const Character: NextPage = () => {
   const router = useRouter();
@@ -58,7 +59,10 @@ const Character: NextPage = () => {
     <>
       <Layout>
       <div className="container mx-auto px-3 md:px-0">
-        <h3 className="font-bold text-xl my-4">{ characterData?.name }</h3>
+        {
+          characterData ? <h3 className="font-bold text-xl my-4">{ characterData?.name }</h3> : <TitleLoader />
+        }
+        
         <div className="flex flex-col md:flex-row gap-4 bg-white rounded-lg py-4">
           <div className="md:w-1/4 flex flex-row md:flex-col justify-around items-center md:max-h-[80vh]">
             <Image

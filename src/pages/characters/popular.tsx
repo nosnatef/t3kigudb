@@ -12,7 +12,6 @@ const Character: NextPage = () => {
 
   return (<>
     <Layout>
-      
       <div className="container flex items-center justify-center m-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 py-2 px-4">
           {characterData ? characterData.map((item) => 
