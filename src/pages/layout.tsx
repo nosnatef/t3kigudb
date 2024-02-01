@@ -140,9 +140,11 @@ export default function Layout({
             Makers With Most Masks
           </div>
           <div className="border-t border-gray-300 my-2"></div>
+          <a href="https://forms.gle/hzicLyx5VtJWuAjD9" target="_blank">
           <div className="h-10 hover:bg-gray-100 hover:cursor-pointer rounded-lg pl-2 py-2 flex items-center">
             <p className="bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 bg-clip-text text-transparent">Add Kigu</p>
           </div>
+          </a>
           <div className="pl-2 fixed bottom-2 text-sm">Last Updated: 06-27-2023</div>
         </div>
       </div>
