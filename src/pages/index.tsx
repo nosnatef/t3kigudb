@@ -69,7 +69,8 @@ const Home: NextPage = () => {
           className="py-4 px-2"
         >
           <span className="text-sm">Want to contribute to KiguDB?  </span>
-          <Link className="text-sm text-blue-600" href="/">Add Kigu Here</Link>
+          <Link className="text-sm text-blue-600" href="https://forms.gle/hzicLyx5VtJWuAjD9" target="_blank">Add Kigu Here</Link>
+          <span className="text-sm">       (Yes, you can add yourself!)</span>
         </div>
         {query.length > 0 && (
           <div>

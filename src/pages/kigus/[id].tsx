@@ -13,6 +13,7 @@ import { useState } from "react";
 import { TwitterIcon } from "~/assets";
 import SocialLinkContainer from "~/components/KiguPage/SocialLinkContainer";
 import { LOADING_TEXT } from "~/constants/strings";
+import TitleLoader from "~/components/utils/TitleLoader";
 
 const Kigu: NextPage = () => {
 
@@ -36,7 +37,9 @@ const Kigu: NextPage = () => {
     <>
       <Layout>
         <div className="container mx-auto px-3 md:px-0">
-          <h3 className="font-bold text-xl my-4">{ name }</h3>
+          { name ? <h3 className="font-bold text-xl my-4">{ name }</h3> :
+            <TitleLoader />
+          }
           <div className="flex flex-col md:flex-row gap-4 bg-white rounded-lg py-4">
           <div className="md:w-1/4 flex flex-row md:flex-col justify-around items-center">
             <Image
