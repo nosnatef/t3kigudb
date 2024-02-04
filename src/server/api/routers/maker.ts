@@ -43,5 +43,21 @@ export const makerRouter = createTRPCRouter({
           },
         }
       })
+    }),
+  getById: publicProcedure
+    .input(z.number())
+    .query(({ ctx, input }) => {
+      return ctx.prisma.maker.findFirst({
+        where: {
+          id: input
+        },
+        include: {
+          masks: {
+            include: {
+              character: true
+            }
+          }
+        }
+      })
     })
 });

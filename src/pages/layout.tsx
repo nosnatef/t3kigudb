@@ -74,17 +74,11 @@ export default function Layout({
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem className="hover:bg-slate-100 rounded-lg flex justify-center items-center py-1">
-                <NavigationMenuTrigger className="flex flex-row">Maker</NavigationMenuTrigger>
-                <NavigationMenuContent className="bg-white">
-                  <ul className="grid gap-3 p-4 w-[500px] grid-cols-2">
-                    <li>
-                      <NavigationMenuListItem title="All" content="All Makers" link="/makers" />
-                    </li>
-                    <li>
-                      <NavigationMenuListItem title="Most Masks" content="Makers with most masks" link="/" />
-                    </li>
-                  </ul>
-                </NavigationMenuContent>
+                <Link href={`/makers`} legacyBehavior passHref>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    Makers
+                  </NavigationMenuLink>
+                </Link>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
@@ -136,9 +130,6 @@ export default function Layout({
             onClick={() => {void router.push("/makers")}}
             pathName="/makers"
           />
-          <div className="h-10 hover:bg-gray-100 hover:cursor-pointer rounded-lg pl-2 py-2 flex items-center">
-            Makers With Most Masks
-          </div>
           <div className="border-t border-gray-300 my-2"></div>
           <a href="https://forms.gle/hzicLyx5VtJWuAjD9" target="_blank">
           <div className="h-10 hover:bg-gray-100 hover:cursor-pointer rounded-lg pl-2 py-2 flex items-center">

@@ -145,6 +145,8 @@ model Mask {
   maskPics    MaskPic[]
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  maker       Maker?       @relation(fields: [makerId], references: [id])
+  makerId     Int?
 
   @@unique([characterId, link])
 }
@@ -163,6 +165,7 @@ model Maker {
   picUrl          String
   isActive        Boolean   @default(true)
   makerLinks      MakerLink[]
+  masks           Mask[]
 }
 
 model MakerNickname {
