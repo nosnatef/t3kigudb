@@ -86,7 +86,7 @@ const Kigu: NextPage = () => {
                           key={mask.id}
                           picSrc={mask.picUrl}
                           title={`${mask.character.name}`}
-                          subTitle="Maker"
+                          subTitle={mask.maker?.name ?? "Unidentified Maker"}
                           onClick={() => {void router.push(`/characters/${mask.character.id}`)}}
                         />)
                       }) : LOADING_TEXT

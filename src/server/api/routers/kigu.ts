@@ -16,7 +16,8 @@ export const kiguRouter = createTRPCRouter({
         include: {
           masks: {
             include: {
-              character: true
+              character: true,
+              maker: true
             }
           },
           socialLinks: true
