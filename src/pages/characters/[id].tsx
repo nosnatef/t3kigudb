@@ -90,7 +90,7 @@ const Character: NextPage = () => {
                 className="px-5 h-[45px] data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
                 value="Masks"
               >
-                Masks
+                Kigus
               </Tabs.Trigger>
               <Tabs.Trigger
                 className="px-5 h-[45px] data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
@@ -109,7 +109,7 @@ const Character: NextPage = () => {
                           key={mask.id}
                           picSrc={mask.picUrl}
                           title={`${mask.kigu.name}`}
-                          subTitle="Maker"
+                          subTitle={mask.maker?.name ?? "Unidentified Maker"}
                           onClick={() => {void router.push(`/kigus/${mask.kigu.id}`)}}
                         />)
                       }) : Array(12).fill(<PhotoCardLoader />)
