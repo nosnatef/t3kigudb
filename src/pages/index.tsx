@@ -67,7 +67,7 @@ const Home: NextPage = () => {
     <>
       <Layout>
             
-      <div className="min-h-[80vh] max-w-5xl mx-auto py-4 px-4 flex justify-center flex-col">
+      <div className={`min-h-[80vh] max-w-5xl mx-auto py-4 px-4 flex ${isTabletOrMobile ? '' : 'justify-center'} flex-col`}>
         <div className="flex flex-row justify-between">
           <div className="flex flex-row gap-4 mb-8">
             <div className="font-semibold text-5xl">
@@ -92,19 +92,14 @@ const Home: NextPage = () => {
         </div>
         
         
-        <div className="">
-            {/* <BiSearch size={20} />
+        <div className="h-[50px] bg-white rounded-lg flex flex-row items-center px-4">
+            <BiSearch size={20} />
             <input
               className="rounded-lg p-2 w-full h-full outline-none"
               autoFocus
               placeholder="Search For Kigu/Character/Maker..."
               onChange={(e) => debounced(e.target.value)}
-            ></input> */}
-            <Command className="rounded-lg border shadow-md">
-              <CommandInput placeholder="Search For Kigu/Character/Maker..." 
-                onValueChange={(search) => debounced(search)}
-              />
-            </Command>
+            ></input>
         </div>
         <div
           className="py-4 px-2"
@@ -123,7 +118,7 @@ const Home: NextPage = () => {
               Random Kigu</Button>
         }
         {query.length > 0 && (
-          <div>
+          <div className="mt-8">
           <Tabs.Root defaultValue="Characters"
               className="flex flex-col min-h-[500px]"
               onValueChange={(value) => {
