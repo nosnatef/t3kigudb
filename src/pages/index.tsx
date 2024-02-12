@@ -16,6 +16,19 @@ import SearchResultCard from "~/components/SearchBar/SearchResultCard";
 import { placeholderImg } from "~/utils/constant";
 import { MoonLoader } from "react-spinners";
 import * as Tabs from '@radix-ui/react-tabs'
+import { Button } from "@/components/ui/button";
+import { DicesIcon } from "lucide-react";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command"
+import { useMediaQuery } from "react-responsive";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -46,32 +59,69 @@ const Home: NextPage = () => {
     },
     500
   );
+
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 768px)' });
   
 
   return (
     <>
       <Layout>
             
-      <div className="min-h-[80vh] max-w-7xl mx-auto py-4 px-4">
-        <div className="flex justify-center w-full mt-4 mb-12 font-semibold text-2xl">
-          Discover Kigus
+      <div className="min-h-[80vh] max-w-5xl mx-auto py-4 px-4 flex justify-center flex-col">
+        <div className="flex flex-row justify-between">
+          <div className="flex flex-row gap-4 mb-8">
+            <div className="font-semibold text-5xl">
+              Discover
+            </div>
+            <div className="font-semibold text-5xl text-[#FF5EC8]">
+              KIGUS
+            </div>
+          </div>
+          {
+            !isTabletOrMobile && <div className="">
+            
+            <Button
+              className="bg-[#F9F1F8] shadow-sm"
+              onClick={() => {void router.push("/kigus/random")}}
+            >
+              <DicesIcon className="mr-2" /> 
+              Random Kigu</Button>
+          </div>
+          }
+          
         </div>
-        <div className="h-[50px] bg-white rounded-lg flex flex-row items-center px-4">
-            <BiSearch size={20} />
+        
+        
+        <div className="">
+            {/* <BiSearch size={20} />
             <input
               className="rounded-lg p-2 w-full h-full outline-none"
               autoFocus
               placeholder="Search For Kigu/Character/Maker..."
               onChange={(e) => debounced(e.target.value)}
-            ></input>
+            ></input> */}
+            <Command className="rounded-lg border shadow-md">
+              <CommandInput placeholder="Search For Kigu/Character/Maker..." 
+                onValueChange={(search) => debounced(search)}
+              />
+            </Command>
         </div>
         <div
           className="py-4 px-2"
         >
           <span className="text-sm">Want to contribute to KiguDB?  </span>
-          <Link className="text-sm text-blue-600" href="https://forms.gle/hzicLyx5VtJWuAjD9" target="_blank">Add Kigu Here</Link>
+          <Link className="text-sm text-[#FF5EC8] font-bold" href="https://forms.gle/hzicLyx5VtJWuAjD9" target="_blank">Add Kigu Here</Link>
           <span className="text-sm">       (Yes, you can add yourself!)</span>
         </div>
+        {
+          isTabletOrMobile && 
+          <Button
+              className="bg-[#F9F1F8] shadow-sm max-w-[200px]"
+              onClick={() => {void router.push("/kigus/random")}}
+            >
+              <DicesIcon className="mr-2" /> 
+              Random Kigu</Button>
+        }
         {query.length > 0 && (
           <div>
           <Tabs.Root defaultValue="Characters"

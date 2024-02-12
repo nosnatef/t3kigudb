@@ -39,7 +39,7 @@ export default function Layout({
         <div className={`max-w-7xl mx-auto flex ${isTabletOrMobile ? "justify-between" : "justify-none"} py-4 px-2`}>
         <div className="flex flex-row justify-between gap-4 hover:cursor-pointer" onClick={() => {void router.push('/')}}>
           <p className="font-semibold font-sans text-xl py-2">Kigu
-            <span className="text-[#4E60FF]">DB</span>
+            <span className="text-[#FF5EC8]">DB</span>
           </p>
         </div>
         { isTabletOrMobile ? (
@@ -54,31 +54,27 @@ export default function Layout({
           <NavigationMenu className="ml-4">
             <NavigationMenuList>
               <NavigationMenuItem className="hover:bg-slate-100 rounded-lg flex justify-center items-center py-1">
-                <Link href={`/kigus/random`} legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    Random Kigu
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem className="hover:bg-slate-100 rounded-lg flex justify-center items-center py-1">
                 <NavigationMenuTrigger className="flex flex-row">Character</NavigationMenuTrigger>
                 <NavigationMenuContent className="bg-white">
-                  <ul className="grid gap-3 p-4 w-[500px] grid-cols-2">
+                  <ul className="gap-3 p-4 w-[335px] flex flex-col">
                     <li>
-                      <NavigationMenuListItem title="All" content="All Characters" link="/characters" />
+                      <NavigationMenuListItem title="Trending Character" content="Kigus' favorite characters" link="/characters/popular" />
                     </li>
                     <li>
-                      <NavigationMenuListItem title="Most Masks" content="Characters with most masks" link="/characters/popular" />
+                      <NavigationMenuListItem title="All" content="All masks" link="/characters" />
                     </li>
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem className="hover:bg-slate-100 rounded-lg flex justify-center items-center py-1">
-                <Link href={`/makers`} legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    Makers
-                  </NavigationMenuLink>
-                </Link>
+                <NavigationMenuTrigger className="flex flex-row">Maker</NavigationMenuTrigger>
+                <NavigationMenuContent className="bg-white">
+                  <ul className="gap-3 p-4 w-[335px] flex flex-col">
+                    <li>
+                      <NavigationMenuListItem title="All" content="All makers" link="/makers" />
+                    </li>
+                  </ul>
+                </NavigationMenuContent>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
