@@ -3,7 +3,7 @@
 Project repository for KiguDB
 
 ## Pre-requisite
-1. [Installation of Node.js and NPM](git@github.com:nosnatef/t3kigudb.git) 
+1. [Installation of Node.js and NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm#using-a-node-installer-to-install-nodejs-and-npm) 
 
 ## Getting Started
 
@@ -35,6 +35,6 @@ npm install
 npm run dev
 ```
 
-If suceeded, the terminal will show that you can access the local website at `localhost:xxxx`. Use that link in the browser.
+If suceeded, the terminal will show that you can access the local website at `http://localhost:xxxx`. Use that link in the browser.
 
 Happy building!
