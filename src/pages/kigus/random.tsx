@@ -3,6 +3,7 @@ import Layout from "../layout";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import { useEffect } from "react";
+import { MoonLoader } from "react-spinners";
 
 const RandomKig: NextPage = () => {
   const router = useRouter();
@@ -16,7 +17,11 @@ const RandomKig: NextPage = () => {
     }
   }, [randomKiguData]);
 
-  return <Layout></Layout>;
+  return <Layout>
+    <div className="flex justify-center">
+      <MoonLoader />
+    </div>
+  </Layout>;
 };
 
 export default RandomKig;
