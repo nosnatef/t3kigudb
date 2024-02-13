@@ -38,7 +38,7 @@ export const maskRouter = createTRPCRouter({
       z.object({
         limit: z.number().min(1).max(100).nullish(),
         cursor: z.string().nullish(),
-        page: z.number().min(1).nullish() // Optional page parameter for pagination
+        page: z.number().min(1).nullish(), // Optional page parameter for pagination
       })
     )
     .query(async ({ ctx, input }) => {
@@ -56,12 +56,12 @@ export const maskRouter = createTRPCRouter({
         take: limit + 1,
         skip,
         cursor: cursor ? { id: cursor } : undefined,
-        orderBy: { id: 'asc' },
+        orderBy: { id: "asc" },
         where: {
-          makerId: null
-        }
+          makerId: null,
+        },
       });
-      
+
       let nextCursor: typeof cursor | undefined = undefined;
       if (items.length > limit) {
         const nextItem = items.pop();

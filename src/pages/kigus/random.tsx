@@ -17,11 +17,13 @@ const RandomKig: NextPage = () => {
     }
   }, [randomKiguData]);
 
-  return <Layout>
-    <div className="flex justify-center">
-      <MoonLoader />
-    </div>
-  </Layout>;
+  return (
+    <Layout>
+      <div className="flex justify-center">
+        <MoonLoader />
+      </div>
+    </Layout>
+  );
 };
 
 export default RandomKig;
