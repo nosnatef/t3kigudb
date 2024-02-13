@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useMediaQuery } from 'react-responsive'
+import { useMediaQuery } from "react-responsive";
 
-import { BiSearch } from 'react-icons/bi'
+import { BiSearch } from "react-icons/bi";
 import MenuItem from "~/components/MenuBar/MenuItem";
 import { useRouter } from "next/router";
 import ClientOnly from "~/components/ClientOnly";
@@ -18,7 +18,7 @@ import {
   NavigationMenuTrigger,
   NavigationMenuViewport,
   navigationMenuTriggerStyle,
-} from "~/components/MenuBar/NavigationMenu"
+} from "~/components/MenuBar/NavigationMenu";
 import Link from "next/link";
 import { api } from "~/utils/api";
 import NavigationMenuListItem from "~/components/MenuBar/NavigationMenuListItem";
@@ -30,123 +30,188 @@ export default function Layout({
 }) {
   const [showMenu, setShowMenu] = useState(false);
   const router = useRouter();
-  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 768px)' });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   return (
     <section className="h-screen">
       {/* Include shared UI here e.g. a header or sidebar */}
-      <header className="bg-white border-b border-gray-200">
-        <div className={`max-w-7xl mx-auto flex ${isTabletOrMobile ? "justify-between" : "justify-none"} py-4 px-2`}>
-        <div className="flex flex-row justify-between gap-4 hover:cursor-pointer" onClick={() => {void router.push('/')}}>
-          <p className="font-semibold font-sans text-xl py-2">Kigu
-            <span className="text-[#FF5EC8]">DB</span>
-          </p>
-        </div>
-        { isTabletOrMobile ? (
-          <ClientOnly>
-            <button className="bg-gray-200 hover:bg-gray-300 rounded-lg w-10 h-10 flex items-center justify-center" onClick={() => setShowMenu(true)}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-              </svg>
-            </button>
-          </ClientOnly>
-         ) : (
-          <NavigationMenu className="ml-4">
-            <NavigationMenuList>
-              <NavigationMenuItem className="hover:bg-slate-100 rounded-lg flex justify-center items-center py-1">
-                <NavigationMenuTrigger className="flex flex-row">Character</NavigationMenuTrigger>
-                <NavigationMenuContent className="bg-white">
-                  <ul className="gap-3 p-4 w-[335px] flex flex-col">
-                    <li>
-                      <NavigationMenuListItem title="Trending Character" content="Kigus' favorite characters" link="/characters/popular" />
-                    </li>
-                    <li>
-                      <NavigationMenuListItem title="All" content="All masks" link="/characters" />
-                    </li>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem className="hover:bg-slate-100 rounded-lg flex justify-center items-center py-1">
-                <NavigationMenuTrigger className="flex flex-row">Maker</NavigationMenuTrigger>
-                <NavigationMenuContent className="bg-white">
-                  <ul className="gap-3 p-4 w-[335px] flex flex-col">
-                    <li>
-                      <NavigationMenuListItem title="All" content="All makers" link="/makers" />
-                    </li>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-         )}
+      <header className="border-b border-gray-200 bg-white">
+        <div
+          className={`mx-auto flex max-w-7xl ${
+            isTabletOrMobile ? "justify-between" : "justify-none"
+          } px-2 py-4`}
+        >
+          <div
+            className="flex flex-row justify-between gap-4 hover:cursor-pointer"
+            onClick={() => {
+              void router.push("/");
+            }}
+          >
+            <p className="py-2 font-sans text-xl font-semibold">
+              Kigu
+              <span className="text-[#FF5EC8]">DB</span>
+            </p>
+          </div>
+          {isTabletOrMobile ? (
+            <ClientOnly>
+              <button
+                className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-200 hover:bg-gray-300"
+                onClick={() => setShowMenu(true)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="h-6 w-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                  />
+                </svg>
+              </button>
+            </ClientOnly>
+          ) : (
+            <NavigationMenu className="ml-4">
+              <NavigationMenuList>
+                <NavigationMenuItem className="flex items-center justify-center rounded-lg py-1 hover:bg-slate-100">
+                  <NavigationMenuTrigger className="flex flex-row">
+                    Character
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent className="bg-white">
+                    <ul className="flex w-[335px] flex-col gap-3 p-4">
+                      <li>
+                        <NavigationMenuListItem
+                          title="Trending Character"
+                          content="Kigus' favorite characters"
+                          link="/characters/popular"
+                        />
+                      </li>
+                      <li>
+                        <NavigationMenuListItem
+                          title="All"
+                          content="All masks"
+                          link="/characters"
+                        />
+                      </li>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem className="flex items-center justify-center rounded-lg py-1 hover:bg-slate-100">
+                  <NavigationMenuTrigger className="flex flex-row">
+                    Maker
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent className="bg-white">
+                    <ul className="flex w-[335px] flex-col gap-3 p-4">
+                      <li>
+                        <NavigationMenuListItem
+                          title="All"
+                          content="All makers"
+                          link="/makers"
+                        />
+                      </li>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          )}
         </div>
       </header>
-      { isTabletOrMobile &&
-      (<ClientOnly>
-      <BackDrop
-        onClick={() => setShowMenu(false)}
-        isShown={showMenu}
-      />
-      <div className={`fixed top-0 right-0 h-full w-64 transition-transform ${showMenu ? "translate-x-0" : "translate-x-full"} bg-white z-50`}>
-        <div
-          className="flex flex-col py-4 px-4" 
-        >
-          <div className="flex flex-row justify-between">
-            <p className="font-semibold font-sans pl-2">KiguDB</p>
-            <div className="hover:cursor-pointer hover:bg-gray-200 rounded-lg" onClick={() => setShowMenu(false)}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
+      {isTabletOrMobile && (
+        <ClientOnly>
+          <BackDrop onClick={() => setShowMenu(false)} isShown={showMenu} />
+          <div
+            className={`fixed right-0 top-0 h-full w-64 transition-transform ${
+              showMenu ? "translate-x-0" : "translate-x-full"
+            } z-50 bg-white`}
+          >
+            <div className="flex flex-col px-4 py-4">
+              <div className="flex flex-row justify-between">
+                <p className="pl-2 font-sans font-semibold">KiguDB</p>
+                <div
+                  className="rounded-lg hover:cursor-pointer hover:bg-gray-200"
+                  onClick={() => setShowMenu(false)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="h-6 w-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              <div className="my-2 border-t border-gray-300"></div>
+              <MenuItem
+                label="Home"
+                onClick={() => {
+                  void router.push("/");
+                }}
+                pathName="/"
+              />
+              <MenuItem
+                label="Random Kigu"
+                onClick={() => {
+                  void router.push("/kigus/random");
+                }}
+                pathName="/kigus/random"
+              />
+              <MenuItem
+                label="All Characters"
+                onClick={() => {
+                  void router.push("/characters");
+                }}
+                pathName="/characters"
+              />
+              <MenuItem
+                label="Most Popular Characters"
+                onClick={() => {
+                  void router.push("/characters/popular");
+                }}
+                pathName="/characters/popular"
+              />
+              <MenuItem
+                label="All Makers"
+                onClick={() => {
+                  void router.push("/makers");
+                }}
+                pathName="/makers"
+              />
+              <div className="my-2 border-t border-gray-300"></div>
+              <a href="https://forms.gle/hzicLyx5VtJWuAjD9" target="_blank">
+                <div className="flex h-10 items-center rounded-lg py-2 pl-2 hover:cursor-pointer hover:bg-gray-100">
+                  <p className="bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 bg-clip-text text-transparent">
+                    Add Kigu
+                  </p>
+                </div>
+              </a>
+              <div className="fixed bottom-2 pl-2 text-sm">
+                Last Updated: 06-27-2023
+              </div>
             </div>
           </div>
-          
-          <div className="border-t border-gray-300 my-2"></div>
-          <MenuItem
-            label="Home"
-            onClick={() => {void router.push("/")}}
-            pathName="/"
-          />
-          <MenuItem
-            label="Random Kigu"
-            onClick={() => {void router.push("/kigus/random")}}
-            pathName="/kigus/random"
-          />
-          <MenuItem
-            label="All Characters"
-            onClick={() => {void router.push("/characters")}}
-            pathName="/characters"
-          />
-          <MenuItem
-            label="Most Popular Characters"
-            onClick={() => {void router.push("/characters/popular")}}
-            pathName="/characters/popular"
-          />
-          <MenuItem
-            label="All Makers"
-            onClick={() => {void router.push("/makers")}}
-            pathName="/makers"
-          />
-          <div className="border-t border-gray-300 my-2"></div>
-          <a href="https://forms.gle/hzicLyx5VtJWuAjD9" target="_blank">
-          <div className="h-10 hover:bg-gray-100 hover:cursor-pointer rounded-lg pl-2 py-2 flex items-center">
-            <p className="bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 bg-clip-text text-transparent">Add Kigu</p>
-          </div>
-          </a>
-          <div className="pl-2 fixed bottom-2 text-sm">Last Updated: 06-27-2023</div>
-        </div>
-      </div>
-      </ClientOnly>)
-      }
-      
+        </ClientOnly>
+      )}
 
-      
-      
       {children}
       <div className="mt-auto">
-        <div className="border-t border-gray-300 my-2 mx-2"></div>
-        <div className="px-2 pb-4 flex justify-center">KiguDB, Built by Ringo</div>
+        <div className="mx-2 my-2 border-t border-gray-300"></div>
+        <div className="flex justify-center px-2 pb-4">
+          KiguDB, Built by Ringo
+        </div>
       </div>
-      
     </section>
   );
 }

@@ -25,8 +25,8 @@ type CreateContextOptions = {
 };
 
 type AuthContext = {
-  auth: SignedInAuthObject | SignedOutAuthObject
-}
+  auth: SignedInAuthObject | SignedOutAuthObject;
+};
 
 /**
  * This helper generates the "internals" for a tRPC context. If you need to use it, you can export
@@ -38,10 +38,10 @@ type AuthContext = {
  *
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
-const createInnerTRPCContext = ({auth} : AuthContext) => {
+const createInnerTRPCContext = ({ auth }: AuthContext) => {
   return {
     prisma,
-    auth
+    auth,
   };
 };
 
@@ -58,7 +58,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   const session = await getServerAuthSession({ req, res });
 
   return createInnerTRPCContext({
-    auth: getAuth(opts.req)
+    auth: getAuth(opts.req),
   });
 };
 
@@ -73,7 +73,10 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 import { getAuth } from "@clerk/nextjs/server";
-import { SignedInAuthObject, SignedOutAuthObject } from "@clerk/nextjs/dist/types/server";
+import {
+  SignedInAuthObject,
+  SignedOutAuthObject,
+} from "@clerk/nextjs/dist/types/server";
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
@@ -120,7 +123,7 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
 
   return next({
     ctx: {
-      auth: ctx.auth
+      auth: ctx.auth,
     },
   });
 });

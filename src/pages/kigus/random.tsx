@@ -6,17 +6,17 @@ import { useEffect } from "react";
 
 const RandomKig: NextPage = () => {
   const router = useRouter();
-  const {data: randomKiguData} = api.kigu.getOneRandom.useQuery();
-  
+  const { data: randomKiguData } = api.kigu.getOneRandom.useQuery();
+
   useEffect(() => {
     if (randomKiguData && randomKiguData.length > 0) {
-      void router.push(`/kigus/${randomKiguData[0] ? randomKiguData[0].id : ""}`);
+      void router.push(
+        `/kigus/${randomKiguData[0] ? randomKiguData[0].id : ""}`
+      );
     }
-  }, [randomKiguData])
+  }, [randomKiguData]);
 
-  return ( <Layout>
-    
-  </Layout> );
-}
- 
+  return <Layout></Layout>;
+};
+
 export default RandomKig;

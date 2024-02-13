@@ -4,12 +4,14 @@ import Layout from "../layout";
 import Image from "next/image";
 
 import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
 
 import {
   Select,
@@ -30,8 +32,12 @@ const Dashboard: NextPage = () => {
 
   const [currentSelection, setCurrentSelection] = useState(-1);
   const [currentList, setCurrentList] = useState<Mask[]>([]);
+  const [page, setPage] = useState(1);
 
-  const { data: maskData, isFetching } = api.mask.getUnidentifiedMasks.useQuery(undefined, {
+  const { data: maskData, isFetching } = api.mask.getUnidentifiedMasks.useQuery({
+    limit: 12,
+    page
+  }, {
     staleTime: Infinity
   });
 
@@ -42,10 +48,10 @@ const Dashboard: NextPage = () => {
   const { isLoading, mutate } = api.mask.updateMakerForMask.useMutation();
 
   useEffect(() => {
-    if (maskData) {
-      setCurrentList(maskData);
+    if (maskData?.items) {
+      setCurrentList(maskData.items);
     }
-  }, [maskData])
+  }, [maskData?.items])
 
 
   return (<>
@@ -54,13 +60,34 @@ const Dashboard: NextPage = () => {
         <h2 className="text-bold text-4xl">
           Mask Identifying
         </h2>
-        <Carousel className="w-full">
-          <CarouselContent>
-            {maskData?.map((mask, index) => (
-              <CarouselItem key={index}>
-              <div className="p-1">
+        <Pagination>
+              <PaginationContent>
+                <PaginationItem onClick={() => {
+                  if (page > 1) {
+                    setPage((page) => page - 1)
+                  }
+                }}>
+                  <PaginationPrevious href="#" />
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink href="#">{page}</PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>
+                <PaginationItem onClick={() => {
+                  setPage((page) => page + 1)
+                }}>
+                  <PaginationNext href="#" />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+            <div className="p-1 grid grid-cols-3 gap-2">
+            {currentList?.map((mask, index) => (
+              
+              
                 <Card>
-                  <CardContent className="flex aspect-square items-center justify-center p-6 flex-col">
+                  <CardContent className="flex aspect-square items-center justify-center p-6 flex-col gap-4">
                     <Image
                         alt="Image"
                         src={mask.picUrl}
@@ -90,14 +117,14 @@ const Dashboard: NextPage = () => {
                           </SelectGroup>
                         </SelectContent>
                       </Select>
-                      <Button className="bg-[#F9F1F8] shadow-sm max-w-[200px]"
+                      <Button className="shadow-sm max-w-[200px]"
                         onClick={() => {
                           mutate({
                             id: mask.id,
                             makerId: currentSelection
                           }, {
                             onSuccess: () =>{
-                              setCurrentList(currentList.filter((m) => m.id === mask.id))
+                              setCurrentList(currentList.filter((m) => m.id !== mask.id))
                               alert("identification action success")
                             } 
                           })
@@ -108,12 +135,32 @@ const Dashboard: NextPage = () => {
                       </Button>
                   </CardContent>
                 </Card>
-              </div>
-            </CarouselItem>
+              
+
             ))}
-          </CarouselContent>
-          <CarouselNext />
-      </Carousel>
+            </div>
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem onClick={() => {
+                  if (page > 1) {
+                    setPage((page) => page - 1)
+                  }
+                }}>
+                  <PaginationPrevious href="#" />
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink href="#">{page}</PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>
+                <PaginationItem onClick={() => {
+                  setPage((page) => page + 1)
+                }}>
+                  <PaginationNext href="#" />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
       </div>
     </Layout>
   </>)
