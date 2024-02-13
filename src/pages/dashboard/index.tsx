@@ -81,8 +81,9 @@ const Dashboard: NextPage = () => {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectGroup>
-                            {makerData?.map((maker) => (
+                            {makerData?.map((maker, index) => (
                               <SelectItem value={maker.id.toString()}
+                                key={index.toString()}
                               
                               >{maker.name}</SelectItem>
                             ))}
