@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import {
   createTRPCRouter,
+  protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
 
@@ -34,4 +35,28 @@ export const maskRouter = createTRPCRouter({
         }
       })
 }),
+  getUnidentifiedMasks: protectedProcedure
+    .query(({ctx}) => {
+      return ctx.prisma.mask.findMany(({
+        where: {
+          makerId: null
+        }
+      }))
+    }),
+  updateMakerForMask: protectedProcedure
+    .input(z.object({
+      id: z.string(),
+      makerId: z.number()
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const { id, makerId } = input;
+      await ctx.prisma.mask.update({
+        where: {
+          id: id
+        },
+        data: {
+          makerId: makerId
+        }
+      })
+    })
 })

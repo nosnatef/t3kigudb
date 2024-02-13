@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import {
   createTRPCRouter,
+  protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
 
@@ -30,6 +31,10 @@ export const makerRouter = createTRPCRouter({
         nextCursor,
         totalCount
       }
+    }),
+  getAllMakers: protectedProcedure
+    .query(({ ctx, input }) => {
+      return ctx.prisma.maker.findMany();
     }),
   getByName: publicProcedure
     .input(z.string())
