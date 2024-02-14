@@ -7,9 +7,9 @@ await import("./src/env.mjs");
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-  images:{
-    domains: ['d1kkex4vltbo88.cloudfront.net', 'fakeimg.pl'],
-    unoptimized: true
+  images: {
+    domains: ["d1kkex4vltbo88.cloudfront.net", "fakeimg.pl"],
+    unoptimized: true,
   },
 
   /**

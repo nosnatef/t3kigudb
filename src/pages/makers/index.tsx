@@ -8,34 +8,47 @@ import { useRouter } from "next/router";
 import { MoonLoader } from "react-spinners";
 
 const Makers: NextPage = () => {
-
   const router = useRouter();
 
-  const { data: makerData, fetchNextPage, hasNextPage, isFetching } = api.maker.getMakers.useInfiniteQuery({
-    limit: 10
-  },{
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
-  })
+  const {
+    data: makerData,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+  } = api.maker.getMakers.useInfiniteQuery(
+    {
+      limit: 50,
+    },
+    {
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+    }
+  );
 
-  return (<Layout>
-    <div className="container flex items-center justify-center m-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 py-2 px-4">
-          {makerData?.pages ? makerData.pages.map((page) => 
-            page.items.map((maker) => (
-              <PhotoCard
-                key={maker.id.toString()}
-                picSrc={maker.picUrl}
-                title={maker.name}
-                onClick={() => {void router.push(`/makers/${maker.id}`)}}
-              />
-            ))
-          ) : ""}
+  return (
+    <Layout>
+      <div className="container m-auto flex items-center justify-center">
+        <div className="grid grid-cols-2 gap-4 px-4 py-2 md:grid-cols-4 lg:grid-cols-6">
+          {makerData?.pages
+            ? makerData.pages.map((page) =>
+                page.items.map((maker) => (
+                  <PhotoCard
+                    key={maker.id.toString()}
+                    picSrc={maker.picUrl}
+                    title={maker.name}
+                    onClick={() => {
+                      void router.push(`/makers/${maker.id}`);
+                    }}
+                  />
+                ))
+              )
+            : ""}
         </div>
-    </div>
-    <div className="flex items-center justify-center">
-      {isFetching && <MoonLoader />}
-    </div>
-  </Layout>)
-}
+      </div>
+      <div className="flex items-center justify-center">
+        {isFetching && <MoonLoader />}
+      </div>
+    </Layout>
+  );
+};
 
 export default Makers;

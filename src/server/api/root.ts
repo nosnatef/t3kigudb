@@ -17,7 +17,7 @@ export const appRouter = createTRPCRouter({
   origin: originRouter,
   mask: maskRouter,
   maker: makerRouter,
-  kigu: kiguRouter
+  kigu: kiguRouter,
 });
 
 // export type definition of API

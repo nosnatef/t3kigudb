@@ -1,5 +1,5 @@
-import type React from 'react'
+import type React from "react";
 
-export type IconProps = React.SVGAttributes<SVGElement>
+export type IconProps = React.SVGAttributes<SVGElement>;
 
-export { TwitterIcon } from './icons/TwitterIcon'
+export { TwitterIcon } from "./icons/TwitterIcon";
