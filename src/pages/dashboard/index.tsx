@@ -102,6 +102,7 @@ const Dashboard: NextPage = () => {
                       const makerId = parseInt(value);
                       setCurrentSelection(makerId);
                     }}
+                    value={currentSelection.toString()}
                   >
                     <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder="Select a maker" />
@@ -129,9 +130,6 @@ const Dashboard: NextPage = () => {
                         },
                         {
                           onSuccess: () => {
-                            setCurrentList(
-                              currentList.filter((m) => m.id !== mask.id)
-                            );
                             alert("identification action success");
                           },
                         }
