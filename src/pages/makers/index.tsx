@@ -17,7 +17,7 @@ const Makers: NextPage = () => {
     isFetching,
   } = api.maker.getMakers.useInfiniteQuery(
     {
-      limit: 10,
+      limit: 50,
     },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
