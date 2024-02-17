@@ -37,6 +37,9 @@ export const characterRouter = createTRPCRouter({
           origin: {
             name: origin,
           },
+          masks: {
+            some: {}
+          }
         },
         cursor: cursor ? { id: cursor } : undefined,
         orderBy: {
