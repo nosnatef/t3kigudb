@@ -72,7 +72,7 @@ const Home: NextPage = () => {
             {!isTabletOrMobile && (
               <div className="">
                 <Button
-                  className="bg-[#F9F1F8] shadow-sm"
+                  className="bg-[#f7eaf5] hover:bg-[#f0deed] text-black shadow-sm"
                   onClick={() => {
                     void router.push("/kigus/random");
                   }}
