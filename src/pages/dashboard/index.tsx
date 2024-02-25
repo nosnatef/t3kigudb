@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { NextPage } from "next";
 import { api } from "~/utils/api";
 import Layout from "../layout";
@@ -22,6 +24,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -76,6 +85,15 @@ const Dashboard: NextPage = () => {
     }
   }, [logData])
 
+  const getLogAccordions = (json: any) => {
+    for (const key in json) {
+      if (Object.prototype.hasOwnProperty.call(json, key)) {
+        const value = json[key];
+        console.log(`${key}: ${value}`);
+      }
+    }
+  }
+
   return (
     <>
       <Layout>
@@ -92,20 +110,36 @@ const Dashboard: NextPage = () => {
                 <TabsList>
                   {logData?.map((origin) => {
                     return (
-                      <TabsTrigger value={origin.name}>{origin.name}</TabsTrigger>
+                      <TabsTrigger key={origin.id} value={origin.name}>{origin.name}</TabsTrigger>
                     )
                   })}
                 </TabsList>
                 {logData?.map((origin) => {
                     return (
-                      <TabsContent value={origin.name}>
+                      <TabsContent key={origin.id} value={origin.name}>
                         <>
                           <span>{origin.name}</span>
                           <div>{origin.ingestionlogs.map((log) => {
                             return (
-                              <pre>
-                                {JSON.stringify(JSON.parse(log.log), null, 2)}
-                              </pre>
+                              <Accordion key={log.id} type="single" collapsible>
+                                  <pre>
+                                  {/* {JSON.stringify(JSON.parse(log.log), null, 2)} */}
+                                  {Object.keys(JSON.parse(log.log)).map((key, index) => {
+                                    if (JSON.parse(log.log).hasOwnProperty(key)) {
+                                      const value = JSON.parse(log.log)[key];
+                                      return (
+                                        <AccordionItem value={key} key={index}>
+                                        <AccordionTrigger>{key}</AccordionTrigger>
+                                        <AccordionContent>
+                                          {value.toString()}
+                                        </AccordionContent>
+                                      </AccordionItem>
+                                        )
+                                    }
+                                  })}
+                                </pre>
+                              </Accordion>
+                              
                               
                             )
                           })}</div>
