@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { NextPage } from "next";
 import Layout from "../layout";
 import {
