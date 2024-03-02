@@ -7,6 +7,26 @@ import {
 } from "~/server/api/trpc";
 
 export const maskRouter = createTRPCRouter({
+  getById: publicProcedure
+    .input(z.string())
+    .query(({ ctx, input }) => {
+      return ctx.prisma.mask.findFirst({
+        where: {
+          id: input
+        },
+        include: {
+          character: {
+            include: {
+              origin: true
+            }
+          },
+          kigu: true,
+          maskPics: true,
+          maker: true
+        }
+      })
+    })
+  ,
   getByCharacterId: publicProcedure
     .input(z.string())
     .query(({ ctx, input }) => {

@@ -89,7 +89,7 @@ const Kigu: NextPage = () => {
                               }
                               onClick={() => {
                                 void router.push(
-                                  `/characters/${mask.character.id}`
+                                  `/masks/${mask.id}`
                                 );
                               }}
                             />

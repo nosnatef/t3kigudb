@@ -124,7 +124,7 @@ const Character: NextPage = () => {
                                 mask.maker?.name ?? "Unidentified Maker"
                               }
                               onClick={() => {
-                                void router.push(`/kigus/${mask.kigu.id}`);
+                                void router.push(`/masks/${mask.id}`);
                               }}
                             />
                           );
