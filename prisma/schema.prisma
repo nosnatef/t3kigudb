@@ -91,6 +91,7 @@ model Origin {
   name        String        @unique
   type        String        @default("NA")
   characters  Character[]
+  ingestionlogs IngestionLog[]
 }
 
 model Kigu {
@@ -181,4 +182,12 @@ model MakerLink {
   linkType  LinkType
   Maker     Maker     @relation(fields: [makerId], references: [id])
   makerId   Int
+}
+
+model IngestionLog {
+  id        Int   @id @default(autoincrement())
+  origin     Origin   @relation(fields: [originId], references: [id])
+  originId  Int
+  log       String
+  createdAt  DateTime @default(now())
 }

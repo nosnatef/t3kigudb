@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { NextPage } from "next";
 import { api } from "~/utils/api";
 import Layout from "../layout";
@@ -23,15 +25,27 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Mask } from "@prisma/client";
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
 const Dashboard: NextPage = () => {
+
   const [currentSelection, setCurrentSelection] = useState(-1);
   const [currentList, setCurrentList] = useState<Mask[]>([]);
   const [page, setPage] = useState(1);
+
+  const [jsonObject, setJsonObject] = useState({});
 
   const { data: maskData, isFetching } = api.mask.getUnidentifiedMasks.useQuery(
     {
@@ -47,6 +61,10 @@ const Dashboard: NextPage = () => {
     staleTime: Infinity,
   });
 
+  const { data: logData } = api.origin.getOriginIngestionLogs.useQuery(undefined, {
+    staleTime: Infinity
+  });
+
   const { isLoading, mutate } = api.mask.updateMakerForMask.useMutation();
 
   useEffect(() => {
@@ -55,11 +73,83 @@ const Dashboard: NextPage = () => {
     }
   }, [maskData?.items]);
 
+  useEffect(() => {
+    try {
+      if (logData && logData.length > 0) {
+        // const parsed = JSON.parse(logData[0][0]?.ingestionlogs);
+        // setJsonObject(parsed);
+      }
+    } catch (error) {
+      console.error("Error parsing JSON", error);
+      setJsonObject({});
+    }
+  }, [logData])
+
+  const getLogAccordions = (json: any) => {
+    for (const key in json) {
+      if (Object.prototype.hasOwnProperty.call(json, key)) {
+        const value = json[key];
+        console.log(`${key}: ${value}`);
+      }
+    }
+  }
+
   return (
     <>
       <Layout>
+      
+        
         <div className="mx-auto max-w-5xl py-16">
-          <h2 className="text-bold text-4xl">Mask Identifying</h2>
+          <Tabs defaultValue="identify">
+            <TabsList>
+              <TabsTrigger value="log">Log</TabsTrigger>
+              <TabsTrigger value="identify">Identify</TabsTrigger>
+            </TabsList>
+            <TabsContent value="log">
+              <Tabs defaultValue="Arknights">
+                <TabsList>
+                  {logData?.map((origin) => {
+                    return (
+                      <TabsTrigger key={origin.id} value={origin.name}>{origin.name}</TabsTrigger>
+                    )
+                  })}
+                </TabsList>
+                {logData?.map((origin) => {
+                    return (
+                      <TabsContent key={origin.id} value={origin.name}>
+                        <>
+                          <span>{origin.name}</span>
+                          <div>{origin.ingestionlogs.map((log) => {
+                            return (
+                              <Accordion key={log.id} type="single" collapsible>
+                                  <pre>
+                                  {/* {JSON.stringify(JSON.parse(log.log), null, 2)} */}
+                                  {Object.keys(JSON.parse(log.log)).map((key, index) => {
+                                    if (JSON.parse(log.log).hasOwnProperty(key)) {
+                                      const value = JSON.parse(log.log)[key];
+                                      return (
+                                        <AccordionItem value={key} key={index}>
+                                        <AccordionTrigger>{key}</AccordionTrigger>
+                                        <AccordionContent>
+                                          {value.toString()}
+                                        </AccordionContent>
+                                      </AccordionItem>
+                                        )
+                                    }
+                                  })}
+                                </pre>
+                              </Accordion>
+                              
+                              
+                            )
+                          })}</div>
+                        </>
+                      </TabsContent>
+                    )
+                  })}
+              </Tabs>
+            </TabsContent>
+            <TabsContent value="identify"><h2 className="text-bold text-4xl">Mask Identifying</h2>
           <Pagination>
             <PaginationContent>
               <PaginationItem
@@ -168,7 +258,9 @@ const Dashboard: NextPage = () => {
                 <PaginationNext href="#" />
               </PaginationItem>
             </PaginationContent>
-          </Pagination>
+          </Pagination></TabsContent>
+        </Tabs>
+          
         </div>
       </Layout>
     </>
