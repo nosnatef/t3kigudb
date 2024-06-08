@@ -34,7 +34,15 @@ import {
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import {
+  JSXElementConstructor,
+  PromiseLikeOfReactNode,
+  ReactElement,
+  ReactFragment,
+  ReactPortal,
+  useEffect,
+  useState,
+} from "react";
 import { Mask } from "@prisma/client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -112,9 +120,26 @@ const Dashboard: NextPage = () => {
                                             {key}
                                           </AccordionTrigger>
                                           <AccordionContent className="">
-                                            {value.map((item) => (
-                                              <div>{item}</div>
-                                            ))}
+                                            {value.map(
+                                              (
+                                                item:
+                                                  | string
+                                                  | number
+                                                  | boolean
+                                                  | ReactElement<
+                                                      any,
+                                                      | string
+                                                      | JSXElementConstructor<any>
+                                                    >
+                                                  | ReactFragment
+                                                  | ReactPortal
+                                                  | PromiseLikeOfReactNode
+                                                  | null
+                                                  | undefined
+                                              ) => (
+                                                <div>{item}</div>
+                                              )
+                                            )}
                                           </AccordionContent>
                                         </AccordionItem>
                                       );
