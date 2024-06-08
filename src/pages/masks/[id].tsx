@@ -5,7 +5,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
-} from "@/components/ui/breadcrumb"
+} from "@/components/ui/breadcrumb";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -18,7 +18,7 @@ import "yet-another-react-lightbox/styles.css";
 import { useCallback, useMemo, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useUser } from "@clerk/clerk-react";
-import { Edit, Check } from "lucide-react"
+import { Edit, Check, X } from "lucide-react";
 
 import {
   Select,
@@ -37,14 +37,26 @@ const Mask: NextPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
 
-  const { data: maskData, refetch: maskDataRefetch } = api.mask.getById.useQuery(id);
+  const { data: maskData, refetch: maskDataRefetch } =
+    api.mask.getById.useQuery(id);
 
-  const { character, maskPics, picUrl: maskPic, maker, id: maskId } = maskData ?? {};
+  const {
+    character,
+    maskPics,
+    picUrl: maskPic,
+    maker,
+    id: maskId,
+  } = maskData ?? {};
   const { kigu } = maskData ?? {};
   const { picUrl: makerPic, name: makerName, id: makerId } = maker ?? {};
-  const { name: characterName, id: characterId, picUrl: characterPic, origin } = character ?? {};
+  const {
+    name: characterName,
+    id: characterId,
+    picUrl: characterPic,
+    origin,
+  } = character ?? {};
   const { name: originName } = origin ?? {};
-  const { name: kiguName, picUrl: kigPic, id: kiguId } = kigu ?? {}
+  const { name: kiguName, picUrl: kigPic, id: kiguId } = kigu ?? {};
 
   const [galleryIndex, setGalleryIndex] = useState(-1);
   const [isMaskEdit, setIsMaskEdit] = useState(false);
@@ -64,7 +76,7 @@ const Mask: NextPage = () => {
         return {
           src: pic.link,
         } as Slide;
-      })
+      });
     }
     return [];
   };
@@ -73,100 +85,108 @@ const Mask: NextPage = () => {
     let i = 0;
     if (maskPics) {
       return maskPics.map((pic, picIndex) => {
-          const key = i++;
-          console.log(i);
-          return (
-            <img
-              key={key}
-              src={pic.link}
-              className="hover:scale-105 h-full max-h-[300px] w-full max-w-[300px] rounded-lg object-cover transition hover:cursor-pointer hover:shadow-lg"
-              onClick={() => setGalleryIndex(key)}
-            ></img>
-          );
-        });
+        const key = i++;
+        console.log(i);
+        return (
+          <img
+            key={key}
+            src={pic.link}
+            className="h-full max-h-[300px] w-full max-w-[300px] rounded-lg object-cover transition hover:scale-105 hover:cursor-pointer hover:shadow-lg"
+            onClick={() => setGalleryIndex(key)}
+          ></img>
+        );
+      });
     }
     return "";
-  },[maskPics]);
+  }, [maskPics]);
 
   return (
     <>
       <Layout>
-        <div className="container m-auto flex py-8 flex-col gap-16">
+        <div className="container m-auto flex flex-col gap-16 py-8">
           <div>
             <Breadcrumb>
               <BreadcrumbItem>
                 <BreadcrumbLink href="/">Home</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbItem>
-                <BreadcrumbLink href={`/characters/${characterId}`}>{characterName}</BreadcrumbLink>
+                <BreadcrumbLink href={`/characters/${characterId}`}>
+                  {characterName}
+                </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbItem isCurrentPage>
-                <BreadcrumbLink>
-                  Mask from {kiguName}
-                </BreadcrumbLink>
+                <BreadcrumbLink>Mask from {kiguName}</BreadcrumbLink>
               </BreadcrumbItem>
             </Breadcrumb>
             {isSignedIn ? <Badge variant="destructive">Admin Mode</Badge> : ""}
           </div>
-          <div className="flex flex-col justify-between gap-8 md:gap-0 md:flex-row">
-            <div className="w-full flex justify-center md:justify-normal">
+          <div className="flex flex-col justify-between gap-8 md:flex-row md:gap-0">
+            <div className="flex w-full justify-center md:justify-normal">
               <Image
-                  alt="Image"
-                  src={maskPic ?? placeholderImg}
-                  height={300}
-                  width={300}
-                  className="h-full max-h-[150px] md:max-h-[200px] w-full max-w-[150px] md:max-w-[200px] rounded-full object-cover"
-                ></Image>
+                alt="Image"
+                src={maskPic ?? placeholderImg}
+                height={300}
+                width={300}
+                className="h-full max-h-[150px] w-full max-w-[150px] rounded-full object-cover md:max-h-[200px] md:max-w-[200px]"
+              ></Image>
             </div>
-            
+
             <div className="flex flex-col gap-8 md:flex-row ">
               <div className="flex flex-col gap-4">
-                {!isTabletOrMobile && <span className="text-lg font-medium">Character</span>}
-                <Card className="w-full md:w-[300px] p-4 hover:cursor-pointer transition hover:shadow-md"
+                {!isTabletOrMobile && (
+                  <span className="text-lg font-medium">Character</span>
+                )}
+                <Card
+                  className="w-full p-4 transition hover:cursor-pointer hover:shadow-md md:w-[300px]"
                   onClick={() => {
                     void router.push(`/characters/${characterId}`);
                   }}
                 >
-                    <div className="flex flex-row gap-8">
-                      <Image
-                        alt="Image"
-                        src={characterPic ?? placeholderImg}
-                        height={200}
-                        width={200}
-                        className="h-full max-h-[100px] w-full max-w-[100px] object-cover"
-                      ></Image>
-                      <div className="flex flex-col justify-center">
-                        <span className="font-bold">{characterName}</span>
-                        <span>{originName}</span>
-                      </div>
+                  <div className="flex flex-row gap-8">
+                    <Image
+                      alt="Image"
+                      src={characterPic ?? placeholderImg}
+                      height={200}
+                      width={200}
+                      className="h-full max-h-[100px] w-full max-w-[100px] object-cover"
+                    ></Image>
+                    <div className="flex flex-col justify-center">
+                      <span className="font-bold">{characterName}</span>
+                      <span>{originName}</span>
                     </div>
+                  </div>
                 </Card>
               </div>
               <div className="flex flex-col gap-4">
-              {!isTabletOrMobile && <span className="text-lg font-medium">Owner</span>}
-                <Card className="w-full md:w-[300px] p-4 hover:cursor-pointer transition hover:shadow-md"
+                {!isTabletOrMobile && (
+                  <span className="text-lg font-medium">Owner</span>
+                )}
+                <Card
+                  className="w-full p-4 transition hover:cursor-pointer hover:shadow-md md:w-[300px]"
                   onClick={() => {
-                    
                     void router.push(`/kigus/${kiguId}`);
                   }}
                 >
-                    <div className="flex flex-row gap-8">
-                      <Image
-                        alt="Image"
-                        src={kigPic ?? placeholderImg}
-                        height={200}
-                        width={200}
-                        className="h-full max-h-[100px] w-full max-w-[100px] object-cover rounded-full"
-                      ></Image>
-                      <div className="flex flex-col justify-center">
-                        <span className="font-bold">{kiguName}</span>
-                      </div>
+                  <div className="flex flex-row gap-8">
+                    <Image
+                      alt="Image"
+                      src={kigPic ?? placeholderImg}
+                      height={200}
+                      width={200}
+                      className="h-full max-h-[100px] w-full max-w-[100px] rounded-full object-cover"
+                    ></Image>
+                    <div className="flex flex-col justify-center">
+                      <span className="font-bold">{kiguName}</span>
                     </div>
+                  </div>
                 </Card>
               </div>
               <div className="flex flex-col gap-4">
-              {!isTabletOrMobile && <span className="text-lg font-medium">Maker</span>}
-                <Card className="w-full md:w-[300px] p-4 hover:cursor-pointer transition hover:shadow-md"
+                {!isTabletOrMobile && (
+                  <span className="text-lg font-medium">Maker</span>
+                )}
+                <Card
+                  className="w-full p-4 transition hover:cursor-pointer hover:shadow-md md:w-[300px]"
                   onClick={(e) => {
                     if (isSignedIn && e.currentTarget !== e.target) {
                       return;
@@ -174,18 +194,19 @@ const Mask: NextPage = () => {
                     void router.push(`/makers/${makerId}`);
                   }}
                 >
-                    
-                    <div className="relative flex flex-row gap-8">
-                      <div className="absolute top-0 right-0">
-                        {
-                          !isMaskEdit ? (
-                            <Edit className="hover:scale-110 hover:text-slate-500"
-                              onClick={(e) => {
-                                console.log(e.target)
-                                setIsMaskEdit(true);
-                              }}
-                            />
-                          ) : (
+                  <div className="relative flex flex-row gap-8">
+                    <div className="absolute right-0 top-0">
+                      {isSignedIn &&
+                        (!isMaskEdit ? (
+                          <Edit
+                            className="hover:scale-110 hover:text-slate-500"
+                            onClick={(e) => {
+                              console.log(e.target);
+                              setIsMaskEdit(true);
+                            }}
+                          />
+                        ) : (
+                          <div className="flex flex-row">
                             <Check
                               className="hover:scale-110 hover:text-slate-500"
                               onClick={() => {
@@ -199,71 +220,71 @@ const Mask: NextPage = () => {
                                       onSuccess: () => {
                                         maskDataRefetch();
                                         setIsMaskEdit(false);
-                                      }
+                                      },
                                     }
                                   );
                                 }
-                                
                               }}
                             />
-                          )
-                        }
-                        
-                      </div>
-                      {
-                        isMaskEdit ? (
-                          <Select
-                            onValueChange={(value) => {
-                              const makerId = parseInt(value);
-                              setCurrentSelection(makerId);
-                            }}
-                            value={currentSelection.toString()}
-                          >
-                            <SelectTrigger className="w-[180px]">
-                              <SelectValue placeholder="Select a maker" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectGroup>
-                                {makerData?.map((maker, index) => (
-                                  <SelectItem
-                                    value={maker.id.toString()}
-                                    key={index.toString()}
-                                  >
-                                    {maker.name}
-                                  </SelectItem>
-                                ))}
-                              </SelectGroup>
-                            </SelectContent>
-                          </Select>
-                        ) : (
-                          <>
-                            <Image
-                              alt="Image"
-                              src={makerPic ?? placeholderImg}
-                              height={200}
-                              width={200}
-                              className="h-full max-h-[100px] w-full max-w-[100px] object-cover rounded-full"
+                            <X
+                              className="hover:scale-110 hover:text-slate-500"
                               onClick={() => {
-                                void router.push(`/makers/${makerId}`);
+                                setIsMaskEdit(false);
                               }}
-                            ></Image>
-                            <div className="flex flex-col justify-center"
-                              onClick={() => {
-                                void router.push(`/makers/${makerId}`);
-                              }}
-                            >
-                              <span className="font-bold">{makerName}</span>
-                            </div>
-                          </>
-                          
-                        )
-                      }
-                      
+                            />
+                          </div>
+                        ))}
                     </div>
+                    {isMaskEdit ? (
+                      <Select
+                        onValueChange={(value) => {
+                          const makerId = parseInt(value);
+                          setCurrentSelection(makerId);
+                        }}
+                        value={currentSelection.toString()}
+                      >
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="Select a maker" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            {makerData?.map((maker, index) => (
+                              <SelectItem
+                                value={maker.id.toString()}
+                                key={index.toString()}
+                              >
+                                {maker.name}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    ) : (
+                      <>
+                        <Image
+                          alt="Image"
+                          src={makerPic ?? placeholderImg}
+                          height={200}
+                          width={200}
+                          className="h-full max-h-[100px] w-full max-w-[100px] rounded-full object-cover"
+                          onClick={() => {
+                            void router.push(`/makers/${makerId}`);
+                          }}
+                        ></Image>
+                        <div
+                          className="flex flex-col justify-center"
+                          onClick={() => {
+                            void router.push(`/makers/${makerId}`);
+                          }}
+                        >
+                          <span className="font-bold">{makerName}</span>
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </Card>
               </div>
             </div>
-            
           </div>
           <Separator />
           <div>
@@ -280,7 +301,7 @@ const Mask: NextPage = () => {
         </div>
       </Layout>
     </>
-  )
-}
+  );
+};
 
 export default Mask;

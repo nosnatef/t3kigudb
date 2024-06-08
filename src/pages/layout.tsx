@@ -22,6 +22,8 @@ import {
 import Link from "next/link";
 import { api } from "~/utils/api";
 import NavigationMenuListItem from "~/components/MenuBar/NavigationMenuListItem";
+import { useUser } from "@clerk/nextjs";
+import { Badge } from "@/components/ui/badge";
 
 export default function Layout({
   children, // will be a page or nested layout
@@ -31,6 +33,7 @@ export default function Layout({
   const [showMenu, setShowMenu] = useState(false);
   const router = useRouter();
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const { isSignedIn } = useUser();
 
   return (
     <section className="h-screen">
@@ -51,6 +54,7 @@ export default function Layout({
               Kigu
               <span className="text-[#FF5EC8]">DB</span>
             </p>
+            {isSignedIn ? <Badge variant="destructive">Admin Mode</Badge> : ""}
           </div>
           {isTabletOrMobile ? (
             <ClientOnly>
