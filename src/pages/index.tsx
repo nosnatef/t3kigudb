@@ -36,9 +36,12 @@ const Home: NextPage = () => {
   const [query, setQuery] = useState("");
   const [currentTab, setCurrentTab] = useState("Characters");
   const { data: characterData, isFetching: isCharacterFetching } =
-    api.character.getByName.useQuery(query, {
-      enabled: query.length > 0 && currentTab === "Characters",
-    });
+    api.character.getByName.useQuery(
+      { name: query },
+      {
+        enabled: query.length > 0 && currentTab === "Characters",
+      }
+    );
 
   const { data: kiguData, isFetching: isKiguFetching } =
     api.kigu.getByName.useQuery(query, {
@@ -72,7 +75,7 @@ const Home: NextPage = () => {
             {!isTabletOrMobile && (
               <div className="">
                 <Button
-                  className="bg-[#f7eaf5] hover:bg-[#f0deed] text-black shadow-sm"
+                  className="bg-[#f7eaf5] text-black shadow-sm hover:bg-[#f0deed]"
                   onClick={() => {
                     void router.push("/kigus/random");
                   }}
@@ -106,7 +109,7 @@ const Home: NextPage = () => {
           </div>
           {isTabletOrMobile && (
             <Button
-              className="max-w-[200px] bg-[#F9F1F8] shadow-sm"
+              className="bg-[#f7eaf5] text-black shadow-sm hover:bg-[#f0deed]"
               onClick={() => {
                 void router.push("/kigus/random");
               }}
