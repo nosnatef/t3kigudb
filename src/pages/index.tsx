@@ -29,6 +29,7 @@ import {
   CommandShortcut,
 } from "@/components/ui/command";
 import { useMediaQuery } from "react-responsive";
+import { FORM_LINK } from "~/constants/strings";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -100,7 +101,7 @@ const Home: NextPage = () => {
             <span className="text-sm">Want to contribute to KiguDB? </span>
             <Link
               className="text-sm font-bold text-[#FF5EC8]"
-              href="https://forms.gle/hzicLyx5VtJWuAjD9"
+              href={FORM_LINK}
               target="_blank"
             >
               Add Kigu Here
