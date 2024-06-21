@@ -15,7 +15,7 @@ import { LOADING_TEXT } from "~/constants/strings";
 const Characters: NextPage = () => {
   const router = useRouter();
 
-  const [origin, setOrigin] = useState("Genshin Impact");
+  const [origin, setOrigin] = useState(1);
   const bottomRef = useRef<HTMLDivElement>(null);
   const {
     data: characterData,
@@ -33,7 +33,7 @@ const Characters: NextPage = () => {
   );
   const allOrigins = api.origin.getAll.useQuery();
 
-  const handleOriginChange = (val: string) => {
+  const handleOriginChange = (val: number) => {
     setOrigin(val);
   };
 
@@ -73,7 +73,7 @@ const Characters: NextPage = () => {
                       return (
                         <DropdownMenu.Item
                           key={origin.name}
-                          onClick={() => handleOriginChange(origin.name)}
+                          onClick={() => handleOriginChange(origin.id)}
                           className="h-[30px] px-[5px] hover:cursor-pointer hover:bg-slate-200"
                         >
                           {origin.name}

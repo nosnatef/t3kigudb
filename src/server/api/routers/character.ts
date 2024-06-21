@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
@@ -25,7 +26,7 @@ export const characterRouter = createTRPCRouter({
       z.object({
         limit: z.number().min(1).max(100).nullish(),
         cursor: z.string().nullish(),
-        origin: z.string(),
+        origin: z.number(),
       })
     )
     .query(async ({ ctx, input }) => {
@@ -35,11 +36,11 @@ export const characterRouter = createTRPCRouter({
         take: limit + 1,
         where: {
           origin: {
-            name: origin,
+            id: origin,
           },
           masks: {
-            some: {}
-          }
+            some: {},
+          },
         },
         cursor: cursor ? { id: cursor } : undefined,
         orderBy: {
@@ -62,20 +63,37 @@ export const characterRouter = createTRPCRouter({
         totalCount,
       };
     }),
-  getByName: publicProcedure.input(z.string()).query(({ ctx, input }) => {
-    return ctx.prisma.character.findMany({
-      take: 12,
-      where: {
+  getByName: publicProcedure
+    .input(
+      z.object({
+        originId: z.number().optional(),
+        name: z.string(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      const { originId, name } = input;
+
+      const whereClause: any = {
         name: {
-          contains: input,
+          contains: name,
           mode: "insensitive",
         },
-      },
-      include: {
-        origin: true,
-      },
-    });
-  }),
+        masks: {
+          some: {},
+        },
+      };
+      if (originId) {
+        whereClause.originId = originId;
+      }
+
+      return ctx.prisma.character.findMany({
+        take: 12,
+        where: whereClause,
+        include: {
+          origin: true,
+        },
+      });
+    }),
   getMostPopular: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.character.findMany({
       orderBy: {

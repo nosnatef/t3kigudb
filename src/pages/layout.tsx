@@ -6,7 +6,6 @@ import MenuItem from "~/components/MenuBar/MenuItem";
 import { useRouter } from "next/router";
 import ClientOnly from "~/components/ClientOnly";
 import BackDrop from "~/components/BackDrop";
-import SearchBar from "~/components/SearchBar/SearchBar";
 
 import {
   NavigationMenu,
@@ -96,9 +95,9 @@ export default function Layout({
                       </li>
                       <li>
                         <NavigationMenuListItem
-                          title="All"
-                          content="All masks"
-                          link="/characters"
+                          title="Browse By Media"
+                          content="Characters From Media (ex. Video Game)"
+                          link="/media"
                         />
                       </li>
                     </ul>
@@ -173,11 +172,11 @@ export default function Layout({
                 pathName="/kigus/random"
               />
               <MenuItem
-                label="All Characters"
+                label="Find Characters By Media"
                 onClick={() => {
-                  void router.push("/characters");
+                  void router.push("/media");
                 }}
-                pathName="/characters"
+                pathName="/media"
               />
               <MenuItem
                 label="Most Popular Characters"
@@ -202,7 +201,7 @@ export default function Layout({
                 </div>
               </a>
               <div className="fixed bottom-2 pl-2 text-sm">
-                Last Updated: 06-27-2023
+                Last Updated: 06-21-2024
               </div>
             </div>
           </div>
