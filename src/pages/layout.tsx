@@ -23,6 +23,7 @@ import { api } from "~/utils/api";
 import NavigationMenuListItem from "~/components/MenuBar/NavigationMenuListItem";
 import { useUser } from "@clerk/nextjs";
 import { Badge } from "@/components/ui/badge";
+import { FORM_LINK } from "~/constants/strings";
 
 export default function Layout({
   children, // will be a page or nested layout
@@ -193,7 +194,7 @@ export default function Layout({
                 pathName="/makers"
               />
               <div className="my-2 border-t border-gray-300"></div>
-              <a href="https://forms.gle/hzicLyx5VtJWuAjD9" target="_blank">
+              <a href={FORM_LINK} target="_blank">
                 <div className="flex h-10 items-center rounded-lg py-2 pl-2 hover:cursor-pointer hover:bg-gray-100">
                   <p className="bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 bg-clip-text text-transparent">
                     Add Kigu
