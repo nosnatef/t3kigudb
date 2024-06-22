@@ -74,8 +74,8 @@ import superjson from "superjson";
 import { ZodError } from "zod";
 import { getAuth } from "@clerk/nextjs/server";
 import {
-  SignedInAuthObject,
-  SignedOutAuthObject,
+  type SignedInAuthObject,
+  type SignedOutAuthObject,
 } from "@clerk/nextjs/dist/types/server";
 
 const t = initTRPC.context<typeof createTRPCContext>().create({

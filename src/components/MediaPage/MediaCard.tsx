@@ -1,7 +1,7 @@
-import { Origin } from "@prisma/client";
+import { type Origin } from "@prisma/client";
 import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/router";
-import { FC } from "react";
+import { type FC } from "react";
 
 interface Props {
   originData: Origin;

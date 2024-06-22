@@ -111,7 +111,7 @@ const Media: NextPage = () => {
               <BreadcrumbLink href="/">Home</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/characters">Media</BreadcrumbLink>
+              <BreadcrumbLink href="/media">Media</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem>
               <BreadcrumbLink>{originData?.name}</BreadcrumbLink>

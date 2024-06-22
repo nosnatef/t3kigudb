@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { type NextPage } from "next";
 import Layout from "../layout";
 import { ArrowRight } from "lucide-react";
 import { api } from "~/utils/api";

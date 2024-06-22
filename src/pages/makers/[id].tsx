@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import Layout from "../layout";
@@ -41,7 +41,7 @@ const Maker: NextPage = () => {
             <TitleLoader />
           )}
           <div className="flex flex-col gap-4 rounded-lg bg-white py-4 md:flex-row">
-            <div className="flex flex-row items-center justify-around md:w-1/4 md:flex-col">
+            <div className="flex flex-row items-center justify-around md:max-h-[80vh] md:w-1/4 md:flex-col">
               <Image
                 alt="Image"
                 src={picUrl ?? placeholderImg}
