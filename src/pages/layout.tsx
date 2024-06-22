@@ -24,6 +24,7 @@ import NavigationMenuListItem from "~/components/MenuBar/NavigationMenuListItem"
 import { useUser } from "@clerk/nextjs";
 import { Badge } from "@/components/ui/badge";
 import { FORM_LINK } from "~/constants/strings";
+import Head from "next/head";
 
 export default function Layout({
   children, // will be a page or nested layout
@@ -37,6 +38,9 @@ export default function Layout({
 
   return (
     <section className="h-screen">
+      <Head>
+        <title>KiguDB</title>
+      </Head>
       {/* Include shared UI here e.g. a header or sidebar */}
       <header className="border-b border-gray-200 bg-white">
         <div

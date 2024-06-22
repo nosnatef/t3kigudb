@@ -1,6 +1,6 @@
-import { SocialLink } from "@prisma/client";
+import { type SocialLink } from "@prisma/client";
 import { useRouter } from "next/router";
-import { FC } from "react";
+import { type FC } from "react";
 import { TwitterIcon } from "~/assets";
 
 interface SocialLinkContainerProps {
