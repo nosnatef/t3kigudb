@@ -12,7 +12,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <ClerkProvider {...pageProps}>
+    <ClerkProvider {...pageProps} afterSignInUrl="/">
       <SessionProvider session={session}>
         <Component {...pageProps} />
       </SessionProvider>

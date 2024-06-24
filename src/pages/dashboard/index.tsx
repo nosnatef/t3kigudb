@@ -3,27 +3,6 @@
 import { NextPage } from "next";
 import { api } from "~/utils/api";
 import Layout from "../layout";
-import Image from "next/image";
-
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 import {
   Accordion,
@@ -32,8 +11,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import {
   JSXElementConstructor,
   PromiseLikeOfReactNode,
@@ -43,41 +20,16 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Mask } from "@prisma/client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 const Dashboard: NextPage = () => {
-  const [jsonObject, setJsonObject] = useState({});
-
   const { data: logData } = api.origin.getOriginIngestionLogs.useQuery(
     undefined,
     {
       staleTime: Infinity,
     }
   );
-
-  useEffect(() => {
-    try {
-      if (logData && logData.length > 0) {
-        // const parsed = JSON.parse(logData[0][0]?.ingestionlogs);
-        // setJsonObject(parsed);
-      }
-    } catch (error) {
-      console.error("Error parsing JSON", error);
-      setJsonObject({});
-    }
-  }, [logData]);
-
-  const getLogAccordions = (json: any) => {
-    for (const key in json) {
-      if (Object.prototype.hasOwnProperty.call(json, key)) {
-        const value = json[key];
-        console.log(`${key}: ${value}`);
-      }
-    }
-  };
 
   return (
     <>
