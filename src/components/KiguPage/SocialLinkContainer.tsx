@@ -1,10 +1,10 @@
-import { type SocialLink } from "@prisma/client";
+import { MakerLink, type SocialLink } from "@prisma/client";
 import { useRouter } from "next/router";
 import { type FC } from "react";
 import { TwitterIcon } from "~/assets";
 
 interface SocialLinkContainerProps {
-  links: SocialLink[];
+  links: SocialLink[] | MakerLink[];
 }
 
 const socialLinkMapping = {
