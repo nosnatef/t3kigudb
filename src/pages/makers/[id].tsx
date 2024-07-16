@@ -12,6 +12,7 @@ import { LOADING_TEXT } from "~/constants/strings";
 import Lightbox, { type Slide } from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import { useState } from "react";
+import SocialLinkContainer from "~/components/KiguPage/SocialLinkContainer";
 
 const Maker: NextPage = () => {
   const router = useRouter();
@@ -20,7 +21,7 @@ const Maker: NextPage = () => {
   const { data: makerData } = api.maker.getById.useQuery(Number(id));
   const maskData = makerData?.masks ?? [];
 
-  const { name, picUrl } = makerData ?? {};
+  const { name, picUrl, makerLinks } = makerData ?? {};
 
   const [galleryIndex, setGalleryIndex] = useState(-1);
 
@@ -51,6 +52,7 @@ const Maker: NextPage = () => {
               ></Image>
               <div className="flex h-[300px] flex-col justify-around">
                 <ProfileInfo stat={maskData.length ?? 0} desc="Masks made" />
+                <SocialLinkContainer links={makerLinks ?? []} />
               </div>
             </div>
             <div className="md:w-3/4">

@@ -62,6 +62,7 @@ export const makerRouter = createTRPCRouter({
             character: true,
           },
         },
+        makerLinks: true,
       },
     });
   }),
