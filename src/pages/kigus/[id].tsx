@@ -14,12 +14,24 @@ import { TwitterIcon } from "~/assets";
 import SocialLinkContainer from "~/components/KiguPage/SocialLinkContainer";
 import { LOADING_TEXT } from "~/constants/strings";
 import TitleLoader from "~/components/utils/TitleLoader";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useUser } from "@clerk/nextjs";
 
 const Kigu: NextPage = () => {
+  const { isSignedIn } = useUser();
   const router = useRouter();
   const id = router.query.id as string;
 
   const { data: kiguData } = api.kigu.getById.useQuery(id);
+  const { mutate } = api.kigu.deleteById.useMutation();
   const maskData = kiguData?.masks ?? [];
 
   const { name, picUrl, socialLinks } = kiguData ?? {};
@@ -41,6 +53,32 @@ const Kigu: NextPage = () => {
             <h3 className="my-4 text-xl font-bold">{name}</h3>
           ) : (
             <TitleLoader />
+          )}
+          {isSignedIn && (
+            <Dialog>
+              <DialogTrigger>
+                <Button variant="destructive">Delete</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Are you sure?</DialogTitle>
+                  <DialogDescription>
+                    The deleted entry can be retrieved but you cannot undo the
+                    action.
+                  </DialogDescription>
+                  <Button
+                    variant="destructive"
+                    onClick={() => {
+                      mutate(id);
+                      window.location.reload();
+                    }}
+                    type="submit"
+                  >
+                    Delete
+                  </Button>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
           )}
           <div className="flex flex-col gap-4 rounded-lg bg-white py-4 md:flex-row">
             <div className="flex flex-row items-center justify-around md:w-1/4 md:flex-col">
@@ -88,9 +126,7 @@ const Kigu: NextPage = () => {
                                 mask.maker?.name ?? "Unidentified Maker"
                               }
                               onClick={() => {
-                                void router.push(
-                                  `/masks/${mask.id}`
-                                );
+                                void router.push(`/masks/${mask.id}`);
                               }}
                             />
                           );

@@ -58,6 +58,9 @@ export const makerRouter = createTRPCRouter({
       },
       include: {
         masks: {
+          where: {
+            OR: [{ isDeleted: null }, { isDeleted: false }],
+          },
           include: {
             character: true,
           },

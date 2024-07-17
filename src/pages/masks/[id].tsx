@@ -19,6 +19,15 @@ import { useCallback, useMemo, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useUser } from "@clerk/clerk-react";
 import { Edit, Check, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 import {
   Select,
@@ -69,6 +78,7 @@ const Mask: NextPage = () => {
   });
 
   const { isLoading, mutate } = api.mask.updateMakerForMask.useMutation();
+  const { mutate: mutateDelete } = api.mask.deleteById.useMutation();
 
   const getSlides = (): Slide[] => {
     if (maskPics) {
@@ -119,6 +129,32 @@ const Mask: NextPage = () => {
               </BreadcrumbItem>
             </Breadcrumb>
             {isSignedIn ? <Badge variant="destructive">Admin Mode</Badge> : ""}
+            {maskData && isSignedIn && (
+              <Dialog>
+                <DialogTrigger>
+                  <Button variant="destructive">Delete</Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Are you sure?</DialogTitle>
+                    <DialogDescription>
+                      The deleted entry can be retrieved but you cannot undo the
+                      action.
+                    </DialogDescription>
+                    <Button
+                      variant="destructive"
+                      onClick={() => {
+                        mutateDelete(id);
+                        window.location.reload();
+                      }}
+                      type="submit"
+                    >
+                      Delete
+                    </Button>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+            )}
           </div>
           <div className="flex flex-col justify-between gap-8 md:flex-row md:gap-0">
             <div className="flex w-full justify-center md:justify-normal">

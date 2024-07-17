@@ -105,6 +105,7 @@ model Kigu {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   masks     Mask[]
+  isDeleted Boolean?
 }
 
 model KiguNickname {
@@ -148,6 +149,7 @@ model Mask {
   updatedAt  DateTime @updatedAt
   maker       Maker?       @relation(fields: [makerId], references: [id])
   makerId     Int?
+  isDeleted   Boolean?
 
   @@unique([characterId, link])
 }
