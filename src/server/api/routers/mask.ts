@@ -7,31 +7,30 @@ import {
 } from "~/server/api/trpc";
 
 export const maskRouter = createTRPCRouter({
-  getById: publicProcedure
-    .input(z.string())
-    .query(({ ctx, input }) => {
-      return ctx.prisma.mask.findFirst({
-        where: {
-          id: input
-        },
-        include: {
-          character: {
-            include: {
-              origin: true
-            }
+  getById: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+    return ctx.prisma.mask.findFirst({
+      where: {
+        id: input,
+        OR: [{ isDeleted: null }, { isDeleted: false }],
+      },
+      include: {
+        character: {
+          include: {
+            origin: true,
           },
-          kigu: true,
-          maskPics: true,
-          maker: true
-        }
-      })
-    })
-  ,
+        },
+        kigu: true,
+        maskPics: true,
+        maker: true,
+      },
+    });
+  }),
   getByCharacterId: publicProcedure
     .input(z.string())
     .query(({ ctx, input }) => {
       return ctx.prisma.mask.findMany({
         where: {
+          OR: [{ isDeleted: null }, { isDeleted: false }],
           character: {
             id: input,
           },
@@ -44,6 +43,7 @@ export const maskRouter = createTRPCRouter({
   getByKiguId: publicProcedure.input(z.string()).query(({ ctx, input }) => {
     return ctx.prisma.mask.findMany({
       where: {
+        OR: [{ isDeleted: null }, { isDeleted: false }],
         kigu: {
           id: input,
         },
@@ -114,6 +114,18 @@ export const maskRouter = createTRPCRouter({
         },
         data: {
           makerId: makerId,
+        },
+      });
+    }),
+  deleteById: protectedProcedure
+    .input(z.string())
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.mask.update({
+        where: {
+          id: input,
+        },
+        data: {
+          isDeleted: true,
         },
       });
     }),

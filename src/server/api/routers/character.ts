@@ -12,6 +12,9 @@ export const characterRouter = createTRPCRouter({
       include: {
         origin: true,
         masks: {
+          where: {
+            OR: [{ isDeleted: null }, { isDeleted: false }],
+          },
           include: {
             kigu: true,
             maskPics: true,
@@ -104,6 +107,9 @@ export const characterRouter = createTRPCRouter({
       take: 24,
       include: {
         masks: {
+          where: {
+            OR: [{ isDeleted: null }, { isDeleted: false }],
+          },
           include: {
             _count: true,
           },
