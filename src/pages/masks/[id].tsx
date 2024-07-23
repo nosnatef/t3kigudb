@@ -39,6 +39,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import SocialLinkContainer from "~/components/KiguPage/SocialLinkContainer";
+import { SocialLink } from "@prisma/client";
 
 const Mask: NextPage = () => {
   const { isSignedIn } = useUser();
@@ -51,6 +53,7 @@ const Mask: NextPage = () => {
 
   const {
     character,
+    link,
     maskPics,
     picUrl: maskPic,
     maker,
@@ -157,7 +160,7 @@ const Mask: NextPage = () => {
             )}
           </div>
           <div className="flex flex-col justify-between gap-8 md:flex-row md:gap-0">
-            <div className="flex w-full justify-center md:justify-normal">
+            <div className="flex flex-row w-full items-center justify-around md:h-[300px] md:flex-col md:justify-between">
               <Image
                 alt="Image"
                 src={maskPic ?? placeholderImg}
@@ -165,6 +168,7 @@ const Mask: NextPage = () => {
                 width={300}
                 className="h-full max-h-[150px] w-full max-w-[150px] rounded-full object-cover md:max-h-[200px] md:max-w-[200px]"
               ></Image>
+              <SocialLinkContainer links={[{id: 0, link: link, linkType: "TWITTER", kiguId: kiguId} as SocialLink]} />
             </div>
 
             <div className="flex flex-col gap-8 md:flex-row ">
