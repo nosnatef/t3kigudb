@@ -127,8 +127,8 @@ const Media: NextPage = () => {
             onChange={(e) => debounced(e.target.value)}
           ></input>
         </div>
-        <div className="container m-auto flex flex-row items-center justify-center">
-          <div className="grid grid-cols-2 gap-4 px-4 py-2 md:grid-cols-4 lg:grid-cols-6">
+        <div className="flex w-full flex-row items-center justify-center">
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-6">
             {getCharacterList()}
             {characterData?.pages && <div ref={bottomRef} />}
           </div>
