@@ -106,6 +106,7 @@ model Kigu {
   updatedAt  DateTime @updatedAt
   masks     Mask[]
   isDeleted Boolean?
+  twitterId String? @unique
 }
 
 model KiguNickname {
