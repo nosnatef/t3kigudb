@@ -45,6 +45,9 @@ export const kiguRouter = createTRPCRouter({
           contains: input,
           mode: "insensitive",
         },
+        masks: {
+          some: {}
+        }
       },
       include: {
         masks: {
