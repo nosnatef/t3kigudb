@@ -24,7 +24,7 @@ export const originRouter = createTRPCRouter({
         if (!groups[type]) {
           groups[type] = [];
         }
-        groups[type].push(origin);
+        groups[type]?.push(origin);
         return groups;
       },
       {}
@@ -33,7 +33,7 @@ export const originRouter = createTRPCRouter({
     // Sort each group alphabetically by name
     Object.keys(groupedOrigins).forEach((type) => {
       if (groupedOrigins[type]) {
-        groupedOrigins[type].sort((a, b) => a.name.localeCompare(b.name));
+        groupedOrigins[type]?.sort((a, b) => a.name.localeCompare(b.name));
       }
     });
 
