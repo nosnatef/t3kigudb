@@ -23,7 +23,7 @@ import { api } from "~/utils/api";
 import NavigationMenuListItem from "~/components/MenuBar/NavigationMenuListItem";
 import { useUser } from "@clerk/nextjs";
 import { Badge } from "@/components/ui/badge";
-import { FORM_LINK } from "~/constants/strings";
+import { FORM_LINK, OWNER_LINK } from "~/constants/strings";
 import Head from "next/head";
 
 export default function Layout({
@@ -216,8 +216,15 @@ export default function Layout({
       {children}
       <div className="mt-auto">
         <div className="mx-2 my-2 border-t border-gray-300"></div>
-        <div className="flex justify-center px-2 pb-4">
-          KiguDB, Built by Ringo
+        <div className="flex justify-center px-2 pb-4 gap-1">
+          KiguDB, Built by 
+          <Link
+              className="font-bold text-[#FF5EC8] flex justify-center"
+              href={OWNER_LINK}
+              target="_blank"
+            >
+              Ringo
+          </Link>
         </div>
       </div>
     </section>
