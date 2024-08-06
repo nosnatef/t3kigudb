@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { BiSearch } from "react-icons/bi";
 import { useDebouncedCallback } from "use-debounce";
+import { useTranslation } from "next-i18next";
 
 const Media: NextPage = () => {
   const debounced = useDebouncedCallback((value: string) => {
@@ -22,6 +23,7 @@ const Media: NextPage = () => {
   }, 500);
 
   const router = useRouter();
+  const { t } = useTranslation('common');
   const [query, setQuery] = useState("");
   const id = router.query.id as string;
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -108,10 +110,10 @@ const Media: NextPage = () => {
         <div>
           <Breadcrumb>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+              <BreadcrumbLink href="/">{t('home')}</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/media">Media</BreadcrumbLink>
+              <BreadcrumbLink href="/media">{t('media')}</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem>
               <BreadcrumbLink>{originData?.name}</BreadcrumbLink>

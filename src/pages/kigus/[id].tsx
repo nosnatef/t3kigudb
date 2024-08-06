@@ -24,11 +24,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useUser } from "@clerk/nextjs";
+import { useTranslation } from "next-i18next";
 
 const Kigu: NextPage = () => {
   const { isSignedIn } = useUser();
   const router = useRouter();
   const id = router.query.id as string;
+
+  const { t } = useTranslation('common');
 
   const { data: kiguData } = api.kigu.getById.useQuery(id);
   const { mutate } = api.kigu.deleteById.useMutation();
@@ -90,7 +93,7 @@ const Kigu: NextPage = () => {
                 className="h-full max-h-[200px] w-full max-w-[200px] rounded-full object-cover"
               ></Image>
               <div className="flex h-[300px] flex-col justify-around">
-                <ProfileInfo stat={maskData.length ?? 0} desc="Masks owned" />
+                <ProfileInfo stat={maskData.length ?? 0} desc={t('masks-owned')} />
                 <SocialLinkContainer links={socialLinks ?? []} />
               </div>
             </div>
@@ -104,13 +107,13 @@ const Kigu: NextPage = () => {
                     className="h-[45px] px-5 data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
                     value="Masks"
                   >
-                    Masks
+                    {t('masks')}
                   </Tabs.Trigger>
                   <Tabs.Trigger
                     className="h-[45px] px-5 data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
                     value="Gallery"
                   >
-                    Gallery
+                    {t('gallery')}
                   </Tabs.Trigger>
                 </Tabs.List>
                 <Tabs.Content value="Masks" className="p-5">
@@ -123,7 +126,7 @@ const Kigu: NextPage = () => {
                               picSrc={mask.picUrl}
                               title={`${mask.character.name}`}
                               subTitle={
-                                mask.maker?.name ?? "Unidentified Maker"
+                                mask.maker?.name ?? t('unidentified-maker')
                               }
                               onClick={() => {
                                 void router.push(`/masks/${mask.id}`);

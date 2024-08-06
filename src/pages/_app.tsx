@@ -6,6 +6,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
+import nextI18nConfig from "../../next-i18next.config.mjs";
+import { appWithTranslation } from "next-i18next";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -20,4 +22,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   );
 };
 
-export default api.withTRPC(MyApp);
+const I18nApp = appWithTranslation(MyApp, nextI18nConfig);
+const TRPCApp = api.withTRPC(I18nApp);
+
+export default TRPCApp;

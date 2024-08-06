@@ -1,35 +1,34 @@
 import { type NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { BiSearch, BiX } from "react-icons/bi";
+import { BiSearch } from "react-icons/bi";
 
 import { api } from "~/utils/api";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Layout from "./layout";
-import PhotoCard from "~/components/PhotoCard";
 
 import { useDebouncedCallback } from "use-debounce";
+import { useTranslation } from 'react-i18next';
 
 import { useRouter } from "next/router";
 import Link from "next/link";
 import SearchResultCard from "~/components/SearchBar/SearchResultCard";
-import { placeholderImg } from "~/utils/constant";
 import { MoonLoader } from "react-spinners";
 import * as Tabs from "@radix-ui/react-tabs";
 import { Button } from "@/components/ui/button";
 import { DicesIcon } from "lucide-react";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  CommandShortcut,
-} from "@/components/ui/command";
 import { useMediaQuery } from "react-responsive";
 import { FORM_LINK } from "~/constants/strings";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nConfig from "../../next-i18next.config.mjs";
+
+export const getServerSideProps = async ({ locale }: { locale: string }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ["common"], nextI18nConfig, [
+      "en",
+      "zh",
+    ])),
+  },
+});
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -60,6 +59,8 @@ const Home: NextPage = () => {
 
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
+  const { t } = useTranslation('common');
+
   return (
     <>
       <Layout>
@@ -70,8 +71,8 @@ const Home: NextPage = () => {
         >
           <div className="flex flex-row justify-between">
             <div className="mb-8 flex flex-row gap-4">
-              <div className="text-5xl font-semibold">Discover</div>
-              <div className="text-5xl font-semibold text-[#FF5EC8]">KIGUS</div>
+              <div className="text-5xl font-semibold">{t('discover')}</div>
+              <div className="text-5xl font-semibold text-[#FF5EC8]">{t('kigus-cap')}</div>
             </div>
             {!isTabletOrMobile && (
               <div className="">
@@ -82,7 +83,7 @@ const Home: NextPage = () => {
                   }}
                 >
                   <DicesIcon className="mr-2" />
-                  Random Kigu
+                  {t('random-kigu')}
                 </Button>
               </div>
             )}
@@ -93,20 +94,20 @@ const Home: NextPage = () => {
             <input
               className="h-full w-full rounded-lg p-2 outline-none"
               autoFocus
-              placeholder="Search For Kigu/Character/Maker..."
+              placeholder={t('search-for-kigu')}
               onChange={(e) => debounced(e.target.value)}
             ></input>
           </div>
           <div className="px-2 py-4">
-            <span className="text-sm">Want to contribute to KiguDB? </span>
+            <span className="text-sm">{t('want-to-contribute')} </span>
             <Link
               className="text-sm font-bold text-[#FF5EC8]"
               href={FORM_LINK}
               target="_blank"
             >
-              Add Kigu Here
+              {t('add-kigu-here')}
             </Link>
-            <span className="text-sm"> (Yes, you can add yourself!)</span>
+            <span className="text-sm">{t('yes-you-can')}</span>
           </div>
           {isTabletOrMobile && (
             <Button
@@ -116,7 +117,7 @@ const Home: NextPage = () => {
               }}
             >
               <DicesIcon className="mr-2" />
-              Random Kigu
+              {t('random-kigu')}
             </Button>
           )}
           {query.length > 0 && (
@@ -133,19 +134,19 @@ const Home: NextPage = () => {
                     className="h-[45px] px-5 data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
                     value="Characters"
                   >
-                    Characters
+                    {t('characters')}
                   </Tabs.Trigger>
                   <Tabs.Trigger
                     className="h-[45px] px-5 data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
                     value="Kigus"
                   >
-                    Kigus
+                    {t('kigus')}
                   </Tabs.Trigger>
                   <Tabs.Trigger
                     className="h-[45px] px-5 data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
                     value="Makers"
                   >
-                    Makers
+                    {t('makers')}
                   </Tabs.Trigger>
                 </Tabs.List>
                 <Tabs.Content value="Characters" className="p-5">
@@ -183,7 +184,7 @@ const Home: NextPage = () => {
                             title={kigu.name}
                             link={`/kigus/${kigu.id}`}
                             key={kigu.id}
-                            mainContent={`${kigu.masks.length} masks owned`}
+                            mainContent={`${kigu.masks.length} ${t('masks-owned')}`}
                           />
                         ))
                       : ""}

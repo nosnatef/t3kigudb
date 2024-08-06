@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 
-import { BiSearch } from "react-icons/bi";
 import MenuItem from "~/components/MenuBar/MenuItem";
 import { useRouter } from "next/router";
 import ClientOnly from "~/components/ClientOnly";
 import BackDrop from "~/components/BackDrop";
+
+import { useTranslation } from 'next-i18next';
 
 import {
   NavigationMenu,
@@ -25,6 +26,7 @@ import { useUser } from "@clerk/nextjs";
 import { Badge } from "@/components/ui/badge";
 import { FORM_LINK, OWNER_LINK } from "~/constants/strings";
 import Head from "next/head";
+import LocaleSwitcher from "~/components/LocaleSwitcher";
 
 export default function Layout({
   children, // will be a page or nested layout
@@ -33,8 +35,11 @@ export default function Layout({
 }) {
   const [showMenu, setShowMenu] = useState(false);
   const router = useRouter();
+  const changeTo = router.locale === 'en' ? 'zh' : 'en'
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const { isSignedIn } = useUser();
+
+  const { t } = useTranslation('common');
 
   return (
     <section className="h-screen">
@@ -62,46 +67,53 @@ export default function Layout({
           </div>
           {isTabletOrMobile ? (
             <ClientOnly>
-              <button
-                className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-200 hover:bg-gray-300"
-                onClick={() => setShowMenu(true)}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="h-6 w-6"
+              <div className="flex flex-row">
+                <NavigationMenu>
+                  <NavigationMenuList>
+                    <LocaleSwitcher />
+                  </NavigationMenuList>
+                </NavigationMenu>
+                <button
+                  className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-200 hover:bg-gray-300"
+                  onClick={() => setShowMenu(true)}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="h-6 w-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                    />
+                  </svg>
+                </button>
+              </div>
             </ClientOnly>
           ) : (
             <NavigationMenu className="ml-4">
               <NavigationMenuList>
                 <NavigationMenuItem className="flex items-center justify-center rounded-lg py-1 hover:bg-slate-100">
                   <NavigationMenuTrigger className="flex flex-row">
-                    Character
+                    {t('characters')}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent className="bg-white">
                     <ul className="flex w-[335px] flex-col gap-3 p-4">
                       <li>
                         <NavigationMenuListItem
-                          title="Trending Character"
-                          content="Kigus' favorite characters"
+                          title={t('trending-characters')}
+                          content={t('kigus-fav')}
                           link="/characters/popular"
                         />
                       </li>
                       <li>
                         <NavigationMenuListItem
-                          title="Browse By Media"
-                          content="Characters From Media (ex. Video Game)"
+                          title={t('browse-by-media')}
+                          content={t('characters-from-media')}
                           link="/media"
                         />
                       </li>
@@ -110,20 +122,21 @@ export default function Layout({
                 </NavigationMenuItem>
                 <NavigationMenuItem className="flex items-center justify-center rounded-lg py-1 hover:bg-slate-100">
                   <NavigationMenuTrigger className="flex flex-row">
-                    Maker
+                    {t('makers')}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent className="bg-white">
                     <ul className="flex w-[335px] flex-col gap-3 p-4">
                       <li>
                         <NavigationMenuListItem
-                          title="All"
-                          content="All makers"
+                          title={t('all')}
+                          content={t('all-makers')}
                           link="/makers"
                         />
                       </li>
                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
+                <LocaleSwitcher />
               </NavigationMenuList>
             </NavigationMenu>
           )}
@@ -163,35 +176,35 @@ export default function Layout({
 
               <div className="my-2 border-t border-gray-300"></div>
               <MenuItem
-                label="Home"
+                label={t('home')}
                 onClick={() => {
                   void router.push("/");
                 }}
                 pathName="/"
               />
               <MenuItem
-                label="Random Kigu"
+                label={t('random-kigu')}
                 onClick={() => {
                   void router.push("/kigus/random");
                 }}
                 pathName="/kigus/random"
               />
               <MenuItem
-                label="Find Characters By Media"
+                label={t('find-characters-by')}
                 onClick={() => {
                   void router.push("/media");
                 }}
                 pathName="/media"
               />
               <MenuItem
-                label="Most Popular Characters"
+                label={t('trending-characters')}
                 onClick={() => {
                   void router.push("/characters/popular");
                 }}
                 pathName="/characters/popular"
               />
               <MenuItem
-                label="All Makers"
+                label={t('all-makers')}
                 onClick={() => {
                   void router.push("/makers");
                 }}
@@ -201,7 +214,7 @@ export default function Layout({
               <a href={FORM_LINK} target="_blank">
                 <div className="flex h-10 items-center rounded-lg py-2 pl-2 hover:cursor-pointer hover:bg-gray-100">
                   <p className="bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 bg-clip-text text-transparent">
-                    Add Kigu
+                    {t('add-kigu')}
                   </p>
                 </div>
               </a>

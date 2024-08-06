@@ -3,24 +3,24 @@
  * for Docker builds.
  */
 await import("./src/env.mjs");
+import config from "./next-i18next.config.mjs";
 
-/** @type {import("next").NextConfig} */
-const config = {
+/**
+ * @param {{ reactStrictMode: boolean; swcMinify: boolean; images: { domains: string[]; unoptimized: boolean; }; 
+// Next.js i18n docs: https://nextjs.org/docs/advanced-features/i18n-routing
+i18n: { defaultLocale: string; domains?: { defaultLocale: string; domain: string; http?: true; locales?: string[]; }[]; localeDetection?: false; locales: string[]; }; }} config
+ */
+function defineNextConfig(config) {
+  return config;
+}
+
+export default defineNextConfig({
   reactStrictMode: true,
+  swcMinify: true,
   images: {
     domains: ["d1kkex4vltbo88.cloudfront.net", "fakeimg.pl"],
     unoptimized: true,
   },
-
-  /**
-   * If you have `experimental: { appDir: true }` set, then you must comment the below `i18n` config
-   * out.
-   *
-   * @see https://github.com/vercel/next.js/issues/41980
-   */
-  i18n: {
-    locales: ["en"],
-    defaultLocale: "en",
-  },
-};
-export default config;
+  // Next.js i18n docs: https://nextjs.org/docs/advanced-features/i18n-routing
+  i18n: config.i18n,
+});

@@ -13,10 +13,12 @@ import Lightbox, { type Slide } from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import { useState } from "react";
 import SocialLinkContainer from "~/components/KiguPage/SocialLinkContainer";
+import { useTranslation } from "next-i18next";
 
 const Maker: NextPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
+  const { t } = useTranslation('common');
 
   const { data: makerData } = api.maker.getById.useQuery(Number(id));
   const maskData = makerData?.masks ?? [];
@@ -51,7 +53,7 @@ const Maker: NextPage = () => {
                 className="h-full max-h-[200px] w-full max-w-[200px] rounded-full object-cover"
               ></Image>
               <div className="flex h-[300px] flex-col justify-around">
-                <ProfileInfo stat={maskData.length ?? 0} desc="Masks made" />
+                <ProfileInfo stat={maskData.length ?? 0} desc={t('masks-made')} />
                 <SocialLinkContainer links={makerLinks ?? []} />
               </div>
             </div>
@@ -65,13 +67,13 @@ const Maker: NextPage = () => {
                     className="h-[45px] px-5 data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
                     value="Masks"
                   >
-                    Masks
+                    {t('masks')}
                   </Tabs.Trigger>
                   <Tabs.Trigger
                     className="h-[45px] px-5 data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
                     value="Gallery"
                   >
-                    Gallery
+                    {t('gallery')}
                   </Tabs.Trigger>
                 </Tabs.List>
                 <Tabs.Content value="Masks" className="p-5">
