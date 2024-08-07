@@ -6,6 +6,17 @@ import PhotoCard from "~/components/PhotoCard";
 
 import { useRouter } from "next/router";
 import { MoonLoader } from "react-spinners";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nConfig from "../../../next-i18next.config.mjs";
+
+export const getServerSideProps = async ({ locale }: { locale: string }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ["common"], nextI18nConfig, [
+      "en",
+      "zh",
+    ])),
+  },
+});
 
 const Makers: NextPage = () => {
   const router = useRouter();
