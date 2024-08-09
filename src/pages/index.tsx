@@ -26,6 +26,7 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => ({
     ...(await serverSideTranslations(locale, ["common"], nextI18nConfig, [
       "en",
       "zh",
+      "ja",
     ])),
   },
 });
@@ -166,7 +167,7 @@ const Home: NextPage = () => {
                   </div>
                   {characterData && characterData.length === 0 && (
                     <div className="flex items-center justify-center">
-                      <h3>No Results Found</h3>
+                      <h3>{t('no-results')}</h3>
                     </div>
                   )}
                   {isCharacterFetching && (
@@ -191,7 +192,7 @@ const Home: NextPage = () => {
                   </div>
                   {kiguData && kiguData.length === 0 && (
                     <div className="flex items-center justify-center">
-                      <h3>No Results Found</h3>
+                      <h3>{t('no-results')}</h3>
                     </div>
                   )}
                   {isKiguFetching && (
@@ -215,7 +216,7 @@ const Home: NextPage = () => {
                   </div>
                   {makerData && makerData.length === 0 && (
                     <div className="flex items-center justify-center">
-                      <h3>No Results Found</h3>
+                      <h3>{t('no-results')}</h3>
                     </div>
                   )}
                   {isMakerFetching && (

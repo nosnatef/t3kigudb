@@ -33,6 +33,7 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => ({
     ...(await serverSideTranslations(locale, ["common"], nextI18nConfig, [
       "en",
       "zh",
+      "ja",
     ])),
   },
 });
