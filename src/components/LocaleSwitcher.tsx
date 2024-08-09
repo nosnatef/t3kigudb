@@ -25,6 +25,13 @@ const LocaleSwitcher = () => {
           </Link>
       </NavigationMenuItem>
       <NavigationMenuItem>
+          <Link href={asPath} locale='ja' legacyBehavior passHref>
+          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              日本語
+          </NavigationMenuLink>
+          </Link>
+      </NavigationMenuItem>
+      <NavigationMenuItem>
           <Link href={asPath} locale='en' legacyBehavior passHref>
           <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               English
