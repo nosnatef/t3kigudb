@@ -27,6 +27,31 @@ export const kiguRouter = createTRPCRouter({
       },
     });
   }),
+  //I couldnt test the code yet since I also cant run it locally
+  //copied the same idea from the getById and replaced it with the twitter handle that I assume is somewhere in the DB 
+  //also my TypeScript is bad so correct whatever you need to correct
+  //inserted code begin
+    getByTwitterHandle: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+      return ctx.prisma.kigu.findFirst({
+        where: {
+          twitterHandle: input,
+          OR: [{ isDeleted: null }, { isDeleted: false }],
+          },
+        include: {
+          masks: {
+            where: {
+              OR: [{ isDeleted: null }, { isDeleted: false }],
+            },
+            include: {
+              character: true,
+              maker: true,
+            },
+          },
+          socialLinks: true,
+        },
+      });
+    }),
+   //Inserted code end
   getOneRandom: publicProcedure.query(async ({ ctx }) => {
     const totalCount = await ctx.prisma.kigu.count();
     const skip = Math.floor(Math.random() * totalCount);
