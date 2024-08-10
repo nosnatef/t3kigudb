@@ -67,12 +67,8 @@ export default function Layout({
           </div>
           {isTabletOrMobile ? (
             <ClientOnly>
-              <div className="flex flex-row">
-                <NavigationMenu>
-                  <NavigationMenuList>
-                    <LocaleSwitcher />
-                  </NavigationMenuList>
-                </NavigationMenu>
+              <div className="flex flex-row gap-2">
+                <LocaleSwitcher />
                 <button
                   className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-200 hover:bg-gray-300"
                   onClick={() => setShowMenu(true)}
@@ -95,50 +91,53 @@ export default function Layout({
               </div>
             </ClientOnly>
           ) : (
-            <NavigationMenu className="ml-4">
-              <NavigationMenuList>
-                <NavigationMenuItem className="flex items-center justify-center rounded-lg py-1 hover:bg-slate-100">
-                  <NavigationMenuTrigger className="flex flex-row">
-                    {t('characters')}
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent className="bg-white">
-                    <ul className="flex w-[335px] flex-col gap-3 p-4">
-                      <li>
-                        <NavigationMenuListItem
-                          title={t('trending-characters')}
-                          content={t('kigus-fav')}
-                          link="/characters/popular"
-                        />
-                      </li>
-                      <li>
-                        <NavigationMenuListItem
-                          title={t('browse-by-media')}
-                          content={t('characters-from-media')}
-                          link="/media"
-                        />
-                      </li>
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem className="flex items-center justify-center rounded-lg py-1 hover:bg-slate-100">
-                  <NavigationMenuTrigger className="flex flex-row">
-                    {t('makers')}
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent className="bg-white">
-                    <ul className="flex w-[335px] flex-col gap-3 p-4">
-                      <li>
-                        <NavigationMenuListItem
-                          title={t('all')}
-                          content={t('all-makers')}
-                          link="/makers"
-                        />
-                      </li>
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-                <LocaleSwitcher />
-              </NavigationMenuList>
-            </NavigationMenu>
+            <div className="flex flex-auto flex-row justify-between items-center">
+              <NavigationMenu className="ml-4">
+                <NavigationMenuList>
+                  <NavigationMenuItem className="flex items-center justify-center rounded-lg py-1 hover:bg-slate-100">
+                    <NavigationMenuTrigger className="flex flex-row">
+                      {t('characters')}
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent className="bg-white">
+                      <ul className="flex w-[335px] flex-col gap-3 p-4">
+                        <li>
+                          <NavigationMenuListItem
+                            title={t('trending-characters')}
+                            content={t('kigus-fav')}
+                            link="/characters/popular"
+                          />
+                        </li>
+                        <li>
+                          <NavigationMenuListItem
+                            title={t('browse-by-media')}
+                            content={t('characters-from-media')}
+                            link="/media"
+                          />
+                        </li>
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                  <NavigationMenuItem className="flex items-center justify-center rounded-lg py-1 hover:bg-slate-100">
+                    <NavigationMenuTrigger className="flex flex-row">
+                      {t('makers')}
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent className="bg-white">
+                      <ul className="flex w-[335px] flex-col gap-3 p-4">
+                        <li>
+                          <NavigationMenuListItem
+                            title={t('all')}
+                            content={t('all-makers')}
+                            link="/makers"
+                          />
+                        </li>
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
+              <LocaleSwitcher />
+            </div>
+            
           )}
         </div>
       </header>
@@ -219,7 +218,7 @@ export default function Layout({
                 </div>
               </a>
               <div className="fixed bottom-2 pl-2 text-sm">
-                Last Updated: 06-21-2024
+                <p>Last Updated: 06-21-2024</p>
               </div>
             </div>
           </div>
