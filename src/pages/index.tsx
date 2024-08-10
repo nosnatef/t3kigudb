@@ -71,9 +71,9 @@ const Home: NextPage = () => {
           } flex-col`}
         >
           <div className="flex flex-row justify-between">
-            <div className="mb-8 flex flex-row gap-4">
-              <div className="text-5xl font-semibold">{t('discover')}</div>
-              <div className="text-5xl font-semibold text-[#FF5EC8]">{t('kigus-cap')}</div>
+            <div className="mb-8 flex flex-auto flex-row gap-4 justify-center md:justify-start">
+              <h1 className="text-3xl md:text-5xl font-semibold">{t('discover')}</h1>
+              <h1 className="text-3xl md:text-5xl font-semibold text-[#FF5EC8]">{t('kigus-cap')}</h1>
             </div>
             {!isTabletOrMobile && (
               <div className="">
