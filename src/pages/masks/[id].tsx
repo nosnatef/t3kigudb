@@ -57,11 +57,14 @@ const Mask: NextPage = () => {
   const { isSignedIn } = useUser();
 
   const router = useRouter();
-  const { t } = useTranslation('common');
+  const { t } = useTranslation("common");
   const id = router.query.id as string;
 
   const { data: maskData, refetch: maskDataRefetch } =
-    api.mask.getById.useQuery(id);
+    api.mask.getById.useQuery(id, {
+      staleTime: Infinity,
+      cacheTime: Infinity,
+    });
 
   const {
     character,
@@ -89,7 +92,8 @@ const Mask: NextPage = () => {
 
   const { data: makerData } = api.maker.getAllMakers.useQuery(undefined, {
     staleTime: Infinity,
-    enabled: !!isSignedIn
+    cacheTime: Infinity,
+    enabled: !!isSignedIn,
   });
 
   const { isLoading, mutate } = api.mask.updateMakerForMask.useMutation();
@@ -132,7 +136,7 @@ const Mask: NextPage = () => {
           <div>
             <Breadcrumb>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/">{t('home')}</BreadcrumbLink>
+                <BreadcrumbLink href="/">{t("home")}</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbItem>
                 <BreadcrumbLink href={`/characters/${characterId}`}>
@@ -185,7 +189,7 @@ const Mask: NextPage = () => {
             <div className="flex flex-col gap-8 md:flex-row ">
               <div className="flex flex-col gap-4">
                 {!isTabletOrMobile && (
-                  <span className="text-lg font-medium">{t('character')}</span>
+                  <span className="text-lg font-medium">{t("character")}</span>
                 )}
                 <Card
                   className="w-full p-4 transition hover:cursor-pointer hover:shadow-md md:w-[300px]"
@@ -210,7 +214,7 @@ const Mask: NextPage = () => {
               </div>
               <div className="flex flex-col gap-4">
                 {!isTabletOrMobile && (
-                  <span className="text-lg font-medium">{t('owner')}</span>
+                  <span className="text-lg font-medium">{t("owner")}</span>
                 )}
                 <Card
                   className="w-full p-4 transition hover:cursor-pointer hover:shadow-md md:w-[300px]"
@@ -234,7 +238,7 @@ const Mask: NextPage = () => {
               </div>
               <div className="flex flex-col gap-4">
                 {!isTabletOrMobile && (
-                  <span className="text-lg font-medium">{t('maker')}</span>
+                  <span className="text-lg font-medium">{t("maker")}</span>
                 )}
                 <Card
                   className="w-full p-4 transition hover:cursor-pointer hover:shadow-md md:w-[300px]"

@@ -30,9 +30,12 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => ({
 const Maker: NextPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
-  const { t } = useTranslation('common');
+  const { t } = useTranslation("common");
 
-  const { data: makerData } = api.maker.getById.useQuery(Number(id));
+  const { data: makerData } = api.maker.getById.useQuery(Number(id), {
+    staleTime: Infinity,
+    cacheTime: Infinity,
+  });
   const maskData = makerData?.masks ?? [];
 
   const { name, picUrl, makerLinks } = makerData ?? {};
@@ -65,7 +68,10 @@ const Maker: NextPage = () => {
                 className="h-full max-h-[200px] w-full max-w-[200px] rounded-full object-cover"
               ></Image>
               <div className="flex h-[300px] flex-col justify-around">
-                <ProfileInfo stat={maskData.length ?? 0} desc={t('masks-made')} />
+                <ProfileInfo
+                  stat={maskData.length ?? 0}
+                  desc={t("masks-made")}
+                />
                 <SocialLinkContainer links={makerLinks ?? []} />
               </div>
             </div>
@@ -79,13 +85,13 @@ const Maker: NextPage = () => {
                     className="h-[45px] px-5 data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
                     value="Masks"
                   >
-                    {t('masks')}
+                    {t("masks")}
                   </Tabs.Trigger>
                   <Tabs.Trigger
                     className="h-[45px] px-5 data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
                     value="Gallery"
                   >
-                    {t('gallery')}
+                    {t("gallery")}
                   </Tabs.Trigger>
                 </Tabs.List>
                 <Tabs.Content value="Masks" className="p-5">

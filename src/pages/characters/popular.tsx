@@ -21,7 +21,10 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => ({
 const Character: NextPage = () => {
   const router = useRouter();
   const { data: characterData, isFetching } =
-    api.character.getMostPopular.useQuery();
+    api.character.getMostPopular.useQuery(undefined, {
+      staleTime: Infinity,
+      cacheTime: Infinity,
+    });
 
   return (
     <>

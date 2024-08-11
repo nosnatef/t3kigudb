@@ -35,7 +35,7 @@ const Media: NextPage = () => {
   }, 500);
 
   const router = useRouter();
-  const { t } = useTranslation('common');
+  const { t } = useTranslation("common");
   const [query, setQuery] = useState("");
   const id = router.query.id as string;
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -62,7 +62,10 @@ const Media: NextPage = () => {
       }
     );
 
-  const { data: originData } = api.origin.getById.useQuery(parseInt(id));
+  const { data: originData } = api.origin.getById.useQuery(parseInt(id), {
+    staleTime: Infinity,
+    cacheTime: Infinity,
+  });
 
   const handleObserver: IntersectionObserverCallback = ([entry]) => {
     if (entry?.isIntersecting && hasNextPage && !isFetching) {
@@ -122,10 +125,10 @@ const Media: NextPage = () => {
         <div>
           <Breadcrumb>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/">{t('home')}</BreadcrumbLink>
+              <BreadcrumbLink href="/">{t("home")}</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/media">{t('media')}</BreadcrumbLink>
+              <BreadcrumbLink href="/media">{t("media")}</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem>
               <BreadcrumbLink>{originData?.name}</BreadcrumbLink>

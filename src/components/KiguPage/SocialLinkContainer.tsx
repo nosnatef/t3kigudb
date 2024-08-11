@@ -1,4 +1,4 @@
-import { MakerLink, type SocialLink } from "@prisma/client";
+import { type MakerLink, type SocialLink } from "@prisma/client";
 import { useRouter } from "next/router";
 import { type FC } from "react";
 import { TwitterIcon } from "~/assets";

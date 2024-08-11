@@ -11,16 +11,11 @@ import { useTranslation } from 'next-i18next';
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuViewport,
-  navigationMenuTriggerStyle,
 } from "~/components/MenuBar/NavigationMenu";
 import Link from "next/link";
-import { api } from "~/utils/api";
 import NavigationMenuListItem from "~/components/MenuBar/NavigationMenuListItem";
 import { useUser } from "@clerk/nextjs";
 import { Badge } from "@/components/ui/badge";

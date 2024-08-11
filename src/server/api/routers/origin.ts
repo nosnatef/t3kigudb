@@ -4,7 +4,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { GroupedOrigins } from "~/types/GroupedOrigins";
+import { type GroupedOrigins } from "~/types/GroupedOrigins";
 
 export const originRouter = createTRPCRouter({
   getById: publicProcedure.input(z.number()).query(({ ctx, input }) => {

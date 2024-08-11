@@ -1,4 +1,4 @@
-import { useState, type MouseEventHandler } from "react";
+import { type MouseEventHandler } from "react";
 
 import Image from "next/image";
 
