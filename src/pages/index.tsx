@@ -3,7 +3,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { BiSearch } from "react-icons/bi";
 
 import { api } from "~/utils/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "./layout";
 
 import { useDebouncedCallback } from "use-debounce";
@@ -54,9 +54,32 @@ const Home: NextPage = () => {
       enabled: query.length > 0 && currentTab === "Makers",
     });
 
+  const updateUrl = (query: string, tab: string) => {
+    void router.push(
+      {
+        pathname: router.pathname,
+        query: { query, tab },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
+  const handleTabChange = (value: string) => {
+    setCurrentTab(value);
+    updateUrl(query, value);
+  };
+
   const debounced = useDebouncedCallback((value: string) => {
     setQuery(value);
+    updateUrl(value, currentTab);
   }, 500);
+
+  useEffect(() => {
+    const { query, tab } = router.query;
+    if (typeof query === "string") setQuery(query);
+    if (typeof tab === "string") setCurrentTab(tab);
+  }, [router.query]);
 
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
@@ -128,11 +151,9 @@ const Home: NextPage = () => {
           {query.length > 0 && (
             <div className="mt-8">
               <Tabs.Root
-                defaultValue="Characters"
+                defaultValue={currentTab}
                 className="flex min-h-[500px] flex-col"
-                onValueChange={(value) => {
-                  setCurrentTab(value);
-                }}
+                onValueChange={handleTabChange}
               >
                 <Tabs.List className="shrink-0 border-b">
                   <Tabs.Trigger
