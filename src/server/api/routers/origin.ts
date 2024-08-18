@@ -15,7 +15,13 @@ export const originRouter = createTRPCRouter({
     });
   }),
   getAll: publicProcedure.query(async ({ ctx }) => {
-    const origins = await ctx.prisma.origin.findMany();
+    const origins = await ctx.prisma.origin.findMany({
+      where: {
+        characters: {
+          some: {},
+        },
+      },
+    });
 
     // Group origins by type
     const groupedOrigins: GroupedOrigins = origins.reduce(
