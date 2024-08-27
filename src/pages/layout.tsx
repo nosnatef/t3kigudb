@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import ClientOnly from "~/components/ClientOnly";
 import BackDrop from "~/components/BackDrop";
 
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from "next-i18next";
 
 import {
   NavigationMenu,
@@ -19,7 +19,7 @@ import Link from "next/link";
 import NavigationMenuListItem from "~/components/MenuBar/NavigationMenuListItem";
 import { useUser } from "@clerk/nextjs";
 import { Badge } from "@/components/ui/badge";
-import { FORM_LINK, OWNER_LINK } from "~/constants/strings";
+import { OWNER_LINK } from "~/constants/strings";
 import Head from "next/head";
 import LocaleSwitcher from "~/components/LocaleSwitcher";
 
@@ -30,11 +30,11 @@ export default function Layout({
 }) {
   const [showMenu, setShowMenu] = useState(false);
   const router = useRouter();
-  const changeTo = router.locale === 'en' ? 'zh' : 'en'
+  const changeTo = router.locale === "en" ? "zh" : "en";
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const { isSignedIn } = useUser();
 
-  const { t } = useTranslation('common');
+  const { t } = useTranslation("common");
 
   return (
     <section className="h-screen">
@@ -86,26 +86,26 @@ export default function Layout({
               </div>
             </ClientOnly>
           ) : (
-            <div className="flex flex-auto flex-row justify-between items-center">
+            <div className="flex flex-auto flex-row items-center justify-between">
               <NavigationMenu className="ml-4">
                 <NavigationMenuList>
                   <NavigationMenuItem className="flex items-center justify-center rounded-lg py-1 hover:bg-slate-100">
                     <NavigationMenuTrigger className="flex flex-row">
-                      {t('characters')}
+                      {t("characters")}
                     </NavigationMenuTrigger>
                     <NavigationMenuContent className="bg-white">
                       <ul className="flex w-[335px] flex-col gap-3 p-4">
                         <li>
                           <NavigationMenuListItem
-                            title={t('trending-characters')}
-                            content={t('kigus-fav')}
+                            title={t("trending-characters")}
+                            content={t("kigus-fav")}
                             link="/characters/popular"
                           />
                         </li>
                         <li>
                           <NavigationMenuListItem
-                            title={t('browse-by-media')}
-                            content={t('characters-from-media')}
+                            title={t("browse-by-media")}
+                            content={t("characters-from-media")}
                             link="/media"
                           />
                         </li>
@@ -114,14 +114,14 @@ export default function Layout({
                   </NavigationMenuItem>
                   <NavigationMenuItem className="flex items-center justify-center rounded-lg py-1 hover:bg-slate-100">
                     <NavigationMenuTrigger className="flex flex-row">
-                      {t('makers')}
+                      {t("makers")}
                     </NavigationMenuTrigger>
                     <NavigationMenuContent className="bg-white">
                       <ul className="flex w-[335px] flex-col gap-3 p-4">
                         <li>
                           <NavigationMenuListItem
-                            title={t('all')}
-                            content={t('all-makers')}
+                            title={t("all")}
+                            content={t("all-makers")}
                             link="/makers"
                           />
                         </li>
@@ -132,7 +132,6 @@ export default function Layout({
               </NavigationMenu>
               <LocaleSwitcher />
             </div>
-            
           )}
         </div>
       </header>
@@ -170,45 +169,45 @@ export default function Layout({
 
               <div className="my-2 border-t border-gray-300"></div>
               <MenuItem
-                label={t('home')}
+                label={t("home")}
                 onClick={() => {
                   void router.push("/");
                 }}
                 pathName="/"
               />
               <MenuItem
-                label={t('random-kigu')}
+                label={t("random-kigu")}
                 onClick={() => {
                   void router.push("/kigus/random");
                 }}
                 pathName="/kigus/random"
               />
               <MenuItem
-                label={t('find-characters-by')}
+                label={t("find-characters-by")}
                 onClick={() => {
                   void router.push("/media");
                 }}
                 pathName="/media"
               />
               <MenuItem
-                label={t('trending-characters')}
+                label={t("trending-characters")}
                 onClick={() => {
                   void router.push("/characters/popular");
                 }}
                 pathName="/characters/popular"
               />
               <MenuItem
-                label={t('all-makers')}
+                label={t("all-makers")}
                 onClick={() => {
                   void router.push("/makers");
                 }}
                 pathName="/makers"
               />
               <div className="my-2 border-t border-gray-300"></div>
-              <a href={FORM_LINK} target="_blank">
+              <a href={t("form-link")} target="_blank">
                 <div className="flex h-10 items-center rounded-lg py-2 pl-2 hover:cursor-pointer hover:bg-gray-100">
                   <p className="bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 bg-clip-text text-transparent">
-                    {t('add-kigu')}
+                    {t("add-kigu")}
                   </p>
                 </div>
               </a>
@@ -223,14 +222,14 @@ export default function Layout({
       {children}
       <div className="mt-auto">
         <div className="mx-2 my-2 border-t border-gray-300"></div>
-        <div className="flex justify-center px-2 pb-4 gap-1">
-          KiguDB, Built by 
+        <div className="flex justify-center gap-1 px-2 pb-4">
+          KiguDB, Built by
           <Link
-              className="font-bold text-[#FF5EC8] flex justify-center"
-              href={OWNER_LINK}
-              target="_blank"
-            >
-              Ringo
+            className="flex justify-center font-bold text-[#FF5EC8]"
+            href={OWNER_LINK}
+            target="_blank"
+          >
+            Ringo
           </Link>
         </div>
       </div>

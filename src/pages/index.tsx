@@ -17,7 +17,6 @@ import * as Tabs from "@radix-ui/react-tabs";
 import { Button } from "@/components/ui/button";
 import { DicesIcon } from "lucide-react";
 import { useMediaQuery } from "react-responsive";
-import { FORM_LINK } from "~/constants/strings";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../next-i18next.config.mjs";
 
@@ -130,7 +129,7 @@ const Home: NextPage = () => {
             <span className="text-sm">{t("want-to-contribute")} </span>
             <Link
               className="text-sm font-bold text-[#FF5EC8]"
-              href={FORM_LINK}
+              href={t("form-link")}
               target="_blank"
             >
               {t("add-kigu-here")}
