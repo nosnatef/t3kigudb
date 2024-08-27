@@ -71,16 +71,31 @@ export const characterRouter = createTRPCRouter({
       z.object({
         originId: z.number().optional(),
         name: z.string(),
+        locale: z.string().optional(),
       })
     )
     .query(({ ctx, input }) => {
-      const { originId, name } = input;
+      const { originId, name, locale } = input;
+
+      const nameField =
+        locale === "ja" ? "name_jp" : locale === "zh" ? "name_zh" : "name";
 
       const whereClause: any = {
-        name: {
-          contains: name,
-          mode: "insensitive",
-        },
+        OR: [
+          {
+            [nameField]: {
+              contains: name,
+              mode: "insensitive",
+            },
+          },
+          {
+            name: {
+              contains: name,
+              mode: "insensitive",
+            },
+          },
+        ],
+
         masks: {
           some: {},
         },

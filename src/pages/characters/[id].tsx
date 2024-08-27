@@ -18,6 +18,7 @@ import TitleLoader from "~/components/utils/TitleLoader";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
+import { getCharacterLocaleName } from "~/utils/locale";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
@@ -33,7 +34,7 @@ const Character: NextPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
 
-  const { t } = useTranslation("common");
+  const { t, i18n } = useTranslation("common");
 
   const { data: characterData } = api.character.getById.useQuery(id, {
     staleTime: Infinity,
@@ -81,7 +82,9 @@ const Character: NextPage = () => {
       <Layout>
         <div className="container mx-auto px-3 md:px-0">
           {characterData ? (
-            <h3 className="my-4 text-xl font-bold">{characterData?.name}</h3>
+            <h3 className="my-4 text-xl font-bold">
+              {getCharacterLocaleName(characterData, i18n.language)}
+            </h3>
           ) : (
             <TitleLoader />
           )}

@@ -18,6 +18,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
+import { getCharacterLocaleName } from "~/utils/locale";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
@@ -35,7 +36,7 @@ const Media: NextPage = () => {
   }, 500);
 
   const router = useRouter();
-  const { t } = useTranslation("common");
+  const { t, i18n } = useTranslation("common");
   const [query, setQuery] = useState("");
   const id = router.query.id as string;
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -56,7 +57,7 @@ const Media: NextPage = () => {
 
   const { data: characterSearchData, isFetching: isCharacterFetching } =
     api.character.getByName.useQuery(
-      { name: query, originId: parseInt(id) },
+      { name: query, originId: parseInt(id), locale: i18n.language },
       {
         enabled: query.length > 0,
       }
@@ -80,7 +81,7 @@ const Media: NextPage = () => {
           <PhotoCard
             key={char.id}
             picSrc={char.picUrl}
-            title={char.name}
+            title={getCharacterLocaleName(char, i18n.language)}
             subTitle={char.origin.name}
             onClick={() => {
               void router.push(`/characters/${char.id}`);
@@ -94,7 +95,7 @@ const Media: NextPage = () => {
           <PhotoCard
             key={char.id}
             picSrc={char.picUrl}
-            title={char.name}
+            title={getCharacterLocaleName(char, i18n.language)}
             subTitle={char.origin.name}
             onClick={() => {
               void router.push(`/characters/${char.id}`);

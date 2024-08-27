@@ -75,6 +75,8 @@ model VerificationToken {
 model Character {
   id         String   @id @default(cuid())
   name       String   
+  name_zh    String?
+  name_jp    String?
   colorCode  String?  @default("white")
   origin     Origin   @relation(fields: [originId], references: [id])
   originId   Int

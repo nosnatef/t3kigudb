@@ -19,6 +19,7 @@ import { DicesIcon } from "lucide-react";
 import { useMediaQuery } from "react-responsive";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../next-i18next.config.mjs";
+import { getCharacterLocaleName } from "~/utils/locale";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
@@ -32,12 +33,13 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => ({
 
 const Home: NextPage = () => {
   const router = useRouter();
+  const { t, i18n } = useTranslation("common");
 
   const [query, setQuery] = useState("");
   const [currentTab, setCurrentTab] = useState("Characters");
   const { data: characterData, isFetching: isCharacterFetching } =
     api.character.getByName.useQuery(
-      { name: query },
+      { name: query, locale: i18n.language },
       {
         enabled: query.length > 0 && currentTab === "Characters",
       }
@@ -81,8 +83,6 @@ const Home: NextPage = () => {
   }, [router.query]);
 
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 768px)" });
-
-  const { t } = useTranslation("common");
 
   return (
     <>
@@ -180,7 +180,7 @@ const Home: NextPage = () => {
                       ? characterData.map((char) => (
                           <SearchResultCard
                             imgSrc={char.picUrl}
-                            title={char.name}
+                            title={getCharacterLocaleName(char, i18n.language)}
                             link={`/characters/${char.id}`}
                             key={char.id}
                             mainContent={char.origin.name}

@@ -16,6 +16,7 @@ import SocialLinkContainer from "~/components/KiguPage/SocialLinkContainer";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
+import { getCharacterLocaleName } from "~/utils/locale";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
@@ -30,7 +31,7 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => ({
 const Maker: NextPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
-  const { t } = useTranslation("common");
+  const { t, i18n } = useTranslation("common");
 
   const { data: makerData } = api.maker.getById.useQuery(Number(id), {
     staleTime: Infinity,
@@ -102,7 +103,10 @@ const Maker: NextPage = () => {
                             <PhotoCard
                               key={mask.id}
                               picSrc={mask.picUrl}
-                              title={`${mask.character.name}`}
+                              title={`${getCharacterLocaleName(
+                                mask.character,
+                                i18n.language
+                              )}`}
                               onClick={() => {
                                 void router.push(
                                   `/characters/${mask.character.id}`

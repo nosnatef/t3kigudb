@@ -42,6 +42,7 @@ import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
+import { getCharacterLocaleName } from "~/utils/locale";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
@@ -57,7 +58,7 @@ const Mask: NextPage = () => {
   const { isSignedIn } = useUser();
 
   const router = useRouter();
-  const { t } = useTranslation("common");
+  const { t, i18n } = useTranslation("common");
   const id = router.query.id as string;
 
   const { data: maskData, refetch: maskDataRefetch } =
@@ -83,6 +84,10 @@ const Mask: NextPage = () => {
   } = character ?? {};
   const { name: originName } = origin ?? {};
   const { name: kiguName, picUrl: kigPic, id: kiguId } = kigu ?? {};
+
+  const localeCharacterName = character
+    ? getCharacterLocaleName(character, i18n.language)
+    : "";
 
   const [galleryIndex, setGalleryIndex] = useState(-1);
   const [isMaskEdit, setIsMaskEdit] = useState(false);
@@ -140,7 +145,7 @@ const Mask: NextPage = () => {
               </BreadcrumbItem>
               <BreadcrumbItem>
                 <BreadcrumbLink href={`/characters/${characterId}`}>
-                  {characterName}
+                  {localeCharacterName}
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbItem isCurrentPage>
@@ -206,7 +211,7 @@ const Mask: NextPage = () => {
                       className="h-full max-h-[100px] w-full max-w-[100px] object-cover"
                     ></Image>
                     <div className="flex flex-col justify-center">
-                      <span className="font-bold">{characterName}</span>
+                      <span className="font-bold">{localeCharacterName}</span>
                       <span>{originName}</span>
                     </div>
                   </div>
