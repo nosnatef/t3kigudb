@@ -41,17 +41,49 @@ export default function Layout({
 
   const { t } = useTranslation('common');
 
+  const MetaData: {
+    name: string,
+    content: string,
+  }[] = [{
+    name: "description",
+    content: "Kigurumi Database"
+  }, {
+    name: "keywords",
+    content: "kigu.db, kigudb, kigurumi, 着ぐるみ, きぐるみ, キグルミ"
+  }, {
+    name: "og:title",
+    content: "KiguDB"
+  }, {
+    name: "og:site_name",
+    content: "KiguDB"
+  }, {
+    name: "og:description",
+    content: "Kigurumi Database"
+  }, {
+    name: "twitter:card",
+    content: "summary_large_image"
+  }, {
+    name: "twitter:title",
+    content: "KiguDB"
+  }, {
+    name: "twitter:creator",
+    content: "@Ringo_Kig"
+  }, {
+    name: "twitter:description",
+    content: "Kigurumi Database"
+  }]
+
   return (
     <section className="h-screen">
       <Head>
         <title>KiguDB</title>
+        {MetaData.map((data) => <meta key={data.name} name={data.name} content={data.content} />)}
       </Head>
       {/* Include shared UI here e.g. a header or sidebar */}
       <header className="border-b border-gray-200 bg-white">
         <div
-          className={`mx-auto flex max-w-7xl ${
-            isTabletOrMobile ? "justify-between" : "justify-none"
-          } px-2 py-4`}
+          className={`mx-auto flex max-w-7xl ${isTabletOrMobile ? "justify-between" : "justify-none"
+            } px-2 py-4`}
         >
           <div
             className="flex flex-row justify-between gap-4 hover:cursor-pointer"
@@ -146,9 +178,8 @@ export default function Layout({
         <ClientOnly>
           <BackDrop onClick={() => setShowMenu(false)} isShown={showMenu} />
           <div
-            className={`fixed right-0 top-0 h-full w-64 transition-transform ${
-              showMenu ? "translate-x-0" : "translate-x-full"
-            } z-50 bg-white`}
+            className={`fixed right-0 top-0 h-full w-64 transition-transform ${showMenu ? "translate-x-0" : "translate-x-full"
+              } z-50 bg-white`}
           >
             <div className="flex flex-col px-4 py-4">
               <div className="flex flex-row justify-between">
@@ -230,14 +261,9 @@ export default function Layout({
       <div className="mt-auto">
         <div className="mx-2 my-2 border-t border-gray-300"></div>
         <div className="flex justify-center px-2 pb-4 gap-1">
-          KiguDB, Built by 
-          <Link
-              className="font-bold text-[#FF5EC8] flex justify-center"
-              href={OWNER_LINK}
-              target="_blank"
-            >
-              Ringo
-          </Link>
+          <p>
+          {new Date().getFullYear()} KiguDB, Built by <a className="font-bold text-[#FF5EC8]" href={OWNER_LINK} target="_blank">Ringo</a>
+          </p>
         </div>
       </div>
     </section>
