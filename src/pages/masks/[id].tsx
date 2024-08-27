@@ -42,7 +42,7 @@ import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
-import { getCharacterLocaleName } from "~/utils/locale";
+import { getLocaleName } from "~/utils/locale";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
@@ -86,8 +86,10 @@ const Mask: NextPage = () => {
   const { name: kiguName, picUrl: kigPic, id: kiguId } = kigu ?? {};
 
   const localeCharacterName = character
-    ? getCharacterLocaleName(character, i18n.language)
+    ? getLocaleName(character, i18n.language)
     : "";
+
+  const localeOriginName = origin ? getLocaleName(origin, i18n.language) : "";
 
   const [galleryIndex, setGalleryIndex] = useState(-1);
   const [isMaskEdit, setIsMaskEdit] = useState(false);
@@ -212,7 +214,7 @@ const Mask: NextPage = () => {
                     ></Image>
                     <div className="flex flex-col justify-center">
                       <span className="font-bold">{localeCharacterName}</span>
-                      <span>{originName}</span>
+                      <span>{localeOriginName}</span>
                     </div>
                   </div>
                 </Card>

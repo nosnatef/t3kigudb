@@ -22,7 +22,7 @@ const Media: NextPage = () => {
     staleTime: Infinity,
     cacheTime: Infinity,
   });
-  const { t } = useTranslation("common");
+  const { t, i18n } = useTranslation("common");
 
   return (
     <Layout>
@@ -36,7 +36,11 @@ const Media: NextPage = () => {
                 <h2 className="mb-4 text-xl font-bold">{type}</h2>
                 <div className="grid gap-4 md:grid-cols-3">
                   {origins.map((origin) => (
-                    <MediaCard key={origin.id} originData={origin} />
+                    <MediaCard
+                      key={origin.id}
+                      originData={origin}
+                      locale={i18n.language}
+                    />
                   ))}
                 </div>
               </div>

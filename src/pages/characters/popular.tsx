@@ -7,6 +7,8 @@ import { useRouter } from "next/router";
 import PhotoCard from "~/components/PhotoCard";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
+import { getLocaleName } from "~/utils/locale";
+import { useTranslation } from "next-i18next";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
@@ -25,6 +27,7 @@ const Character: NextPage = () => {
       staleTime: Infinity,
       cacheTime: Infinity,
     });
+  const { i18n } = useTranslation("common");
 
   return (
     <>
@@ -36,8 +39,11 @@ const Character: NextPage = () => {
                   <PhotoCard
                     key={item.id}
                     picSrc={item.picUrl}
-                    title={`(${item.masks.length}) ${item.name}`}
-                    subTitle={item.origin.name}
+                    title={`(${item.masks.length}) ${getLocaleName(
+                      item,
+                      i18n.language
+                    )}`}
+                    subTitle={getLocaleName(item.origin, i18n.language)}
                     onClick={() => {
                       void router.push(`/characters/${item.id}`);
                     }}

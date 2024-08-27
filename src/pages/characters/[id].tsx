@@ -18,7 +18,7 @@ import TitleLoader from "~/components/utils/TitleLoader";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
-import { getCharacterLocaleName } from "~/utils/locale";
+import { getLocaleName } from "~/utils/locale";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
@@ -83,7 +83,7 @@ const Character: NextPage = () => {
         <div className="container mx-auto px-3 md:px-0">
           {characterData ? (
             <h3 className="my-4 text-xl font-bold">
-              {getCharacterLocaleName(characterData, i18n.language)}
+              {getLocaleName(characterData, i18n.language)}
             </h3>
           ) : (
             <TitleLoader />
@@ -100,7 +100,11 @@ const Character: NextPage = () => {
               ></Image>
               <div className="flex h-[300px] flex-col justify-around">
                 <ProfileInfo
-                  stat={characterData?.origin?.name ?? "N/A"}
+                  stat={
+                    characterData
+                      ? getLocaleName(characterData.origin, i18n.language)
+                      : "N/A"
+                  }
                   desc={t("from")}
                 />
                 <ProfileInfo

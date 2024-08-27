@@ -18,7 +18,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
-import { getCharacterLocaleName } from "~/utils/locale";
+import { getLocaleName } from "~/utils/locale";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
@@ -68,6 +68,10 @@ const Media: NextPage = () => {
     cacheTime: Infinity,
   });
 
+  const localeOriginName = originData
+    ? getLocaleName(originData, i18n.language)
+    : "";
+
   const handleObserver: IntersectionObserverCallback = ([entry]) => {
     if (entry?.isIntersecting && hasNextPage && !isFetching) {
       void fetchNextPage();
@@ -81,8 +85,8 @@ const Media: NextPage = () => {
           <PhotoCard
             key={char.id}
             picSrc={char.picUrl}
-            title={getCharacterLocaleName(char, i18n.language)}
-            subTitle={char.origin.name}
+            title={getLocaleName(char, i18n.language)}
+            subTitle={localeOriginName}
             onClick={() => {
               void router.push(`/characters/${char.id}`);
             }}
@@ -95,8 +99,8 @@ const Media: NextPage = () => {
           <PhotoCard
             key={char.id}
             picSrc={char.picUrl}
-            title={getCharacterLocaleName(char, i18n.language)}
-            subTitle={char.origin.name}
+            title={getLocaleName(char, i18n.language)}
+            subTitle={localeOriginName}
             onClick={() => {
               void router.push(`/characters/${char.id}`);
             }}
@@ -132,7 +136,7 @@ const Media: NextPage = () => {
               <BreadcrumbLink href="/media">{t("media")}</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem>
-              <BreadcrumbLink>{originData?.name}</BreadcrumbLink>
+              <BreadcrumbLink>{localeOriginName}</BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
         </div>
@@ -141,7 +145,7 @@ const Media: NextPage = () => {
           <input
             className="h-full w-full rounded-lg p-2 outline-none"
             autoFocus
-            placeholder={`Search for characters from ${originData?.name}`}
+            placeholder={`Search for characters from ${localeOriginName}`}
             onChange={(e) => debounced(e.target.value)}
           ></input>
         </div>

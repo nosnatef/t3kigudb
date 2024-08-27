@@ -19,7 +19,7 @@ import { DicesIcon } from "lucide-react";
 import { useMediaQuery } from "react-responsive";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../next-i18next.config.mjs";
-import { getCharacterLocaleName } from "~/utils/locale";
+import { getLocaleName } from "~/utils/locale";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
@@ -180,10 +180,13 @@ const Home: NextPage = () => {
                       ? characterData.map((char) => (
                           <SearchResultCard
                             imgSrc={char.picUrl}
-                            title={getCharacterLocaleName(char, i18n.language)}
+                            title={getLocaleName(char, i18n.language)}
                             link={`/characters/${char.id}`}
                             key={char.id}
-                            mainContent={char.origin.name}
+                            mainContent={getLocaleName(
+                              char.origin,
+                              i18n.language
+                            )}
                             subContent={char.origin.type}
                           />
                         ))
