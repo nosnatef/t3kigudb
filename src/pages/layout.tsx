@@ -212,7 +212,7 @@ export default function Layout({
                 </div>
               </a>
               <div className="fixed bottom-2 pl-2 text-sm">
-                <p>Last Updated: 06-21-2024</p>
+                <p>Last Updated: 09-13-2024</p>
               </div>
             </div>
           </div>

@@ -44,9 +44,7 @@ const Character: NextPage = () => {
                       i18n.language
                     )}`}
                     subTitle={getLocaleName(item.origin, i18n.language)}
-                    onClick={() => {
-                      void router.push(`/characters/${item.id}`);
-                    }}
+                    href={`/characters/${item.id}`}
                   />
                 ))
               : Array(12).fill(<PhotoCardLoader />)}

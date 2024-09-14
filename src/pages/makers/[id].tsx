@@ -107,11 +107,7 @@ const Maker: NextPage = () => {
                                 mask.character,
                                 i18n.language
                               )}`}
-                              onClick={() => {
-                                void router.push(
-                                  `/characters/${mask.character.id}`
-                                );
-                              }}
+                              href={`/characters/${mask.character.id}`}
                             />
                           );
                         })

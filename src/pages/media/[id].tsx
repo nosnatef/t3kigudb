@@ -87,9 +87,7 @@ const Media: NextPage = () => {
             picSrc={char.picUrl}
             title={getLocaleName(char, i18n.language)}
             subTitle={localeOriginName}
-            onClick={() => {
-              void router.push(`/characters/${char.id}`);
-            }}
+            href={`/characters/${char.id}`}
           />
         ));
       }
@@ -101,9 +99,7 @@ const Media: NextPage = () => {
             picSrc={char.picUrl}
             title={getLocaleName(char, i18n.language)}
             subTitle={localeOriginName}
-            onClick={() => {
-              void router.push(`/characters/${char.id}`);
-            }}
+            href={`/characters/${char.id}`}
           />
         ))
       );

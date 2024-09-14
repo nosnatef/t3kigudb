@@ -47,9 +47,7 @@ const Makers: NextPage = () => {
                     key={maker.id.toString()}
                     picSrc={maker.picUrl}
                     title={maker.name}
-                    onClick={() => {
-                      void router.push(`/makers/${maker.id}`);
-                    }}
+                    href={`/makers/${maker.id}`}
                   />
                 ))
               )

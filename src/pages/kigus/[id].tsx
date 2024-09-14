@@ -149,9 +149,7 @@ const Kigu: NextPage = () => {
                               subTitle={
                                 mask.maker?.name ?? t("unidentified-maker")
                               }
-                              onClick={() => {
-                                void router.push(`/masks/${mask.id}`);
-                              }}
+                              href={`/masks/${mask.id}`}
                             />
                           );
                         })
