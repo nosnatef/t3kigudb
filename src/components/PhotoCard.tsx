@@ -1,5 +1,3 @@
-import { type MouseEventHandler } from "react";
-
 import Image from "next/image";
 
 interface PhotoCardProps {
