@@ -18,6 +18,16 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
 import { getLocaleName } from "~/utils/locale";
 
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
     ...(await serverSideTranslations(locale, ["common"], nextI18nConfig, [
@@ -42,6 +52,12 @@ const Maker: NextPage = () => {
   const { name, picUrl, makerLinks } = makerData ?? {};
 
   const [galleryIndex, setGalleryIndex] = useState(-1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const masksPerPage = 12;
+
+  const indexOfLastMask = currentPage * masksPerPage;
+  const indexOfFirstMask = indexOfLastMask - masksPerPage;
+  const currentMasks = maskData.slice(indexOfFirstMask, indexOfLastMask);
 
   const getSlides = () =>
     maskData.map((mask) => {
@@ -49,6 +65,12 @@ const Maker: NextPage = () => {
         src: mask.picUrl,
       } as Slide;
     });
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page); // function to handle pagination page changes
+  };
+
+  const totalPages = Math.ceil(maskData.length / masksPerPage);
 
   return (
     <>
@@ -97,8 +119,8 @@ const Maker: NextPage = () => {
                 </Tabs.List>
                 <Tabs.Content value="Masks" className="p-5">
                   <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">
-                    {maskData
-                      ? maskData.map((mask) => {
+                    {currentMasks.length > 0 // modified to display currentMasks
+                      ? currentMasks.map((mask) => {
                           return (
                             <PhotoCard
                               key={mask.id}
@@ -113,6 +135,130 @@ const Maker: NextPage = () => {
                         })
                       : LOADING_TEXT}
                   </div>
+                  {maskData.length > masksPerPage && (
+                    <Pagination className="mt-4">
+                      <PaginationContent>
+                        {/* Show only Previous and Next on small screens (below md) */}
+                        <div className="flex justify-between md:hidden">
+                          {/* Previous button */}
+                          <PaginationItem>
+                            <PaginationPrevious
+                              className="cursor-pointer" // Add this class
+                              onClick={() => {
+                                if (currentPage !== 1) {
+                                  handlePageChange(currentPage - 1);
+                                }
+                              }}
+                            />
+                          </PaginationItem>
+
+                          {/* Next button */}
+                          <PaginationItem>
+                            <PaginationNext
+                              className="cursor-pointer" // Add this class
+                              onClick={() => {
+                                if (currentPage !== totalPages) {
+                                  handlePageChange(currentPage + 1);
+                                }
+                              }}
+                            />
+                          </PaginationItem>
+                        </div>
+
+                        {/* Show full pagination (Previous, Next, Page Numbers, Ellipses) on md and larger */}
+                        <div className="hidden justify-between md:flex">
+                          {/* Previous button */}
+                          <PaginationItem>
+                            <PaginationPrevious
+                              className="cursor-pointer" // Add this class
+                              onClick={() => {
+                                if (currentPage !== 1) {
+                                  handlePageChange(currentPage - 1);
+                                }
+                              }}
+                            />
+                          </PaginationItem>
+                          {/* First page - only show if not on the first page */}
+                          {currentPage > 1 && (
+                            <PaginationItem>
+                              <PaginationLink
+                                className="cursor-pointer" // Add this class
+                                onClick={() => handlePageChange(1)}
+                                isActive={currentPage === 1}
+                              >
+                                1
+                              </PaginationLink>
+                            </PaginationItem>
+                          )}
+                          {/* Ellipsis if current page is far from the first page */}
+                          {currentPage > 3 && (
+                            <PaginationEllipsis className="cursor-pointer" />
+                          )}{" "}
+                          {/* Add this class */}
+                          {/* Previous page */}
+                          {currentPage > 2 && (
+                            <PaginationItem>
+                              <PaginationLink
+                                className="cursor-pointer" // Add this class
+                                onClick={() =>
+                                  handlePageChange(currentPage - 1)
+                                }
+                              >
+                                {currentPage - 1}
+                              </PaginationLink>
+                            </PaginationItem>
+                          )}
+                          {/* Current page */}
+                          <PaginationItem>
+                            <PaginationLink isActive>
+                              {currentPage}
+                            </PaginationLink>
+                          </PaginationItem>
+                          {/* Next page */}
+                          {currentPage < totalPages - 1 && (
+                            <PaginationItem>
+                              <PaginationLink
+                                className="cursor-pointer" // Add this class
+                                onClick={() =>
+                                  handlePageChange(currentPage + 1)
+                                }
+                              >
+                                {currentPage + 1}
+                              </PaginationLink>
+                            </PaginationItem>
+                          )}
+                          {/* Ellipsis if current page is far from the last page */}
+                          {currentPage < totalPages - 2 && (
+                            <PaginationEllipsis className="cursor-pointer" />
+                          )}{" "}
+                          {/* Add this class */}
+                          {/* Last page - only show if not on the last page */}
+                          {currentPage < totalPages && (
+                            <PaginationItem>
+                              <PaginationLink
+                                className="cursor-pointer" // Add this class
+                                onClick={() => handlePageChange(totalPages)}
+                                isActive={currentPage === totalPages}
+                              >
+                                {totalPages}
+                              </PaginationLink>
+                            </PaginationItem>
+                          )}
+                          {/* Next button */}
+                          <PaginationItem>
+                            <PaginationNext
+                              className="cursor-pointer" // Add this class
+                              onClick={() => {
+                                if (currentPage !== totalPages) {
+                                  handlePageChange(currentPage + 1);
+                                }
+                              }}
+                            />
+                          </PaginationItem>
+                        </div>
+                      </PaginationContent>
+                    </Pagination>
+                  )}
                 </Tabs.Content>
                 <Tabs.Content value="Gallery" className="p-5">
                   <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">
