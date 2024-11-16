@@ -141,7 +141,7 @@ const Media: NextPage = () => {
           <input
             className="h-full w-full rounded-lg p-2 outline-none"
             autoFocus
-            placeholder={`Search for characters from ${localeOriginName}`}
+            placeholder={`${t("search-in-meida", {localeOriginName})}`}
             onChange={(e) => debounced(e.target.value)}
           ></input>
         </div>
