@@ -1,5 +1,3 @@
-import { useState, type MouseEventHandler } from "react";
-
 import Image from "next/image";
 
 interface PhotoCardProps {
@@ -7,7 +5,7 @@ interface PhotoCardProps {
   picSrc: string | null;
   title: string;
   subTitle?: string;
-  onClick?: MouseEventHandler<HTMLDivElement>;
+  href: string;
 }
 
 const PhotoCard: React.FC<PhotoCardProps> = ({
@@ -15,16 +13,15 @@ const PhotoCard: React.FC<PhotoCardProps> = ({
   picSrc,
   title,
   subTitle,
-  onClick,
+  href,
 }) => {
   const placeholderImg = "https://placehold.co/400x400?text=Unknown";
 
   return (
-    <>
+    <a href={href} className="block">
       <div
         key={key}
         className="relative h-48 overflow-hidden rounded-lg bg-white shadow-md hover:cursor-pointer"
-        onClick={onClick}
       >
         <Image
           alt="Image"
@@ -40,7 +37,7 @@ const PhotoCard: React.FC<PhotoCardProps> = ({
           <p className="text-sm text-gray-300">{subTitle}</p>
         </div>
       </div>
-    </>
+    </a>
   );
 };
 

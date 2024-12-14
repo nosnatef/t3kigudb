@@ -1,7 +1,7 @@
-import { MakerLink, type SocialLink } from "@prisma/client";
+import { type MakerLink, type SocialLink } from "@prisma/client";
 import { useRouter } from "next/router";
 import { type FC } from "react";
-import { TwitterIcon } from "~/assets";
+import { TwitterIcon, WebsiteIcon } from "~/assets";
 
 interface SocialLinkContainerProps {
   links: SocialLink[] | MakerLink[];
@@ -10,7 +10,7 @@ interface SocialLinkContainerProps {
 const socialLinkMapping = {
   TWITTER: <TwitterIcon />,
   REDDIT: <></>,
-  PERSONAL: <></>,
+  PERSONAL: <WebsiteIcon />,
   WEIBO: <></>,
 };
 
@@ -18,7 +18,7 @@ const SocialLinkContainer: FC<SocialLinkContainerProps> = ({ links }) => {
   const router = useRouter();
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center gap-2">
       {links.map((link) => (
         <div
           key={link.id}

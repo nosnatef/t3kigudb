@@ -3,11 +3,11 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { BiSearch } from "react-icons/bi";
 
 import { api } from "~/utils/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "./layout";
 
 import { useDebouncedCallback } from "use-debounce";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -17,9 +17,9 @@ import * as Tabs from "@radix-ui/react-tabs";
 import { Button } from "@/components/ui/button";
 import { DicesIcon } from "lucide-react";
 import { useMediaQuery } from "react-responsive";
-import { FORM_LINK } from "~/constants/strings";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../next-i18next.config.mjs";
+import { getLocaleName } from "~/utils/locale";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
@@ -33,12 +33,13 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => ({
 
 const Home: NextPage = () => {
   const router = useRouter();
+  const { t, i18n } = useTranslation("common");
 
   const [query, setQuery] = useState("");
   const [currentTab, setCurrentTab] = useState("Characters");
   const { data: characterData, isFetching: isCharacterFetching } =
     api.character.getByName.useQuery(
-      { name: query },
+      { name: query, locale: i18n.language },
       {
         enabled: query.length > 0 && currentTab === "Characters",
       }
@@ -54,13 +55,34 @@ const Home: NextPage = () => {
       enabled: query.length > 0 && currentTab === "Makers",
     });
 
+  const updateUrl = (query: string, tab: string) => {
+    void router.push(
+      {
+        pathname: router.pathname,
+        query: { query, tab },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
+  const handleTabChange = (value: string) => {
+    setCurrentTab(value);
+    updateUrl(query, value);
+  };
+
   const debounced = useDebouncedCallback((value: string) => {
     setQuery(value);
+    updateUrl(value, currentTab);
   }, 500);
 
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  useEffect(() => {
+    const { query, tab } = router.query;
+    if (typeof query === "string") setQuery(query);
+    if (typeof tab === "string") setCurrentTab(tab);
+  }, [router.query]);
 
-  const { t } = useTranslation('common');
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   return (
     <>
@@ -71,9 +93,13 @@ const Home: NextPage = () => {
           } flex-col`}
         >
           <div className="flex flex-row justify-between">
-            <div className="mb-8 flex flex-row gap-4">
-              <div className="text-5xl font-semibold">{t('discover')}</div>
-              <div className="text-5xl font-semibold text-[#FF5EC8]">{t('kigus-cap')}</div>
+            <div className="mb-8 flex flex-auto flex-row justify-center gap-4 md:justify-start">
+              <h1 className="text-3xl font-semibold md:text-5xl">
+                {t("discover")}
+              </h1>
+              <h1 className="text-3xl font-semibold text-[#FF5EC8] md:text-5xl">
+                {t("kigus-cap")}
+              </h1>
             </div>
             {!isTabletOrMobile && (
               <div className="">
@@ -84,7 +110,7 @@ const Home: NextPage = () => {
                   }}
                 >
                   <DicesIcon className="mr-2" />
-                  {t('random-kigu')}
+                  {t("random-kigu")}
                 </Button>
               </div>
             )}
@@ -95,20 +121,20 @@ const Home: NextPage = () => {
             <input
               className="h-full w-full rounded-lg p-2 outline-none"
               autoFocus
-              placeholder={t('search-for-kigu')}
+              placeholder={t("search-for-kigu")}
               onChange={(e) => debounced(e.target.value)}
             ></input>
           </div>
           <div className="px-2 py-4">
-            <span className="text-sm">{t('want-to-contribute')} </span>
+            <span className="text-sm">{t("want-to-contribute")} </span>
             <Link
               className="text-sm font-bold text-[#FF5EC8]"
-              href={FORM_LINK}
+              href={t("form-link")}
               target="_blank"
             >
-              {t('add-kigu-here')}
+              {t("add-kigu-here")}
             </Link>
-            <span className="text-sm">{t('yes-you-can')}</span>
+            <span className="text-sm">{t("yes-you-can")}</span>
           </div>
           {isTabletOrMobile && (
             <Button
@@ -118,36 +144,34 @@ const Home: NextPage = () => {
               }}
             >
               <DicesIcon className="mr-2" />
-              {t('random-kigu')}
+              {t("random-kigu")}
             </Button>
           )}
           {query.length > 0 && (
             <div className="mt-8">
               <Tabs.Root
-                defaultValue="Characters"
+                defaultValue={currentTab}
                 className="flex min-h-[500px] flex-col"
-                onValueChange={(value) => {
-                  setCurrentTab(value);
-                }}
+                onValueChange={handleTabChange}
               >
                 <Tabs.List className="shrink-0 border-b">
                   <Tabs.Trigger
                     className="h-[45px] px-5 data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
                     value="Characters"
                   >
-                    {t('characters')}
+                    {t("characters")}
                   </Tabs.Trigger>
                   <Tabs.Trigger
                     className="h-[45px] px-5 data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
                     value="Kigus"
                   >
-                    {t('kigus')}
+                    {t("kigus")}
                   </Tabs.Trigger>
                   <Tabs.Trigger
                     className="h-[45px] px-5 data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
                     value="Makers"
                   >
-                    {t('makers')}
+                    {t("makers")}
                   </Tabs.Trigger>
                 </Tabs.List>
                 <Tabs.Content value="Characters" className="p-5">
@@ -156,10 +180,13 @@ const Home: NextPage = () => {
                       ? characterData.map((char) => (
                           <SearchResultCard
                             imgSrc={char.picUrl}
-                            title={char.name}
+                            title={getLocaleName(char, i18n.language)}
                             link={`/characters/${char.id}`}
                             key={char.id}
-                            mainContent={char.origin.name}
+                            mainContent={getLocaleName(
+                              char.origin,
+                              i18n.language
+                            )}
                             subContent={char.origin.type}
                           />
                         ))
@@ -167,7 +194,7 @@ const Home: NextPage = () => {
                   </div>
                   {characterData && characterData.length === 0 && (
                     <div className="flex items-center justify-center">
-                      <h3>{t('no-results')}</h3>
+                      <h3>{t("no-results")}</h3>
                     </div>
                   )}
                   {isCharacterFetching && (
@@ -185,14 +212,16 @@ const Home: NextPage = () => {
                             title={kigu.name}
                             link={`/kigus/${kigu.id}`}
                             key={kigu.id}
-                            mainContent={`${kigu.masks.length} ${t('masks-owned')}`}
+                            mainContent={`${kigu.masks.length} ${t(
+                              "masks-owned"
+                            )}`}
                           />
                         ))
                       : ""}
                   </div>
                   {kiguData && kiguData.length === 0 && (
                     <div className="flex items-center justify-center">
-                      <h3>{t('no-results')}</h3>
+                      <h3>{t("no-results")}</h3>
                     </div>
                   )}
                   {isKiguFetching && (
@@ -216,7 +245,7 @@ const Home: NextPage = () => {
                   </div>
                   {makerData && makerData.length === 0 && (
                     <div className="flex items-center justify-center">
-                      <h3>{t('no-results')}</h3>
+                      <h3>{t("no-results")}</h3>
                     </div>
                   )}
                   {isMakerFetching && (

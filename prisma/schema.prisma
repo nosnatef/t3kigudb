@@ -75,6 +75,8 @@ model VerificationToken {
 model Character {
   id         String   @id @default(cuid())
   name       String   
+  name_zh    String?
+  name_jp    String?
   colorCode  String?  @default("white")
   origin     Origin   @relation(fields: [originId], references: [id])
   originId   Int
@@ -89,6 +91,8 @@ model Character {
 model Origin {
   id          Int           @id @default(autoincrement())
   name        String        @unique
+  name_zh     String?
+  name_jp     String?
   type        String        @default("NA")
   characters  Character[]
   ingestionlogs IngestionLog[]

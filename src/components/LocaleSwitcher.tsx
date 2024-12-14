@@ -1,43 +1,32 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
+
 import {
-    NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuIndicator,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger,
-    NavigationMenuViewport,
-    navigationMenuTriggerStyle,
-  } from "~/components/MenuBar/NavigationMenu";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const LocaleSwitcher = () => {
-  const { locale, asPath } = useRouter();
+  const { asPath } = useRouter();
+  const router = useRouter();
+  const changeLocale = (locale: string) => {
+    void router.push(asPath, asPath, { locale });
+  };
 
   return (
     <>
-      <NavigationMenuItem>
-          <Link href={asPath} locale='zh' legacyBehavior passHref>
-          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              中文
-          </NavigationMenuLink>
-          </Link>
-      </NavigationMenuItem>
-      <NavigationMenuItem>
-          <Link href={asPath} locale='ja' legacyBehavior passHref>
-          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              日本語
-          </NavigationMenuLink>
-          </Link>
-      </NavigationMenuItem>
-      <NavigationMenuItem>
-          <Link href={asPath} locale='en' legacyBehavior passHref>
-          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              English
-          </NavigationMenuLink>
-          </Link>
-      </NavigationMenuItem>
+      <Select onValueChange={(value) => changeLocale(value)}>
+        <SelectTrigger className={"w-[180px]"}>
+          <SelectValue placeholder="Language" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="en">English</SelectItem>
+          <SelectItem value="zh">中文</SelectItem>
+          <SelectItem value="ja">日本語</SelectItem>
+        </SelectContent>
+      </Select>
     </>
   );
 };

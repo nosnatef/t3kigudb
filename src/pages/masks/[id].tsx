@@ -42,6 +42,7 @@ import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
+import { getLocaleName } from "~/utils/locale";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
@@ -57,11 +58,14 @@ const Mask: NextPage = () => {
   const { isSignedIn } = useUser();
 
   const router = useRouter();
-  const { t } = useTranslation('common');
+  const { t, i18n } = useTranslation("common");
   const id = router.query.id as string;
 
   const { data: maskData, refetch: maskDataRefetch } =
-    api.mask.getById.useQuery(id);
+    api.mask.getById.useQuery(id, {
+      staleTime: Infinity,
+      cacheTime: Infinity,
+    });
 
   const {
     character,
@@ -81,6 +85,12 @@ const Mask: NextPage = () => {
   const { name: originName } = origin ?? {};
   const { name: kiguName, picUrl: kigPic, id: kiguId } = kigu ?? {};
 
+  const localeCharacterName = character
+    ? getLocaleName(character, i18n.language)
+    : "";
+
+  const localeOriginName = origin ? getLocaleName(origin, i18n.language) : "";
+
   const [galleryIndex, setGalleryIndex] = useState(-1);
   const [isMaskEdit, setIsMaskEdit] = useState(false);
   const [currentSelection, setCurrentSelection] = useState(-1);
@@ -89,7 +99,8 @@ const Mask: NextPage = () => {
 
   const { data: makerData } = api.maker.getAllMakers.useQuery(undefined, {
     staleTime: Infinity,
-    enabled: !!isSignedIn
+    cacheTime: Infinity,
+    enabled: !!isSignedIn,
   });
 
   const { isLoading, mutate } = api.mask.updateMakerForMask.useMutation();
@@ -132,11 +143,11 @@ const Mask: NextPage = () => {
           <div>
             <Breadcrumb>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/">{t('home')}</BreadcrumbLink>
+                <BreadcrumbLink href="/">{t("home")}</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbItem>
                 <BreadcrumbLink href={`/characters/${characterId}`}>
-                  {characterName}
+                  {localeCharacterName}
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbItem isCurrentPage>
@@ -185,7 +196,7 @@ const Mask: NextPage = () => {
             <div className="flex flex-col gap-8 md:flex-row ">
               <div className="flex flex-col gap-4">
                 {!isTabletOrMobile && (
-                  <span className="text-lg font-medium">{t('character')}</span>
+                  <span className="text-lg font-medium">{t("character")}</span>
                 )}
                 <Card
                   className="w-full p-4 transition hover:cursor-pointer hover:shadow-md md:w-[300px]"
@@ -202,15 +213,15 @@ const Mask: NextPage = () => {
                       className="h-full max-h-[100px] w-full max-w-[100px] object-cover"
                     ></Image>
                     <div className="flex flex-col justify-center">
-                      <span className="font-bold">{characterName}</span>
-                      <span>{originName}</span>
+                      <span className="font-bold">{localeCharacterName}</span>
+                      <span>{localeOriginName}</span>
                     </div>
                   </div>
                 </Card>
               </div>
               <div className="flex flex-col gap-4">
                 {!isTabletOrMobile && (
-                  <span className="text-lg font-medium">{t('owner')}</span>
+                  <span className="text-lg font-medium">{t("owner")}</span>
                 )}
                 <Card
                   className="w-full p-4 transition hover:cursor-pointer hover:shadow-md md:w-[300px]"
@@ -234,7 +245,7 @@ const Mask: NextPage = () => {
               </div>
               <div className="flex flex-col gap-4">
                 {!isTabletOrMobile && (
-                  <span className="text-lg font-medium">{t('maker')}</span>
+                  <span className="text-lg font-medium">{t("maker")}</span>
                 )}
                 <Card
                   className="w-full p-4 transition hover:cursor-pointer hover:shadow-md md:w-[300px]"

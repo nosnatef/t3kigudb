@@ -18,6 +18,7 @@ import TitleLoader from "~/components/utils/TitleLoader";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
+import { getLocaleName } from "~/utils/locale";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
@@ -33,9 +34,12 @@ const Character: NextPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
 
-  const { t } = useTranslation('common');
+  const { t, i18n } = useTranslation("common");
 
-  const { data: characterData } = api.character.getById.useQuery(id);
+  const { data: characterData } = api.character.getById.useQuery(id, {
+    staleTime: Infinity,
+    cacheTime: Infinity,
+  });
   const maskData = characterData?.masks ?? [];
 
   const [galleryIndex, setGalleryIndex] = useState(-1);
@@ -78,7 +82,9 @@ const Character: NextPage = () => {
       <Layout>
         <div className="container mx-auto px-3 md:px-0">
           {characterData ? (
-            <h3 className="my-4 text-xl font-bold">{characterData?.name}</h3>
+            <h3 className="my-4 text-xl font-bold">
+              {getLocaleName(characterData, i18n.language)}
+            </h3>
           ) : (
             <TitleLoader />
           )}
@@ -94,16 +100,20 @@ const Character: NextPage = () => {
               ></Image>
               <div className="flex h-[300px] flex-col justify-around">
                 <ProfileInfo
-                  stat={characterData?.origin?.name ?? "N/A"}
-                  desc={t('from')}
+                  stat={
+                    characterData
+                      ? getLocaleName(characterData.origin, i18n.language)
+                      : "N/A"
+                  }
+                  desc={t("from")}
                 />
                 <ProfileInfo
                   stat={characterData?.origin?.type ?? "N/A"}
-                  desc={t('media-type')}
+                  desc={t("media-type")}
                 />
                 <ProfileInfo
                   stat={characterData?.masks?.length ?? 0}
-                  desc={t('masks-made')}
+                  desc={t("masks-made")}
                 />
               </div>
             </div>
@@ -117,13 +127,13 @@ const Character: NextPage = () => {
                     className="h-[45px] px-5 data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
                     value="Masks"
                   >
-                    {t('kigus')}
+                    {t("kigus")}
                   </Tabs.Trigger>
                   <Tabs.Trigger
                     className="h-[45px] px-5 data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
                     value="Gallery"
                   >
-                    {t('gallery')}
+                    {t("gallery")}
                   </Tabs.Trigger>
                 </Tabs.List>
                 <Tabs.Content value="Masks" className="p-5">
@@ -136,11 +146,9 @@ const Character: NextPage = () => {
                               picSrc={mask.picUrl}
                               title={`${mask.kigu.name}`}
                               subTitle={
-                                mask.maker?.name ?? t('unidentified-maker')
+                                mask.maker?.name ?? t("unidentified-maker")
                               }
-                              onClick={() => {
-                                void router.push(`/masks/${mask.id}`);
-                              }}
+                              href={`/masks/${mask.id}`}
                             />
                           );
                         })

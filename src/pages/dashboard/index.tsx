@@ -28,6 +28,7 @@ const Dashboard: NextPage = () => {
     undefined,
     {
       staleTime: Infinity,
+      cacheTime: Infinity,
     }
   );
 

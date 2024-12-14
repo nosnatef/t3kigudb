@@ -21,7 +21,19 @@ export const makerRouter = createTRPCRouter({
         take: limit + 1,
         cursor: cursor ? { id: cursor } : undefined,
         orderBy: {
-          id: "asc",
+          masks: {
+            _count: "desc",
+          },
+        },
+        include: {
+          masks: {
+            where: {
+              OR: [{ isDeleted: null }, { isDeleted: false }],
+            },
+            include: {
+              _count: true,
+            },
+          },
         },
       });
       let nextCursor: typeof cursor | undefined = undefined;

@@ -4,7 +4,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { GroupedOrigins } from "~/types/GroupedOrigins";
+import { type GroupedOrigins } from "~/types/GroupedOrigins";
 
 export const originRouter = createTRPCRouter({
   getById: publicProcedure.input(z.number()).query(({ ctx, input }) => {
@@ -15,7 +15,13 @@ export const originRouter = createTRPCRouter({
     });
   }),
   getAll: publicProcedure.query(async ({ ctx }) => {
-    const origins = await ctx.prisma.origin.findMany();
+    const origins = await ctx.prisma.origin.findMany({
+      where: {
+        characters: {
+          some: {},
+        },
+      },
+    });
 
     // Group origins by type
     const groupedOrigins: GroupedOrigins = origins.reduce(

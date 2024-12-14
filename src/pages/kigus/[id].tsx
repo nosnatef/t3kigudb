@@ -10,7 +10,6 @@ import PhotoCard from "~/components/PhotoCard";
 import Lightbox, { type Slide } from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import { useState } from "react";
-import { TwitterIcon } from "~/assets";
 import SocialLinkContainer from "~/components/KiguPage/SocialLinkContainer";
 import { LOADING_TEXT } from "~/constants/strings";
 import TitleLoader from "~/components/utils/TitleLoader";
@@ -27,6 +26,7 @@ import { useUser } from "@clerk/nextjs";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
+import { getLocaleName } from "~/utils/locale";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
@@ -43,9 +43,12 @@ const Kigu: NextPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
 
-  const { t } = useTranslation('common');
+  const { t, i18n } = useTranslation("common");
 
-  const { data: kiguData } = api.kigu.getById.useQuery(id);
+  const { data: kiguData } = api.kigu.getById.useQuery(id, {
+    staleTime: Infinity,
+    cacheTime: Infinity,
+  });
   const { mutate } = api.kigu.deleteById.useMutation();
   const maskData = kiguData?.masks ?? [];
 
@@ -105,7 +108,10 @@ const Kigu: NextPage = () => {
                 className="h-full max-h-[200px] w-full max-w-[200px] rounded-full object-cover"
               ></Image>
               <div className="flex h-[300px] flex-col justify-around">
-                <ProfileInfo stat={maskData.length ?? 0} desc={t('masks-owned')} />
+                <ProfileInfo
+                  stat={maskData.length ?? 0}
+                  desc={t("masks-owned")}
+                />
                 <SocialLinkContainer links={socialLinks ?? []} />
               </div>
             </div>
@@ -119,13 +125,13 @@ const Kigu: NextPage = () => {
                     className="h-[45px] px-5 data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
                     value="Masks"
                   >
-                    {t('masks')}
+                    {t("masks")}
                   </Tabs.Trigger>
                   <Tabs.Trigger
                     className="h-[45px] px-5 data-[state=active]:text-sky-600 data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0]"
                     value="Gallery"
                   >
-                    {t('gallery')}
+                    {t("gallery")}
                   </Tabs.Trigger>
                 </Tabs.List>
                 <Tabs.Content value="Masks" className="p-5">
@@ -136,13 +142,14 @@ const Kigu: NextPage = () => {
                             <PhotoCard
                               key={mask.id}
                               picSrc={mask.picUrl}
-                              title={`${mask.character.name}`}
+                              title={`${getLocaleName(
+                                mask.character,
+                                i18n.language
+                              )}`}
                               subTitle={
-                                mask.maker?.name ?? t('unidentified-maker')
+                                mask.maker?.name ?? t("unidentified-maker")
                               }
-                              onClick={() => {
-                                void router.push(`/masks/${mask.id}`);
-                              }}
+                              href={`/masks/${mask.id}`}
                             />
                           );
                         })

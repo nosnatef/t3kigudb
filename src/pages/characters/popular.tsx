@@ -7,6 +7,8 @@ import { useRouter } from "next/router";
 import PhotoCard from "~/components/PhotoCard";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../../next-i18next.config.mjs";
+import { getLocaleName } from "~/utils/locale";
+import { useTranslation } from "next-i18next";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
@@ -21,7 +23,11 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => ({
 const Character: NextPage = () => {
   const router = useRouter();
   const { data: characterData, isFetching } =
-    api.character.getMostPopular.useQuery();
+    api.character.getMostPopular.useQuery(undefined, {
+      staleTime: Infinity,
+      cacheTime: Infinity,
+    });
+  const { i18n } = useTranslation("common");
 
   return (
     <>
@@ -33,11 +39,12 @@ const Character: NextPage = () => {
                   <PhotoCard
                     key={item.id}
                     picSrc={item.picUrl}
-                    title={`(${item.masks.length}) ${item.name}`}
-                    subTitle={item.origin.name}
-                    onClick={() => {
-                      void router.push(`/characters/${item.id}`);
-                    }}
+                    title={`(${item.masks.length}) ${getLocaleName(
+                      item,
+                      i18n.language
+                    )}`}
+                    subTitle={getLocaleName(item.origin, i18n.language)}
+                    href={`/characters/${item.id}`}
                   />
                 ))
               : Array(12).fill(<PhotoCardLoader />)}
